@@ -41,4 +41,7 @@ export const apis = {
       email: email,
       password: pwd,
     }),
+  signupId: (id) =>
+    api.post("/user/nickname/duplicate", { nickaname: id }),
+  logout: () => api.get("/api/logout"),
 };

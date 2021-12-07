@@ -22,8 +22,8 @@ function App() {
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/user/login" component={Login} />
+          <Route exact path="/user/signup" component={Signup} />
           <Route exact path="/write" component={PostWrite} />
         </ConnectedRouter>
       </Grid>

@@ -6,7 +6,6 @@ import { apis } from "../../shared/Api";
 // action
 const LOGIN = "user/LOGIN";
 const LOGOUT = "user/LOGOUT";
-const USERINFO = "user/USERINFO";
 
 // action creator
 const setLogin = createAction(LOGIN, (user) => ({ user }));
@@ -18,24 +17,42 @@ const initialState = {
   // username: null,
   // email: null,
   is_login: true,
+  response: null, //닉네임 중복 확인
 };
 
 // Thunk function
-
-const registerDB = (id, email, pwd) => {
+//---- 회원가입 DB ----
+const signUpDB = (id, email, pwd) => {
   return function (dispatch, getState, { history }) {
     apis
       .signup(id, email, pwd)
-      .then((res) => {
-        history.push("/login");
+      .then(function (response) {
+        //회원가입 확인
+        console.log(response);
       })
-      .catch((err) => {
-        window.alert("이미 존재하는 아이디 또는 이메일입니다.");
-        //에러 처리
+      .catch(function (error) {
+        //회원가입 에러
+        console.log(error);
       });
   };
 };
-// 로그인 버튼 클릭
+//---- 회원가입 아이디 확인  DB ----
+const signUpIdCheckDB = (id) => {
+  return function (dispatch, getState, { history }) {
+    apis
+      .signupId(id)
+      .then(function (response) {
+        //회원가입 확인
+        //response: true or false;
+        console.log(response);
+      })
+      .catch(function (error) {
+        //회원가입 에러
+        console.log(error);
+      });
+  };
+};
+//---- 로그인  DB ----
 const setLoginDB = (id, pwd) => {
   return function (dispatch, getState, { history }) {
     apis
@@ -52,13 +69,15 @@ const setLoginDB = (id, pwd) => {
       });
   };
 };
-
+//---- 로그아웃 DB ----
 const logOutDB = () => {
   return function (dispatch, getState, { history }) {
-    deleteCookie("token");
-    localStorage.removeItem("username");
-    dispatch(logOut());
-    history.replace("/login");
+    apis.logout().then((res) => {
+      deleteCookie("token");
+      localStorage.removeItem("username");
+      dispatch(logOut());
+      history.replace("/login");
+    });
   };
 };
 
@@ -93,8 +112,9 @@ export default handleActions(
 
 const userCreators = {
   setLoginDB,
-  registerDB,
+  signUpDB,
   logOutDB,
+  signUpIdCheckDB,
   // loginCheckDB,
 };
 

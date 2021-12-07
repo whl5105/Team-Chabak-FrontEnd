@@ -38,7 +38,6 @@ const Login = (props) => {
         <Text color="red">아이디 혹은 비밀번호가 올바르지 않습니다.</Text>
         {/*--  button --*/}
         <Button text="로그인"></Button>
-        <Button text="회원가입"></Button>
         {/* -- 소셜 로그인 -- */}
         <Grid>
           <Text>소셜 계정으로 로그인</Text>
