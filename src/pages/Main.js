@@ -15,21 +15,9 @@ const Main = (props) => {
 
   return (
     <React.Fragment>
-      {post_list.map((p, idx) => {
-        if (p.user_info.user_id) {
-          return (
-            <Grid>
-              <Post is_me></Post>
-            </Grid>
-          );
-        } else {
-          return (
-            <Grid>
-              <Post></Post>
-            </Grid>
-          );
-        }
-      })}
+      <Grid>
+        <Post is_me></Post>
+      </Grid>
     </React.Fragment>
   );
 };
