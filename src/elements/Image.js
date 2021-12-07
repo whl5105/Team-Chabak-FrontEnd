@@ -22,8 +22,7 @@ const Image = (props) => {
 Image.defaultProps = {
   shape: "rectangle",
   src: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-  size: 36,
-};
+}; 
 const AspectOutter = styled.div`
   width: 100%;
   min-width: 250px;

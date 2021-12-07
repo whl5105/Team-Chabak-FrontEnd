@@ -1,23 +1,31 @@
 import "./App.css";
 import React from "react";
 
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "../redux/configureStore";
 import { Route } from "react-router-dom";
 import { Grid } from "../elements/index";
 
 import Header from "../components/Header";
 import Main from "../pages/Main";
 import Detail from "../pages/Detail";
+import Signup from "../pages/Signup";
+import Login from "../pages/Login";
+import PostWrite from "../pages/PostWrite";
 
 function App() {
   return (
     <React.Fragment>
       <Header></Header>
       <Grid margin="0 auto">
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />
-        </BrowserRouter>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/write" component={PostWrite} />
+        </ConnectedRouter>
       </Grid>
     </React.Fragment>
   );
