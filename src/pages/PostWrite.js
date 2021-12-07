@@ -6,11 +6,18 @@ import {Grid, Input, Button, Text, Image} from '../elements';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+import { useDispatch, useSelector } from "react-redux";
+
 const PostWrite = () => {
+  const dispatch = useDispatch();
+  const preview = useSelector(state => state.image.preview);
   const [contents, setContents] = React.useState('');
   const is_edit = false;
   const is_login = false;
-  const preview = false;
+
+  React.useEffect(() => {
+    
+  })
 
   const onChange = (e) => {
     setContents(e.target.value);
@@ -51,11 +58,11 @@ const PostWrite = () => {
             <MenuItem value={10}>경기도</MenuItem>
             <MenuItem value={20}>강원도</MenuItem>
             <MenuItem value={30}>충청북도</MenuItem>
-            <MenuItem value={30}>충청남도</MenuItem>
-            <MenuItem value={30}>경상북도</MenuItem>
-            <MenuItem value={30}>경상남도</MenuItem>
-            <MenuItem value={30}>전라북도</MenuItem>
-            <MenuItem value={30}>전라남도</MenuItem>
+            <MenuItem value={40}>충청남도</MenuItem>
+            <MenuItem value={50}>경상북도</MenuItem>
+            <MenuItem value={60}>경상남도</MenuItem>
+            <MenuItem value={70}>전라북도</MenuItem>
+            <MenuItem value={80}>전라남도</MenuItem>
           </Select>
         </Grid>
 

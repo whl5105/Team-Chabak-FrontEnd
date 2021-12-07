@@ -3,8 +3,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Grid = (props) => {
-  const { is_flex, width, padding, margin, bg, center, children, _onClick } =
-    props;
+  const {
+    is_flex,
+    width,
+    padding,
+    margin,
+    bg,
+    center,
+    children,
+    _onClick,
+    position,
+  } = props;
 
   const styles = {
     is_flex: is_flex,
@@ -13,6 +22,7 @@ const Grid = (props) => {
     padding: padding,
     bg: bg,
     center: center,
+    position: position,
   };
 
   return (
@@ -33,6 +43,7 @@ Grid.defaultProps = {
   bg: false,
   center: false,
   _onClick: () => {},
+  position: false,
 };
 
 const GridBox = styled.div`
@@ -47,5 +58,6 @@ const GridBox = styled.div`
     props.is_flex
       ? "display: flex; align-items: center; justify-content: space-between;"
       : ""}
+  ${(props) => (props.position ? `position: ${props.position};` : "")}
 `;
 export default Grid;

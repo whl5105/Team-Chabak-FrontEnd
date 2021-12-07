@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Image = (props) => {
-  const { shape, src, size } = props;
+  const { shape, src, size, _onClick } = props;
 
   const styles = {
     src: src,
@@ -13,7 +13,7 @@ const Image = (props) => {
   if (shape === "rectangle") {
     return (
       <AspectOutter>
-        <AspectInner {...styles}></AspectInner>
+        <AspectInner {...styles} onClick={_onClick}></AspectInner>
       </AspectOutter>
     );
   }
@@ -22,7 +22,9 @@ const Image = (props) => {
 Image.defaultProps = {
   shape: "rectangle",
   src: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-}; 
+  _onClick: () => {},
+};
+
 const AspectOutter = styled.div`
   width: 100%;
   min-width: 250px;
@@ -33,6 +35,10 @@ const AspectInner = styled.div`
   overflow: hidden;
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
 `;
 
 export default Image;
