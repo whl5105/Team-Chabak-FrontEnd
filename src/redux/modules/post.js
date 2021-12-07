@@ -1,4 +1,1 @@
 
-
-const SET_POST = "SET_POST";
-const DELETE_POST=" DELETE_POST";
