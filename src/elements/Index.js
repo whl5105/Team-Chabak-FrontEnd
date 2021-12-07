@@ -1,6 +1,6 @@
-import Grid from "../elements/Grid";
-import Image from "../elements/Image";
-import Text from "../elements/Text";
+import Grid from "./Grid";
+import Image from "./Image";
+import Text from "./Text";
 import Input from "./Input";
 import Button from "./Button";
 

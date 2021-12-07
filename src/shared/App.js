@@ -1,18 +1,25 @@
 import "./App.css";
 import React from "react";
-import PostWrite from "../pages/PostWrite";
 
-import { Grid, Button } from "../elements";
 
+import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
+import { Grid } from "../elements/index";
+
+import Header from "../components/Header";
+import Main from "../pages/Main";
+import Detail from "../pages/Detail";
 
 function App() {
-
-
   return (
     <React.Fragment>
-      <Grid>
-        <Route path='/write' exact component={PostWrite}></Route>
+      <Header></Header>
+      <Grid margin="0 auto">
+        <BrowserRouter>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/detail" component={Detail} />
+        </BrowserRouter>
+
       </Grid>
     </React.Fragment>
   );
