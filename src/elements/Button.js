@@ -2,16 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { text, _onClick, is_float, children, margin, width, padding } = props;
-
-  //---- 게시글 추가 버튼 ----
-  if (is_float) {
-    return (
-      <React.Fragment>
-        <FloatButton onClick={_onClick}>{text ? text : children}</FloatButton>
-      </React.Fragment>
-    );
-  }
+  const { text, _onClick, children, margin, width, padding } = props;
 
   const styles = {
     margin: margin,
@@ -46,24 +37,11 @@ const ElButton = styled.button`
   box-sizing: border-box;
   border: none;
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")};
-`;
-
-//---- 게시글 추가 버튼 ----
-const FloatButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: #333;
-  color: #ffffff;
-  box-sizing: border-box;
-  font-size: 36px;
-  font-weight: 800;
-  position: fixed;
-  bottom: 50px;
-  right: 16px;
-  text-align: center;
-  vertical-align: middle;
-  border: none;
-  border-radius: 50px;
+  position: ${(props) => (props.position ? `${props.position}` : "")};
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
 `;
 
 export default Button;
