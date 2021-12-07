@@ -41,7 +41,6 @@ const Signup = (props) => {
       setIsName(true);
     }
   }
-  // console.log(id);
   // 비밀번호
   function onChangePwd(e) {
     // setPwd(e.target.value);
