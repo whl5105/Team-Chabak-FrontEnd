@@ -24,7 +24,7 @@ const Input = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        <Text margin="0px">{label}</Text>
+        <Text margin="0px" size='14px'>{label}</Text> 
         <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
       </Grid>
     </React.Fragment>
@@ -39,6 +39,7 @@ Input.defaultProps = {
   value: "",
   _onChange: () => {},
   checked: "",
+  // input label에 size 추가
 };
 
 const ElTextarea = styled.textarea`

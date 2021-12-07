@@ -1,6 +1,7 @@
 import "./App.css";
 import React from "react";
 
+
 import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { Grid } from "../elements/index";
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />
         </BrowserRouter>
+
       </Grid>
     </React.Fragment>
   );
