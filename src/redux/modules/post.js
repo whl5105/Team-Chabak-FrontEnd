@@ -1,21 +1,48 @@
-
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
+import { apis } from "../../shared/Api";
 import "moment";
 
-const SET_POST = "SET_POST";
+// ---- actions type ----
+const GET_POST = "GET_POST";
 const LOADING = "LOADING";
-const DELETE_POST = "DELETE_POST";
+// const DELETE_POST = "DELETE_POST";
 
-const setPost = createAction(SET_POST, (post_list, paging) => ({
+// ---- action creators ----
+const getPost = createAction(GET_POST, (post_list, paging) => ({
   post_list,
   paging,
 }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
-const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
+// const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
+// ---- initialState ----
 const initialState = {
-  list: [],
+  list: [
+    {
+      location: "화성",
+      content: "넘모 좋아요",
+      image: "이미지URL",
+      nickname: "김차박", 
+      createdAt: "2021-12-06",
+    },
+    {
+      location: "화성1",
+      content: "넘모오 좋아요",
+      image: "이미지URL",
+      nickname: "김차박1", 
+      createdAt: "2021-12-06",
+      
+    },
+    {
+      location: "화성2",
+      content: "넘모오오 좋아요",
+      image: "이미지URL",
+      nickname: "김차박2", 
+      createdAt: "2021-12-06",
+      
+    },
+  ],
   paging: { start: null, next: null, size: 3 },
   is_loading: false,
 };
@@ -25,84 +52,37 @@ const initialPost = {
   contents: "",
 };
 
-const getPostFB = (start = null, size = 3) => {
-  return function (dispatch, getState, { history }) {
-    let _paging = getState().post.paging;
+// ---- middleware actions ----
+//-- getPostDB(DB 데이터 가져오기) --
 
-    if (_paging.start && !_paging.next) {
-      return;
+//로드
+export const getPostDB =
+  () =>
+  async (dispatch, getState, { history }) => {
+    try {
+      const { post_list } = await apis.boards();
+      dispatch(getPost(post_list));
+    } catch (err) {
+      console.log(`boards 조회 오류 발생!${err}`);
     }
-    dispatch(loading(true));
-    // const postDB = firestore.collection("post");
-
-    // let query = postDB.orderBy("insert_dt", "desc");
-
-    // if(start){
-    //   query = query.startAt(start);
-    // }
-
-    // query
-    //   .limit(size+1)
-    //   .get()
-    //   .then(docs => {
-    //   let post_list = [];
-
-    //   let paging = {
-    //     start: docs.docs[0],
-    //     next: docs.docs.length === size+1? docs.docs[docs.docs.length-1] : null,
-    //     size: size,
-    //   }
-
-    // docs.forEach((doc) => {
-    //   let _post = doc.data();
-
-    // ['commenct_cnt', 'contents', ..]
-    //     let post = Object.keys(_post).reduce(
-    //       (acc, cur) => {
-    //         if (cur.indexOf("user_") !== -1) {
-    //           return {
-    //             ...acc,
-    //             user_info: { ...acc.user_info, [cur]: _post[cur] },
-    //           };
-    //         }
-    //         return { ...acc, [cur]: _post[cur] };
-    //       },
-    //       { id: doc.id, user_info: {} }
-    //     );
-
-    //     post_list.push(post);
-    //   });
-
-    //   post_list.pop();
-
-    //   dispatch(setPost(post_list, paging));
-    // });
   };
-};
 
-const deletePostFB = (post_id) => {
-  return function (dispatch, getState, { history }) {
-    if (!post_id) {
-      window.alert("아이디가 없네요!");
-      return;
+//-- deletePostFB(post 삭제)  --
+export const deletePostDB =
+  (id) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      await apis.del(id);
+      history.replace("/");
+    } catch (err) {
+      console.error("Error removing document: ", err);
     }
-
-    console.log(getState().user);
-
-    // const postDB = firestore.collection("post").doc(post_id);
-    // postDB
-    // .delete()
-    // .then((doc) => {
-    //   console.log(doc, post_id)
-    //   dispatch(deletePost(post_id));
-    //   history.replace("/");
-    // });
   };
-};
 
+//---- reducer ----
 export default handleActions(
   {
-    [SET_POST]: (state, action) =>
+    [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
         draft.paging = action.payload.paging;
@@ -112,19 +92,19 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
       }),
-    [DELETE_POST]: (state, action) =>
-      produce(state, (draft) => {
-        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
-        draft.list.splice(idx, 1);
-      }),
+    // [DELETE_POST]: (state, action) =>
+    //   produce(state, (draft) => {
+    //     let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+    //     draft.list.splice(idx, 1);
+    //   }),
   },
   initialState
 );
 
 const actionCreators = {
-  setPost,
-  getPostFB,
-  deletePostFB,
+  getPost,
+  getPostDB,
+  deletePostDB,
 };
 
 export { actionCreators };
