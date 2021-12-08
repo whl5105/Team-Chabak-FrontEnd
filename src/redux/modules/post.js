@@ -45,11 +45,6 @@ const initialState = {
   is_loading: false,
 };
 
-const initialPost = {
-  image_url: "",
-  contents: "",
-};
-
 // ---- middleware actions ----
 //-- getPostDB(DB 데이터 가져오기) --
 
