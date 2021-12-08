@@ -90,7 +90,6 @@ const logoutDB = () => {
         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
         //빨간색 표시 알림
         deleteCookie("is_login");
-
       });
   };
 };
