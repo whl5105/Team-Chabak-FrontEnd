@@ -13,14 +13,18 @@ const Image = (props) => {
   if (shape === "rectangle") {
     return (
       <AspectOutter>
-        <AspectInner {...styles} onClick={_onClick}></AspectInner>
+        <AspectInnerHover {...styles} onClick={_onClick}></AspectInnerHover>
       </AspectOutter>
     );
   }
-  return <React.Fragment></React.Fragment>;
+  return (
+    <AspectOutter>
+      <AspectInner {...styles} onClick={_onClick}></AspectInner>
+    </AspectOutter>
+  );
 };
 Image.defaultProps = {
-  shape: "rectangle",
+  shape: "",
   src: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
   _onClick: () => {},
 };
@@ -30,6 +34,14 @@ const AspectOutter = styled.div`
   min-width: 250px;
 `;
 const AspectInner = styled.div`
+  position: relative;
+  padding-top: 75%; // 이미지가 가로넓이의 4:3비율을 맞추기위해 75% 적용
+  overflow: hidden;
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+`;
+
+const AspectInnerHover = styled.div`
   position: relative;
   padding-top: 75%; // 이미지가 가로넓이의 4:3비율을 맞추기위해 75% 적용
   overflow: hidden;
