@@ -58,7 +58,7 @@ const logOutDB = () => {
     deleteCookie("token");
     localStorage.removeItem("username");
     dispatch(logOut());
-    history.replace("/login");
+    history.replace("/");
   };
 };
 
