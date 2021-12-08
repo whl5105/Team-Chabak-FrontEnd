@@ -1,3 +1,4 @@
+/* eslint-disable no-const-assign */
 /* eslint-disable no-use-before-define */
 import React from "react";
 import { useParams } from "react-router-dom";
@@ -18,7 +19,7 @@ const PostWrite = (props) => {
   const post_list = useSelector(state => state.post.list);
   const {history} = props;
   
-  const post_id = props.match.params.idx;
+  let post_id = props.match.params.id;
 
   const is_edit = post_id ? true : false;
 
@@ -77,6 +78,7 @@ const PostWrite = (props) => {
   // }
 
   //---------------------------------
+
   /* 이미지 선택 */
   const selectFile = (e) => {
 
@@ -102,21 +104,17 @@ const PostWrite = (props) => {
   //---------------------------------
   // };
 
-
-  
-  
-
   const addPost = () => {
     const formData = new FormData();
     formData.append('img', imageFile);
-    dispatch(postActions.addPostDB(content, location, formData, post_id));
-  }; // addPost는 post_id를 파라미터로 받는다.
+    dispatch(postActions.addPostDB(content, location, formData));
+  };
 
   const editPost = () => {
     const formData = new FormData();
     formData.append('img', imageFile);
-    dispatch(postActions.editPostDB(post_id, {content: content}, location));
-  }; //editPost는 id로 서버에서 넘겨준 id를 받는다. 배포후 id로 변경
+    dispatch(postActions.editPostDB(post_id, {content: content}, {location: location}, formData));
+  };
 
   if(!is_login) {
     return(
@@ -184,4 +182,4 @@ const PostWrite = (props) => {
   );
 };
 
-export default PostWrite;
+export default PostWrite
