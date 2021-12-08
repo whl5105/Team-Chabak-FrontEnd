@@ -10,6 +10,7 @@ const Main = (props) => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
   const user_info = useSelector((state) => state.user);
+  console.log(post_list[0])
   console.log(post_list);
   React.useEffect(() => {
     dispatch(postActions.getPostDB);

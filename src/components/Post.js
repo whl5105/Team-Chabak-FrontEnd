@@ -22,8 +22,7 @@ const Post = (props) => {
                 padding="3px"
                 text="수정"
                 _onClick={() => {
-                  // history.push("/write");
-                  history.push(`/write/${paramIdx.idx}`);
+                   history.push(`/write/${paramIdx.idx}`);
                 }}
               ></Button>
             )}
@@ -42,11 +41,13 @@ const Post = (props) => {
           </Grid>
         </Grid>
         <Text>{props.content}</Text>
+
         {props.is_me ? (
           <Image shape="rectangle" src={props.image}></Image>
         ) : (
           <Image src={props.image}></Image>
         )}
+
         <Grid is_flex>
           <Text>{props.nickname}</Text>
           {/* <Text>댓글 10개</Text> */}

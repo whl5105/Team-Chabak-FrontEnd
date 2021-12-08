@@ -13,18 +13,25 @@ const PostWrite = (props) => {
   const paramIdx = useParams();
   console.log(paramIdx.idx);
   const dispatch = useDispatch();
-  const preview = useSelector((state) => state.image.preview);
-  const [content, setContents] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [imageFile, setImageFile] = React.useState({});
+
+  const _preview = useSelector(state => state.image.preview);
+  const [imageFile, setImageFile] = React.useState(null);
   const fileInput = React.useRef();
   let [nextId, setNextId] = React.useState(4);
-  const is_edit = false;
-  const is_login = false;
+  const is_login = useSelector(state => state.user.is_login);
+  const post_list = useSelector(state => state.post.list)
+  
+  const post_id = props.match.params.idx;
+  
+  const is_edit = post_id ? true : false;
+  
+  let _post = is_edit ? post_list.find((p) => p.post_id.toString() === post_id) : null;
+  const preview = _post ? _post.image_url : '';
+ 
+  const [content, setContents] = React.useState(_post ? _post.content : "");
+  const [location, setLocation] = React.useState(_post ? _post.location : "");
+  
 
-  const post_id = 1; //props.match.params.id;
-
-  React.useEffect(() => {});
 
   const onChange = (e) => {
     setContents(e.target.value);
@@ -64,31 +71,29 @@ const PostWrite = (props) => {
   //---------------------------------
   /* 이미지 선택 */
   const selectFile = (e) => {
+
+    console.log(fileInput.current.files);
+
     const reader = new FileReader();
     const file = fileInput.current.files[0];
 
     reader.readAsDataURL(file);
+
+    
     reader.onloadend = () => {
-      /* 읽기가 완료되면 아래 코드 실행 */
-      const base64 = reader.result;
-      console.log(base64);
+      dispatch(imageActions.setPreview(reader.result));
+      if (file) {
+        // reader.readAsDataURL(e.target.files[0]);
+        setImageFile(file);
+        console.log(file);
+      }
 
-      console.log(file);
-      // setImageFile(file);
-      // if (base64) {
-      //   setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
-      // }
-      // if (e.target.files[0]) {
-      //   reader.readAsDataURL(e.target.files[0]); // 1. 파일을 읽어 버퍼에 저장
-      //   setImgFile(e.target.files[0]); // 파일 상태 업데이트
-
-      //   dispatch(imageActions.setPreview(reader.result));
-      // }
     };
     console.log(imageFile);
   };
   //---------------------------------
   // };
+
 
   const imagFileInfo = imageFile;
   const formData = new FormData();
@@ -98,28 +103,27 @@ const PostWrite = (props) => {
   // console.log(formData) // 다시 확인
 
   const addPost = () => {
+    const formData = new FormData();
+    formData.append('img', imageFile);
     dispatch(postActions.addPostDB(content, location, formData, nextId));
     setNextId((nextId += 1));
   };
 
   const editPost = () => {
-    dispatch(
-      postActions.editPostDB(post_id, { content: content }),
-      location,
-      formData
-    );
+
+    const formData = new FormData();
+    formData.append('img', imageFile);
+    dispatch(postActions.editPostDB(post_id, {content: content}), location);
   };
 
-  if (is_login) {
-    return (
-      <Grid margin="350px 0">
-        <Text size="20px" center bold>
-          로그인 후 이용할 수 있습니다.
-        </Text>
-        <Button text="로그인"></Button>
-        <Text size="11px" center color="#999">
-          아직 회원이 아니신가요?&nbsp;&nbsp;&nbsp;{" "}
-          <span style={{ textDecoration: "underline" }}>회원가입하기</span>
+  if(!is_login) {
+    return(
+      <Grid margin='350px 0'>
+        <Text size='20px' center bold>로그인 후 이용할 수 있습니다.</Text>
+        <Button text='로그인'></Button>
+        <Text size='11px' center color='#999'>
+          아직 회원이 아니신가요?&nbsp;&nbsp;&nbsp; <span style={{textDecoration: 'underline',}}>회원가입하기</span>
+
         </Text>
       </Grid>
     );
@@ -151,11 +155,10 @@ const PostWrite = (props) => {
           </Select>
         </Grid>
 
-        <Grid padding="0 0 16px">
-          <input type="file" onChange={selectFile} ref={fileInput} />
-          <Image
-            src={preview ? preview : "http://via.placeholder.com/400x300"}
-          />
+        <Grid padding='0 0 16px'>
+          <input type="file" onChange={selectFile} ref={fileInput}/>
+          <Image src={!_preview? preview: "http://via.placeholder.com/400x300"}/>
+
         </Grid>
 
         <Grid padding="0 0 16px">
