@@ -22,7 +22,8 @@ const Post = (props) => {
                 padding="3px"
                 text="수정"
                 _onClick={() => {
-                  history.push("/write");
+                  // history.push("/write");
+                  history.push(`/write/${paramIdx.idx}`);
                 }}
               ></Button>
             )}
