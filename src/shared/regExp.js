@@ -10,6 +10,7 @@ export const idCheck = (id) => {
 //   return regExp.test(nick);
 // };
 
+//이메일 정규식
 export const emailCheck = (email) => {
   let _reg =
     /^[0-9a-zA-Z]([-_.0-9a-zA-Z])*@[0-9a-zA-Z]([-_.0-9a-zA-z])*.([a-zA-Z])*/;
@@ -17,5 +18,4 @@ export const emailCheck = (email) => {
   return _reg.test(email);
 };
 
-
-//아이디 길이체크 
+//아이디 길이체크

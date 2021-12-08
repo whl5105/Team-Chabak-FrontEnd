@@ -22,25 +22,23 @@ const initialState = {
     {
       location: "화성",
       content: "넘모 좋아요",
-      image: "이미지URL",
-      nickname: "김차박", 
+      image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+      nickname: "김차박",
       createdAt: "2021-12-06",
     },
     {
       location: "화성1",
       content: "넘모오 좋아요",
-      image: "이미지URL",
-      nickname: "김차박1", 
+      image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+      nickname: "김차박1",
       createdAt: "2021-12-06",
-      
     },
     {
       location: "화성2",
       content: "넘모오오 좋아요",
-      image: "이미지URL",
-      nickname: "김차박2", 
+      image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+      nickname: "김차박2",
       createdAt: "2021-12-06",
-      
     },
   ],
   paging: { start: null, next: null, size: 3 },
@@ -69,6 +67,17 @@ export const getPostDB =
 
 //-- deletePostFB(post 삭제)  --
 export const deletePostDB =
+  (id) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      await apis.del(id);
+      history.replace("/");
+    } catch (err) {
+      console.error("Error removing document: ", err);
+    }
+  };
+//-- (post 추가)  --
+export const addpost =
   (id) =>
   async (dispatch, getState, { history }) => {
     try {

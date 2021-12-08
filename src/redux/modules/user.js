@@ -55,10 +55,12 @@ const signUpIdCheckDB = (id) => {
 //---- 로그인  DB ----
 const setLoginDB = (id, pwd) => {
   return function (dispatch, getState, { history }) {
+    console.log(id, pwd);
     apis
       .login(id, pwd)
       .then((res) => {
-        setCookie("token", res.data[1].token, 7);
+        // setCookie("is_login", res.data[1].token, 7);
+        setCookie("is_login", res.data[1].token, 7);
         // localStorage.setItem("username", res.data[0].username);
         dispatch(setLogin({ nickaname: id }));
         history.replace("/");
@@ -73,10 +75,10 @@ const setLoginDB = (id, pwd) => {
 const logOutDB = () => {
   return function (dispatch, getState, { history }) {
     apis.logout().then((res) => {
-      deleteCookie("token");
+      deleteCookie("is_login");
       localStorage.removeItem("username");
       dispatch(logOut());
-      history.replace("/login");
+      history.replace("/");
     });
   };
 };

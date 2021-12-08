@@ -7,7 +7,7 @@ const Upload = () => {
   const dispatch = useDispatch();
   const fileInput = React.useRef();
 
-// FileReader
+  // FileReader
   const onChange = (e) => {
     console.log(fileInput.current.files[0]);
     const reader = new FileReader();
@@ -21,12 +21,11 @@ const Upload = () => {
     };
   };
 
-  
   return (
     <React.Fragment>
-      <input type='file' ref={fileInput} onChange={onChange}/>
+      <input type="file" ref={fileInput} onChange={onChange} />
     </React.Fragment>
-  )
+  );
 };
 
-export default Upload
+export default Upload;

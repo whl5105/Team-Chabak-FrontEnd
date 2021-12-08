@@ -9,7 +9,7 @@ const Main = (props) => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
   const user_info = useSelector((state) => state.user);
-  console.log(user_info);
+  console.log(post_list);
   React.useEffect(() => {
     dispatch(postActions.getPostDB);
   }, []);
@@ -20,13 +20,13 @@ const Main = (props) => {
         if (p.nickname) {
           return (
             <Grid key={idx}>
-              <Post {...p} is_me></Post>
+              <Post {...p} idx={idx} is_me></Post>
             </Grid>
           );
         } else {
           return (
             <Grid key={idx}>
-              <Post {...p}></Post>
+              <Post {...p} idx={idx}></Post>
             </Grid>
           );
         }

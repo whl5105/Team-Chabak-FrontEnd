@@ -1,11 +1,11 @@
 //---- 쿠키 요청 (파싱)----
-const getCookie = (name) => {
-  let value = ";" + document.cookie;
-  let parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop().split(";").shift();
-  }
-};
+// const getCookie = (name) => {
+//   let value = ";" + document.cookie;
+//   let parts = value.split(`; ${name}=`);
+//   if (parts.length === 2) {
+//     return parts.pop().split(";").shift();
+//   }
+// };
 
 //---- 쿠키 생성 ----
 const setCookie = (name, value, exp = 5) => {
