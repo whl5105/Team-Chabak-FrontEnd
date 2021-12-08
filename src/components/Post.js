@@ -47,7 +47,7 @@ const Post = (props) => {
         {props.is_me ? (
           <Image shape="rectangle" src={props.image_url}></Image>
         ) : (
-          <Image src={props.image.url}></Image>
+          <Image src={props.image_url}></Image>
         )}
 
         <Grid is_flex>

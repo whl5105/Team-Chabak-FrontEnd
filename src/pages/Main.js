@@ -18,7 +18,7 @@ const Main = (props) => {
   }, []);
   console.log(props);
   return (
-    <React.Fragment url="../1.jpg">
+    <React.Fragment>
       {post_list.map((p, idx) => {
         if (p.nickname) {
           return (
