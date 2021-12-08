@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Signup = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
+  
   // const isLogin = useSelector((store) => store.user.is_login);
   const isIdResponse = useSelector((store) => store.user.response);
 
