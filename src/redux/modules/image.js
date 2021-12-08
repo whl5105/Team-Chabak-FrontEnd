@@ -24,10 +24,6 @@ export default handleActions ({
     draft.uploading = action.payload.uploading;
   }),
 
-  // [UPLOAD_IMAGE]: (state, action) => produce(state, (draft) => {
-  //   draft.image_url = action.payload.image_url;
-  // }),
-
   [SET_PREVIEW]: (state, action) => produce(state, (draft) => {
     draft.preview = action.payload.preview;
   })

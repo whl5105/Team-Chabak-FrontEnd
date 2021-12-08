@@ -8,21 +8,20 @@ const LOGIN = "user/LOGIN";
 const LOGOUT = "user/LOGOUT";
 const SIGNUPID = "user/SIGNUPID";
 
-// action creator
+// ---- action creator ----
 const setLogin = createAction(LOGIN, (user) => ({ user }));
 const logout = createAction(LOGOUT, (user) => ({ user }));
 const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
-// initialState
+// ---- initialState ----
 const initialState = {
-  nickaname: "suin",
+  nickname: "suin",
   // username: null,
   // email: null,
-  is_login: false,
+  is_login: false, //로그인 확인
   response: true, //닉네임 중복 확인
 };
 
-// Thunk function
 //---- 회원가입 DB ----
 const signUpDB = (id, email, pwd) => {
   return function (dispatch, getState, { history }) {
@@ -70,6 +69,7 @@ const loginDB = (id, pwd) => {
       })
       .catch((err) => {
         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
+        setCookie("is_login", "suin", 7);
         //빨간색 표시 알림
       });
   };
@@ -88,6 +88,7 @@ const logoutDB = () => {
       .catch((err) => {
         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
         //빨간색 표시 알림
+        deleteCookie("is_login");
       });
   };
 };
@@ -104,7 +105,7 @@ const logoutDB = () => {
 //   };
 // };
 
-// reducer
+// ---- reducer ----
 export default handleActions(
   {
     [LOGIN]: (state, action) =>

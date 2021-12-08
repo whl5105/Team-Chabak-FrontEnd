@@ -1,18 +1,15 @@
 import React from "react";
-import style from "styled-components";
 import { userCreators as userActions } from "../redux/modules/user";
 import { Text, Input, Grid, Button } from "../elements";
 
-import { idCheck, emailCheck } from "../shared/regExp";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 // import { style } from "@mui/system";
-// import { userCreators } from "../modules/user";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
-  const isLogin = useSelector((store) => store.user.is_login);
+  // const isLogin = useSelector((store) => store.user.is_login);
   const isIdResponse = useSelector((store) => store.user.response);
 
   //-- 아아디, 비밀번호, 비밀번호확인 , 이메일  --
@@ -100,14 +97,12 @@ const Signup = (props) => {
       setIsEmail(true);
     }
   };
-
+  // ---- 회원가입 버튼 클릭 ----
   const signUpClick = () => {
     if (!isId || !isPassword || !isPwdCheck || !isEmail) {
       window.alert("아이디, 패스워드, 이메일을 정확아게  입력해주세요");
       return;
     }
-
-    console.log(id, pwd, email);
     dispatch(userActions.signUpDB(id, pwd, email));
   };
   return (
@@ -131,7 +126,7 @@ const Signup = (props) => {
         {/* -- 비밀번호 --  */}
         <Grid>
           <Input
-            // type="password"
+            type="password"
             label="비밀번호"
             placeholder="8~16자 영문 대 소문자, 숫자"
             _onChange={onChangePassword}
@@ -143,7 +138,7 @@ const Signup = (props) => {
         {/* -- 비밀번호 확인 -- */}
         <Grid>
           <Input
-            // type="password"
+            type="password"
             label="비밀번호 확인"
             placeholder="비밀번호를 한번 더 입력해주세요"
             _onChange={onChangePasswordCheck}
