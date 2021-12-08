@@ -79,13 +79,13 @@ const Header = (props) => {
             <Button
               text="로그인"
               _onClick={() => {
-                history.push("/login");
+                history.push("/user/login");
               }}
             ></Button>
             <Button
               text="회원가입"
               _onClick={() => {
-                history.push("signup");
+                history.push("/user/signup");
               }}
             ></Button>
           </Grid>
