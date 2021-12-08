@@ -71,6 +71,17 @@ export const deletePostDB =
       console.error("Error removing document: ", err);
     }
   };
+//-- (post 추가)  --
+export const addpost =
+  (id) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      await apis.del(id);
+      history.replace("/");
+    } catch (err) {
+      console.error("Error removing document: ", err);
+    }
+  };
 
 //---- reducer ----
 export default handleActions(

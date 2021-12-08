@@ -26,8 +26,11 @@ const Post = (props) => {
                 }}
               ></Button>
             )}
+
+
             {!props.is_me && (
               <Button
+
                 width="4em"
                 margin="0 2px"
                 padding="3px"

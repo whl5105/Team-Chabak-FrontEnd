@@ -1,5 +1,7 @@
 import React from "react";
 import { Text, Input, Grid, Button } from "../elements";
+import { useDispatch } from "react-redux";
+import { userCreators as userActions } from "../redux/modules/user";
 
 const Login = (props) => {
   //-- state --
@@ -7,7 +9,11 @@ const Login = (props) => {
   const [pwd, setPwd] = React.useState("");
   console.log("입렫받은 아이디 value:" + id);
   console.log("입렫받은 비번 value :" + pwd);
+  const dispatch = useDispatch();
 
+  const login = () => {
+    dispatch(userActions.setLoginDB(id, pwd));
+  };
   return (
     <React.Fragment>
       <Grid>
@@ -37,8 +43,7 @@ const Login = (props) => {
         </Grid>
         <Text color="red">아이디 혹은 비밀번호가 올바르지 않습니다.</Text>
         {/*--  button --*/}
-        <Button text="로그인"></Button>
-        <Button text="회원가입"></Button>
+        <Button text="로그인" _onclick={login}></Button>
         {/* -- 소셜 로그인 -- */}
         <Grid>
           <Text>소셜 계정으로 로그인</Text>
