@@ -13,6 +13,7 @@ const Grid = (props) => {
     children,
     _onClick,
     position,
+    justify,
   } = props;
 
   const styles = {
@@ -23,6 +24,7 @@ const Grid = (props) => {
     bg: bg,
     center: center,
     position: position,
+    justify: justify,
   };
 
   return (
@@ -44,6 +46,7 @@ Grid.defaultProps = {
   center: false,
   _onClick: () => {},
   position: false,
+  justify: false,
 };
 
 const GridBox = styled.div`
@@ -51,13 +54,11 @@ const GridBox = styled.div`
   width: ${(props) => props.width};
   height: 100%;
   box-sizing: border-box;
+  ${(props) => (props.justify ? `justify-content: ${props.justify};` : "")}
   ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
   ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
-  ${(props) =>
-    props.is_flex
-      ? "display: flex; align-items: center; justify-content: space-between;"
-      : ""}
+  ${(props) => (props.is_flex ? "display: flex; align-items: center;" : "")}
   ${(props) => (props.position ? `position: ${props.position};` : "")}
 `;
 export default Grid;
