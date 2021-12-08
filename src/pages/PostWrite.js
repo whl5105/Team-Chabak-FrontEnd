@@ -1,19 +1,26 @@
+/* eslint-disable no-use-before-define */
 import React from "react";
-
-import Upload from "../shared/Upload";
 
 import {Grid, Input, Button, Text, Image} from '../elements';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
+import { ActionCreators as imageActions } from "../redux/modules/image";
 
-const PostWrite = () => {
+const PostWrite = (props) => {
   const dispatch = useDispatch();
   const preview = useSelector(state => state.image.preview);
-  const [contents, setContents] = React.useState('');
+  const [content, setContents] = React.useState('');
+  const [location, setLocation] = React.useState('');
+  const [imageFile, setImageFile] = React.useState(null);
+  const fileInput = React.useRef();
+  let nextId = React.useRef(5);
   const is_edit = false;
   const is_login = false;
+
+  const post_id = props.match.params.id;
 
   React.useEffect(() => {
     
@@ -22,10 +29,45 @@ const PostWrite = () => {
   const onChange = (e) => {
     setContents(e.target.value);
   }
-  const [location, setLocation] = React.useState('');
 
   const handleChange = (event) => {
     setLocation(event.target.value);
+  };
+
+  const selectFile = (e) => {
+    console.log(fileInput.current.files[0].name);
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+
+    reader.readAsDataURL(file);
+
+    e.preventDefault();
+
+    reader.onloadend = () => {
+      //무한렌더링...
+      // dispatch(imageActions.setPreview(reader.result));
+      
+      if (file) {
+        reader.readAsDataURL(file);
+        setImageFile(file);
+      }
+    };
+  };
+
+  const imagFileInfo = imageFile;
+  const formData = new FormData()
+  // formData.append('img', imagFileInfo)
+  // formData.append('img', imagFileInfo.name)
+  // console.log(imagFileInfo)
+  // console.log(formData) // 다시 확인
+
+  const addPost = () => {
+    dispatch(postActions.addPostDB(content, location, formData, nextId));
+    // console.log(nextId.current += 1)
+  };
+
+  const editPost = () => {
+    dispatch(postActions.editPost(post_id, {content: content}));
   };
 
   if(is_login) {
@@ -55,30 +97,30 @@ const PostWrite = () => {
             <MenuItem value="">
               <em>지역을 선택하세요.</em>
             </MenuItem>
-            <MenuItem value={10}>경기도</MenuItem>
-            <MenuItem value={20}>강원도</MenuItem>
-            <MenuItem value={30}>충청북도</MenuItem>
-            <MenuItem value={40}>충청남도</MenuItem>
-            <MenuItem value={50}>경상북도</MenuItem>
-            <MenuItem value={60}>경상남도</MenuItem>
-            <MenuItem value={70}>전라북도</MenuItem>
-            <MenuItem value={80}>전라남도</MenuItem>
+            <MenuItem value={'경기도'}>경기도</MenuItem>
+            <MenuItem value={'강원도'}>강원도</MenuItem>
+            <MenuItem value={'충청북도'}>충청북도</MenuItem>
+            <MenuItem value={'충청남도'}>충청남도</MenuItem>
+            <MenuItem value={'경상북도'}>경상북도</MenuItem>
+            <MenuItem value={'경상남도'}>경상남도</MenuItem>
+            <MenuItem value={'전라북도'}>전라북도</MenuItem>
+            <MenuItem value={'전라남도'}>전라남도</MenuItem>
           </Select>
         </Grid>
 
         <Grid padding='0 0 16px'>
-          <Upload/>
+          <input type="file" onChange={selectFile} ref={fileInput}/>
           <Image src={preview? preview: "http://via.placeholder.com/400x300"}/>
         </Grid>
 
         <Grid padding='0 0 16px'>
-          <Input _onChange={onChange} type='text' value={contents} label='내용' multiLine/>
+          <Input _onChange={onChange} type='text' value={content} label='내용' multiLine/>
         </Grid>
 
         <Grid padding='0 0 16px'>
-          {is_edit? 
-            <Button text='게시글 등록'></Button>:
-            <Button text='게시글 수정'></Button>
+          {!is_edit? 
+            <Button text='게시글 등록' _onClick={addPost}></Button>:
+            <Button text='게시글 수정' _onClick={editPost}></Button>
           }
         </Grid>
       </Grid>
