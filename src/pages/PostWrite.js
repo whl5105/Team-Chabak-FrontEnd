@@ -11,20 +11,23 @@ import { ActionCreators as imageActions } from "../redux/modules/image";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
-  const preview = useSelector(state => state.image.preview);
-  const [content, setContents] = React.useState('');
-  const [location, setLocation] = React.useState('');
+  const _preview = useSelector(state => state.image.preview);
   const [imageFile, setImageFile] = React.useState(null);
   const fileInput = React.useRef();
   let [nextId, setNextId] = React.useState(4);
-  const is_edit = false;
-  const is_login = false;
-
-  const post_id = 1 //props.match.params.id;
-
-  React.useEffect(() => {
-    
-  })
+  const is_login = useSelector(state => state.user.is_login);
+  const post_list = useSelector(state => state.post.list)
+  
+  const post_id = props.match.params.idx;
+  
+  const is_edit = post_id ? true : false;
+  
+  let _post = is_edit ? post_list.find((p) => p.post_id.toString() === post_id) : null;
+  const preview = _post ? _post.image_url : '';
+ 
+  const [content, setContents] = React.useState(_post ? _post.content : "");
+  const [location, setLocation] = React.useState(_post ? _post.location : "");
+  
 
   const onChange = (e) => {
     setContents(e.target.value);
@@ -35,42 +38,36 @@ const PostWrite = (props) => {
   };
 
   const selectFile = (e) => {
-    console.log(fileInput.current.files[0].name);
+    console.log(fileInput.current.files);
     const reader = new FileReader();
     const file = fileInput.current.files[0];
 
     reader.readAsDataURL(file);
-
-    e.preventDefault();
     
     reader.onloadend = () => {
-      //무한렌더링...
       dispatch(imageActions.setPreview(reader.result));
-      console.log('무한렌더링')
-      // if (file) {
-      //   reader.readAsDataURL(file);
-      //   setImageFile(file);
-      // }
+      if (file) {
+        // reader.readAsDataURL(e.target.files[0]);
+        setImageFile(file);
+        console.log(file);
+      }
     };
   };
 
-  const imagFileInfo = imageFile;
-  const formData = new FormData()
-  // formData.append('img', imagFileInfo)
-  // formData.append('img', imagFileInfo.name)
-  // console.log(imagFileInfo)
-  // console.log(formData) // 다시 확인
-
   const addPost = () => {
+    const formData = new FormData();
+    formData.append('img', imageFile);
     dispatch(postActions.addPostDB(content, location, formData, nextId));
     setNextId(nextId += 1)
   };
 
   const editPost = () => {
-    dispatch(postActions.editPostDB(post_id, {content: content}), location, formData);
+    const formData = new FormData();
+    formData.append('img', imageFile);
+    dispatch(postActions.editPostDB(post_id, {content: content}), location);
   };
 
-  if(is_login) {
+  if(!is_login) {
     return(
       <Grid margin='350px 0'>
         <Text size='20px' center bold>로그인 후 이용할 수 있습니다.</Text>
@@ -110,7 +107,7 @@ const PostWrite = (props) => {
 
         <Grid padding='0 0 16px'>
           <input type="file" onChange={selectFile} ref={fileInput}/>
-          <Image src={preview? preview: "http://via.placeholder.com/400x300"}/>
+          <Image src={!_preview? preview: "http://via.placeholder.com/400x300"}/>
         </Grid>
 
         <Grid padding='0 0 16px'>
