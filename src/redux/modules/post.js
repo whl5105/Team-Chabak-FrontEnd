@@ -21,8 +21,8 @@ const getPost = createAction(GET_POST, (post_list, paging) => ({
 const addPost = createAction(ADD_POST, (post) => ({
   post
 }));
-const editPost = createAction(EDIT_POST, (id, post) => ({
-  id,
+const editPost = createAction(EDIT_POST, (post_id, post) => ({
+  post_id,
   post
 }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
@@ -31,33 +31,33 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // ---- initialState ----
 const initialState = {
   list: [
-    {
-      post_id: 0,
-      location: "경기도",
-      content: "넘모 좋아요",
-      image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-      nickname: "김차박",
-      createdAt: "2021-12-06",
-    },
-    {
-      post_id: 1,
-      location: "화성1",
-      content: "넘모오 좋아요",
+    // {
+    //   post_id: 0,
+    //   location: "경기도",
+    //   content: "넘모 좋아요",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박",
+    //   createdAt: "2021-12-06",
+    // },
+    // {
+    //   post_id: 1,
+    //   location: "화성1",
+    //   content: "넘모오 좋아요",
 
-      image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-      nickname: "김차박1",
-      createdAt: "2021-12-06",
-    },
-    {
-      post_id: 2,
-      location: "화성2",
-      content: "넘모오오 좋아요",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박1",
+    //   createdAt: "2021-12-06",
+    // },
+    // {
+    //   post_id: 2,
+    //   location: "화성2",
+    //   content: "넘모오오 좋아요",
 
-      image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-      nickname: "김차박2",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박2",
 
-      createdAt: "2021-12-06",
-    },
+    //   createdAt: "2021-12-06",
+    // },
   ],
   paging: { start: null, next: null, size: 3 },
   is_loading: false,
@@ -123,7 +123,6 @@ export const addPostDB =
       // await apis.add(location, content, multipartFile, nickname);
       
       dispatch(addPost(_post));
-      console.log(image_url)
       history.push('/');
       dispatch(imageActions.setPreview(null));
     } catch (err) {
@@ -139,28 +138,28 @@ export const editPostDB =
       if(!post_id) {
         console.log('게시물 정보가 없어요!');
         return;
-      }
+      };
 
       const multipartFile = formData
       const image_url = getState().image.preview;
       
-      const post_idx = getState().post.list.findIndex(p => p.id === post_id);
+      const post_idx = getState().post.list.findIndex(p => p.post_id === Number(post_id));
       const post = getState().post.list[post_idx];
-      console.log(post.image_url)
-
       if(image_url === post.image_url && location === post.location) {
         // await apis.add(post.location, content, post_id);
+        console.log('if 1')
         dispatch(editPost(post_id, {...content}));
       } else {
         // await apis.eidt(post.location, content, multipartFile, post_id)
-        dispatch(editPost(post_id, {...post, image_url: image_url, location: location}));
-      }
+        dispatch(editPost(post_id, {...content, image_url: image_url, location: location}));
+        console.log('if 2')
+      };
 
-      history.goBack();
+      history.replace('/');
       dispatch(imageActions.setPreview(null));
     } catch (err) {
-      window.alert('이미지를 선택해주세요')
-      console.log(err)
+      window.alert('이미지를 선택해주세요');
+      console.log(err);
     };
   }
 
@@ -182,10 +181,9 @@ export default handleActions(
 
     [EDIT_POST]: (state, action) => 
       produce(state, (draft) => {
-        console.log('editPost:', action.payload.id);
-        let idx = draft.list.findIndex(p => p.id === action.payload.id)
-        
-        draft.list[idx] = {...draft.list, ...action.payload.post}
+        let idx = draft.list.findIndex(p => p.post_id === Number(action.payload.post_id));
+
+        draft.list[idx] = {...draft.list[idx], ...action.payload.post};
       }),
 
     [LOADING]: (state, action) =>

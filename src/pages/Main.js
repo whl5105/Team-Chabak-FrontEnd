@@ -14,6 +14,7 @@ const Main = (props) => {
   console.log(post_list);
   React.useEffect(() => {
     dispatch(postActions.getPostDB);
+    console.log(post_list)
   }, []);
 
   return (
