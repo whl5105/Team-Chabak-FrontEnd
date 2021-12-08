@@ -2,13 +2,22 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { text, _onClick, children, margin, width, padding, text_color } =
-    props;
+  const {
+    text,
+    _onClick,
+    children,
+    margin,
+    width,
+    padding,
+    text_color,
+    disabled,
+  } = props;
 
   const styles = {
     margin: margin,
     width: width,
     padding: padding,
+    disabled: disabled,
   };
   if (text_color) {
     return (
@@ -37,6 +46,7 @@ Button.defaultProps = {
   margin: false,
   width: "100%",
   padding: "12px 0px",
+  disabled: false,
 };
 //---- 기본 return Button ----
 const ElButton = styled.button`

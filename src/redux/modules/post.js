@@ -24,8 +24,7 @@ const addPost = createAction(ADD_POST, (post) => ({
 
 const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
-  post
-
+  post,
 }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
@@ -37,7 +36,8 @@ const initialState = {
     //   post_id: 0,
     //   location: "경기도",
     //   content: "넘모 좋아요",
-    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   image_url:
+    //     "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
     //   nickname: "김차박",
     //   createdAt: "2021-12-06",
     // },
@@ -79,6 +79,7 @@ export const getPostDB =
   async (dispatch, getState, { history }) => {
     try {
       const { post_list } = await apis.boards();
+      console.log(post_list);
       dispatch(getPost(post_list));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
@@ -99,15 +100,14 @@ export const deletePostDB =
 
 //-- addPostDB --
 
-export const addPostDB = 
-  (post_id, _content, _location, formData) =>
-
+export const addPostDB =
+  (_content, _location, formData) =>
   async (dispatch, getState, { history }) => {
     try {
+      console.log(formData);
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
       const multipartFile = formData;
-
 
       const _post = {
         ...initialPost,
@@ -117,11 +117,10 @@ export const addPostDB =
         image_url: image_url,
       };
 
-      console.log(post_id);
-      const {content, location, nickname} = _post;
+      const { content, location, nickname } = _post;
 
-
-      // await apis.add(location, content, multipartFile, nickname);
+      await apis.add(location, content, multipartFile, nickname);
+      console.log("yes");
 
       dispatch(addPost(_post));
 
@@ -134,30 +133,33 @@ export const addPostDB =
 
 //-- editPostDB --
 
-export const editPostDB = 
-  (post_id=null, content={}, location, formData) => 
-  async (dispatch, getState, {history}) => {
+export const editPostDB =
+  (post_id = null, content = {}, location, formData) =>
+  async (dispatch, getState, { history }) => {
     try {
-      if(!post_id) {
-        console.log('게시물 정보가 없어요!');
+      if (!post_id) {
+        console.log("게시물 정보가 없어요!");
         return;
-      };
+      }
       console.log(post_id);
-      const multipartFile = formData
+      const multipartFile = formData;
       const image_url = getState().image.preview;
-      
-      const post_idx = getState().post.list.findIndex(p => p.id === Number(post_id));
+
+      const post_idx = getState().post.list.findIndex(
+        (p) => p.id === Number(post_id)
+      );
 
       const post = getState().post.list[post_idx];
       if (image_url === post.image_url && location === post.location) {
         // await apis.add(post.location, content, post_id);
 
-        dispatch(editPost(post_id, {...content}));
+        dispatch(editPost(post_id, { ...content }));
       } else {
         // await apis.eidt(post.location, content, multipartFile, post_id)
-        dispatch(editPost(post_id, {...content, ...location, image_url: image_url}));
-      };
-
+        dispatch(
+          editPost(post_id, { ...content, ...location, image_url: image_url })
+        );
+      }
 
       history.replace("/");
       dispatch(imageActions.setPreview(null));
@@ -184,9 +186,9 @@ export default handleActions(
 
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
-
-        let idx = draft.list.findIndex(p => p.id === Number(action.payload.post_id));
-
+        let idx = draft.list.findIndex(
+          (p) => p.id === Number(action.payload.post_id)
+        );
 
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),

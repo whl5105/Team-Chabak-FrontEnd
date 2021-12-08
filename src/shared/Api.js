@@ -34,13 +34,15 @@ export const apis = {
   // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
   // user
-  login: (id, pwd) => api.post("/user/login", { nickaname: id, password: pwd }),
+  login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
   signup: (id, email, pwd) =>
     api.post("/user/signup", {
       nickname: id,
       email: email,
       password: pwd,
     }),
-  signupId: (id) => api.post("/user/nickname/duplicate", { nickaname: id }),
+
+  signupId: (id) => api.post("/user/nickname/duplicate", { nickname: id }),
+
   logout: () => api.get("/api/logout"),
 };
