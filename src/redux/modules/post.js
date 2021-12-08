@@ -22,7 +22,8 @@ const addPost = createAction(ADD_POST, (post) => ({
   post
 }));
 const editPost = createAction(EDIT_POST, (id, post) => ({
-  id, post
+  id,
+  post
 }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
@@ -31,7 +32,7 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 const initialState = {
   list: [
     {
-      id: 1,
+      post_id: 1,
       location: "화성",
       content: "넘모 좋아요",
       image_url: "이미지URL",
@@ -39,7 +40,7 @@ const initialState = {
       createdAt: "2021-12-06",
     },
     {
-      id: 2,
+      post_id: 2,
       location: "화성1",
       content: "넘모오 좋아요",
       image_url: "이미지URL",
@@ -48,7 +49,7 @@ const initialState = {
       
     },
     {
-      id: 3,
+      post_id: 3,
       location: "화성2",
       content: "넘모오오 좋아요",
       image_url: "이미지URL",
@@ -61,7 +62,7 @@ const initialState = {
 };
 
 const initialPost = {
-  id: "",
+  post_id: "",
   location: "",
   image_url: null,
   content: "",
@@ -116,11 +117,10 @@ export const addPostDB =
       const {content, location, nickname} = _post;
 
       // await apis.add(location, content, multipartFile, nickname);
-      console.log('요청성공')
       
       dispatch(addPost(_post));
 
-      // history.push('/');
+      history.push('/');
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
@@ -129,23 +129,34 @@ export const addPostDB =
 
 //-- editPostDB --
 export const editPostDB = 
-  (post_id=null, post={}, formData) => 
+  (post_id=null, content={}, location, formData) => 
   async (dispatch, getState, {history}) => {
     try {
       if(!post_id) {
         console.log('게시물 정보가 없어요!');
         return;
       }
-      
-      // const post_list = getState().post
+
+      const multipartFile = formData
       const image_url = getState().image.preview;
-
       
+      const post_idx = getState().post.list.findIndex(p => p.id === post_id);
+      const post = getState().post.list[post_idx];
+      console.log(post.image_url)
 
+      if(image_url === post.image_url && location === post.location) {
+        // await apis.add(post.location, content, post_id);
+        dispatch(editPost(post_id, {...content}));
+      } else {
+        // await apis.eidt(post.location, content, multipartFile, post_id)
+        dispatch(editPost(post_id, {...post, image_url: image_url, location: location}));
+      }
 
-      
+      history.goBack();
+      dispatch(imageActions.setPreview(null));
     } catch (err) {
-      console.log()
+      window.alert('이미지를 선택해주세요')
+      console.log(err)
     };
   }
 

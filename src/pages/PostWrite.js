@@ -16,11 +16,11 @@ const PostWrite = (props) => {
   const [location, setLocation] = React.useState('');
   const [imageFile, setImageFile] = React.useState(null);
   const fileInput = React.useRef();
-  let nextId = React.useRef(5);
+  let [nextId, setNextId] = React.useState(4);
   const is_edit = false;
   const is_login = false;
 
-  const post_id = props.match.params.id;
+  const post_id = 1 //props.match.params.id;
 
   React.useEffect(() => {
     
@@ -42,15 +42,15 @@ const PostWrite = (props) => {
     reader.readAsDataURL(file);
 
     e.preventDefault();
-
+    
     reader.onloadend = () => {
       //무한렌더링...
-      // dispatch(imageActions.setPreview(reader.result));
-      
-      if (file) {
-        reader.readAsDataURL(file);
-        setImageFile(file);
-      }
+      dispatch(imageActions.setPreview(reader.result));
+      console.log('무한렌더링')
+      // if (file) {
+      //   reader.readAsDataURL(file);
+      //   setImageFile(file);
+      // }
     };
   };
 
@@ -63,11 +63,11 @@ const PostWrite = (props) => {
 
   const addPost = () => {
     dispatch(postActions.addPostDB(content, location, formData, nextId));
-    // console.log(nextId.current += 1)
+    setNextId(nextId += 1)
   };
 
   const editPost = () => {
-    dispatch(postActions.editPost(post_id, {content: content}));
+    dispatch(postActions.editPostDB(post_id, {content: content}), location, formData);
   };
 
   if(is_login) {
@@ -86,7 +86,7 @@ const PostWrite = (props) => {
     <React.Fragment>
       <Grid>
         <Grid padding='0 0 16px'>
-          <Text size='36px'>{is_edit? '게시글 등록': '게시글 수정'}</Text>
+          <Text size='36px'>{!is_edit? '게시글 등록': '게시글 수정'}</Text>
           <Select
             value={location}
             onChange={handleChange}
