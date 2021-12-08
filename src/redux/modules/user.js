@@ -13,7 +13,7 @@ const logOut = createAction(LOGOUT, (user) => ({ user }));
 
 // initialState
 const initialState = {
-  nickaname: "suin",
+  nickname: "suin",
   // username: null,
   // email: null,
   is_login: true,
