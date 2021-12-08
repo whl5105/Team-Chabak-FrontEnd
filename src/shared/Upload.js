@@ -7,17 +7,20 @@
 //   const dispatch = useDispatch();
 //   const fileInput = React.useRef();
 
+
 // // FileReader
 //   const onChange = (e) => {
 //     console.log(fileInput.current.files[0]);
 //     const reader = new FileReader();
 //     const file = fileInput.current.files[0];
 
+
 //     // const formData = new FormData();
 //     // formData.append('files', file);
 //     // formData.append('files_name', file.name);
 
 //     // console.log(formData);
+
 
 //     reader.readAsDataURL(file);
 
@@ -47,3 +50,13 @@
 // };
 
 // export default Upload
+
+//   return (
+//     <React.Fragment>
+//       <input type="file" ref={fileInput} onChange={onChange} />
+//     </React.Fragment>
+//   );
+// };
+
+// export default Upload;
+
