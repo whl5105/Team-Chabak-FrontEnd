@@ -10,12 +10,21 @@ export const idCheck = (id) => {
 //   return regExp.test(nick);
 // };
 
-//이메일 정규식
+
+
+//아이디 길이체크 3글자 ~10글자 
+
+//비밀번호 3글자 ~10글자 
+
+
+//비밀번호 중복 체크
+
+
+//이메일 체크 
+
 export const emailCheck = (email) => {
   let _reg =
     /^[0-9a-zA-Z]([-_.0-9a-zA-Z])*@[0-9a-zA-Z]([-_.0-9a-zA-z])*.([a-zA-Z])*/;
 
   return _reg.test(email);
 };
-
-//아이디 길이체크

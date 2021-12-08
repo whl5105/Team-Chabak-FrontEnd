@@ -1,17 +1,20 @@
 import React from "react";
 import style from "styled-components";
+import { userCreators as userActions } from "../redux/modules/user";
 import { Text, Input, Grid, Button } from "../elements";
 
 import { idCheck, emailCheck } from "../shared/regExp";
-
 // redux
 import { useDispatch, useSelector } from "react-redux";
 // import { style } from "@mui/system";
 // import { userCreators } from "../modules/user";
 
 const Signup = (props) => {
+  const dispatch = useDispatch();
   const { history } = props;
   const isLogin = useSelector((store) => store.user.is_login);
+  const isIdResponse = useSelector((store) => store.user.response);
+
   //-- 아아디, 비밀번호, 비밀번호확인 , 이메일  --
   const [id, setId] = React.useState("");
   const [pwd, setPwd] = React.useState("");
@@ -30,40 +33,50 @@ const Signup = (props) => {
   const [isPwdCheck, setIsPwdCheck] = React.useState(false);
   const [isEmail, setIsEmail] = React.useState(false);
 
-  //아이디 검사
+  //---- 아이디 유효성 검사  ----
   const idCheck = (e) => {
     const idCurrent = e.target.value;
     setId(idCurrent);
-    if (id > 3 || id < 10) {
+    if (id.length < 3 || id.length > 10) {
       setIdMessage("3글자 이상 10글자 미만으로 입력해주세요.");
       setIsId(false);
     } else {
-      setIdMessage("올바른 이름 형식입니다 :)");
-      setIsId(true);
-      //아이디 디스패치
+      setIdMessage("중복확인이 필요합니다.:)");
+      // setIsId(true);
     }
   };
-  // 비밀번호
+  //---- 아이디 중복  표시  ----
+  const isIdCheck = () => {
+    if (!isIdResponse) {
+      setIdMessage("이미 있는 아이디 입니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("사용할 수 있는 아이디 입니다.");
+      setIsId(true);
+    }
+  };
+  //---- 비밀번호 유효성 검사  ----
   const onChangePassword = (e) => {
     // console.log(e.target.value);
-    const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,10}$/;
     const passwordCurrent = e.target.value;
     setPwd(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPwdMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setPwdMessage(
+        "숫자+영문자 조합으로 3자리 이상 10자리 이하로 입력해주세요!"
+      );
       setIsPassword(false);
     } else {
       setPwdMessage("안전한 비밀번호에요 : )");
       setIsPassword(true);
     }
   };
-  // 비밀번호 확인
+  //---- 비밀번호 중복 확인  ----
   const onChangePasswordCheck = (e) => {
     const pwdCurrent = e.target.value;
     setPwdCheck(pwdCurrent);
-
+    console.log(pwd);
     if (pwd === pwdCurrent) {
       setPwdCheckMessage("비밀번호를 똑같이 입력했어요 : )");
       setIsPwdCheck(true);
@@ -72,7 +85,7 @@ const Signup = (props) => {
       setIsPwdCheck(false);
     }
   };
-  //이메일
+  //---- 이메일 유효성 검사  ----
   const onChangeEmail = (e) => {
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -88,21 +101,15 @@ const Signup = (props) => {
     }
   };
 
-  // const signUpClick = () => {
-  //   /* 비밀번호 체크 */
-  //   if (pwd !== pwd_check) {
-  //     window.alert("비밀번호가 일치하지 않습니다.");
-  //     return;
-  //   } else console.log("일치합니다.");
-  //   //이메일 정규식 체크해주기
-  //   if (!emailCheck(email)) {
-  //     window.alert("이메일 형식이 맞지 않습니다!");
-  //     return;
-  //   } else {
-  //     window.alert("이메일 형식이 맞음!");
-  //   }
-  //   history.push("/");
-  // };
+  const signUpClick = () => {
+    if (!isId || !isPassword || !isPwdCheck || !isEmail) {
+      window.alert("아이디, 패스워드, 이메일을 정확아게  입력해주세요");
+      return;
+    }
+
+    console.log(id, pwd, email);
+    dispatch(userActions.signUpDB(id, pwd, email));
+  };
   return (
     <div>
       <Grid>
@@ -117,7 +124,7 @@ const Signup = (props) => {
               placeholder="3~10자로 입력해주세요."
               _onChange={idCheck}
             ></Input>
-            <Button text="중복확인" _onClick={idCheck}></Button>
+            <Button text="중복확인" _onClick={isIdCheck}></Button>
           </Grid>
           {id.length > 0 && <span>{idMessage}</span>}
         </Grid>
@@ -154,7 +161,7 @@ const Signup = (props) => {
           {email.length > 0 && <span>{emailMessage}</span>}
         </Grid>
 
-        <Button text="회원가입"></Button>
+        <Button text="회원가입" _onClick={signUpClick}></Button>
       </Grid>
     </div>
   );

@@ -6,18 +6,20 @@ import { apis } from "../../shared/Api";
 // action
 const LOGIN = "user/LOGIN";
 const LOGOUT = "user/LOGOUT";
+const SIGNUPID = "user/SIGNUPID";
 
 // action creator
 const setLogin = createAction(LOGIN, (user) => ({ user }));
-const logOut = createAction(LOGOUT, (user) => ({ user }));
+const logout = createAction(LOGOUT, (user) => ({ user }));
+const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
 // initialState
 const initialState = {
   nickaname: "suin",
   // username: null,
   // email: null,
-  is_login: true,
-  response: null, //닉네임 중복 확인
+  is_login: false,
+  response: true, //닉네임 중복 확인
 };
 
 // Thunk function
@@ -45,6 +47,7 @@ const signUpIdCheckDB = (id) => {
         //회원가입 확인
         //response: true or false;
         console.log(response);
+        dispatch(signupId(response));
       })
       .catch(function (error) {
         //회원가입 에러
@@ -53,9 +56,9 @@ const signUpIdCheckDB = (id) => {
   };
 };
 //---- 로그인  DB ----
-const setLoginDB = (id, pwd) => {
+const loginDB = (id, pwd) => {
+  console.log(id, pwd);
   return function (dispatch, getState, { history }) {
-    console.log(id, pwd);
     apis
       .login(id, pwd)
       .then((res) => {
@@ -72,16 +75,20 @@ const setLoginDB = (id, pwd) => {
   };
 };
 //---- 로그아웃 DB ----
-const logOutDB = () => {
+const logoutDB = () => {
   return function (dispatch, getState, { history }) {
-
-    apis.logout().then((res) => {
-      deleteCookie("is_login");
-      localStorage.removeItem("username");
-      dispatch(logOut());
-      history.replace("/");
-    });
-
+    apis
+      .logout()
+      .then((res) => {
+        deleteCookie("is_login");
+        // localStorage.removeItem("username");
+        dispatch(logout());
+        history.replace("/");
+      })
+      .catch((err) => {
+        window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
+        //빨간색 표시 알림
+      });
   };
 };
 
@@ -110,14 +117,18 @@ export default handleActions(
         draft.user = null;
         draft.is_login = false;
       }),
+    [SIGNUPID]: (state, action) =>
+      produce(state, (draft) => {
+        draft.response = action.payload.id;
+      }),
   },
   initialState
 );
 
 const userCreators = {
-  setLoginDB,
+  loginDB,
   signUpDB,
-  logOutDB,
+  logoutDB,
   signUpIdCheckDB,
   // loginCheckDB,
 };
