@@ -65,6 +65,7 @@ export const signUpIdCheckDB =
       console.log(response);
     } catch (err) {
       console.log(`조회 오류 발생!${err}`);
+      
     }
   };
 
