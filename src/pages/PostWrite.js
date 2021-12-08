@@ -10,27 +10,35 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import { ActionCreators as imageActions } from "../redux/modules/image";
 
 const PostWrite = (props) => {
-  const paramIdx = useParams();
-  console.log(paramIdx.idx);
   const dispatch = useDispatch();
-
-  const _preview = useSelector(state => state.image.preview);
+  const preview = useSelector(state => state.image.preview);
   const [imageFile, setImageFile] = React.useState(null);
   const fileInput = React.useRef();
-  let [nextId, setNextId] = React.useState(4);
   const is_login = useSelector(state => state.user.is_login);
-  const post_list = useSelector(state => state.post.list)
+  const post_list = useSelector(state => state.post.list);
+  const {history} = props;
   
   const post_id = props.match.params.idx;
-  
+
   const is_edit = post_id ? true : false;
-  
-  let _post = is_edit ? post_list.find((p) => p.post_id.toString() === post_id) : null;
-  const preview = _post ? _post.image_url : '';
- 
+
+  let _post = is_edit ? post_list.find((p) => p.post_id === Number(post_id)) : null;
+  console.log(_post);
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
   
+  React.useEffect(() => {
+    if (is_edit && !_post ) {
+      console.log("포스트 정보가 없어요!");
+      history.goBack();
+
+      return;
+    }
+
+    if (is_edit) {
+      dispatch(imageActions.setPreview(_post.image_url));
+    }
+  }, []);
 
 
   const onChange = (e) => {
@@ -95,26 +103,20 @@ const PostWrite = (props) => {
   // };
 
 
-  const imagFileInfo = imageFile;
-  const formData = new FormData();
-  // formData.append('img', imagFileInfo)
-  // formData.append('img', imagFileInfo.name)
-  // console.log(imagFileInfo)
-  // console.log(formData) // 다시 확인
+  
+  
 
   const addPost = () => {
     const formData = new FormData();
     formData.append('img', imageFile);
-    dispatch(postActions.addPostDB(content, location, formData, nextId));
-    setNextId((nextId += 1));
-  };
+    dispatch(postActions.addPostDB(content, location, formData, post_id));
+  }; // addPost는 post_id를 파라미터로 받는다.
 
   const editPost = () => {
-
     const formData = new FormData();
     formData.append('img', imageFile);
-    dispatch(postActions.editPostDB(post_id, {content: content}), location);
-  };
+    dispatch(postActions.editPostDB(post_id, {content: content}, location));
+  }; //editPost는 id로 서버에서 넘겨준 id를 받는다. 배포후 id로 변경
 
   if(!is_login) {
     return(
@@ -157,8 +159,7 @@ const PostWrite = (props) => {
 
         <Grid padding='0 0 16px'>
           <input type="file" onChange={selectFile} ref={fileInput}/>
-          <Image src={!_preview? preview: "http://via.placeholder.com/400x300"}/>
-
+          <Image src={preview? preview: "http://via.placeholder.com/400x300"}/>
         </Grid>
 
         <Grid padding="0 0 16px">

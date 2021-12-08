@@ -9,9 +9,11 @@ import { actionCreators as postActions } from "../redux/modules/post";
 const Post = (props) => {
   const dispatch = useDispatch();
   const paramIdx = useParams();
+  console.log(props);
   return (
     <React.Fragment>
       <Grid>
+        {/* 로그인한 경우 수정과 삭제버튼 보이도록하기 */}
         <Grid is_flex>
           <Text>{props.location}</Text>
           <Grid is_flex width="13em">
@@ -22,7 +24,7 @@ const Post = (props) => {
                 padding="3px"
                 text="수정"
                 _onClick={() => {
-                   history.push(`/write/${paramIdx.idx}`);
+                  history.push(`/write/${paramIdx.idx}`);
                 }}
               ></Button>
             )}
@@ -43,9 +45,9 @@ const Post = (props) => {
         <Text>{props.content}</Text>
 
         {props.is_me ? (
-          <Image shape="rectangle" src={props.image}></Image>
+          <Image shape="rectangle" src={props.image_url}></Image>
         ) : (
-          <Image src={props.image}></Image>
+          <Image src={props.image.url}></Image>
         )}
 
         <Grid is_flex>

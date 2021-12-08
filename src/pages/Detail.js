@@ -14,7 +14,7 @@ const Detail = (props) => {
   const post_data = post_list[post_idx];
 
   const [post, setPost] = React.useState(post_data ? post_data : null);
-  console.log(post)
+  console.log(post_list)
   return (
     <React.Fragment>
       <Grid>
