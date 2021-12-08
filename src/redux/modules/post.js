@@ -21,8 +21,9 @@ const getPost = createAction(GET_POST, (post_list, paging) => ({
 const addPost = createAction(ADD_POST, (post) => ({
   post,
 }));
-const editPost = createAction(EDIT_POST, (id, post) => ({
-  id,
+
+const editPost = createAction(EDIT_POST, (post_id, post) => ({
+  post_id,
   post,
 }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
@@ -64,7 +65,7 @@ const initialState = {
 };
 
 const initialPost = {
-  id: "",
+  id: 1,
   location: "",
   image_url: null,
   content: "",
@@ -100,25 +101,24 @@ export const deletePostDB =
   };
 
 //-- addPostDB --
+
 export const addPostDB =
-  (_content, _location, formData, post_id) =>
+  (_content, _location, formData) =>
   async (dispatch, getState, { history }) => {
     try {
       console.log(formData);
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
       const multipartFile = formData;
-      console.log(multipartFile);
 
       const _post = {
         ...initialPost,
-        post_id: post_id,
         content: _content,
         location: _location,
         nickname: user_id,
         image_url: image_url,
       };
-      console.log(_post);
+
       const { content, location, nickname } = _post;
 
       await apis.add(location, content, multipartFile, nickname);
@@ -133,32 +133,33 @@ export const addPostDB =
   };
 
 //-- editPostDB --
+
 export const editPostDB =
-  (id = null, content = {}, location, formData) =>
+  (post_id = null, content = {}, location, formData) =>
   async (dispatch, getState, { history }) => {
     try {
-      if (!id) {
+      if (!post_id) {
         console.log("게시물 정보가 없어요!");
         return;
       }
-
+      console.log(post_id);
       const multipartFile = formData;
       const image_url = getState().image.preview;
 
       const post_idx = getState().post.list.findIndex(
-        (p) => p.post_id === Number(id)
+        (p) => p.id === Number(post_id)
       );
+
       const post = getState().post.list[post_idx];
       if (image_url === post.image_url && location === post.location) {
         // await apis.add(post.location, content, post_id);
-        console.log("if 1");
-        dispatch(editPost(id, { ...content }));
+
+        dispatch(editPost(post_id, { ...content }));
       } else {
         // await apis.eidt(post.location, content, multipartFile, post_id)
         dispatch(
-          editPost(id, { ...content, image_url: image_url, location: location })
+          editPost(post_id, { ...content, ...location, image_url: image_url })
         );
-        console.log("if 2");
       }
 
       history.replace("/");
@@ -187,7 +188,7 @@ export default handleActions(
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
         let idx = draft.list.findIndex(
-          (p) => p.id === Number(action.payload.id)
+          (p) => p.id === Number(action.payload.post_id)
         );
 
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
