@@ -31,33 +31,33 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // ---- initialState ----
 const initialState = {
   list: [
-    {
-      post_id: 0,
-      location: "경기도",
-      content: "넘모 좋아요",
-      image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-      nickname: "김차박",
-      createdAt: "2021-12-06",
-    },
-    {
-      post_id: 1,
-      location: "화성1",
-      content: "넘모오 좋아요",
+    // {
+    //   post_id: 0,
+    //   location: "경기도",
+    //   content: "넘모 좋아요",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박",
+    //   createdAt: "2021-12-06",
+    // },
+    // {
+    //   post_id: 1,
+    //   location: "화성1",
+    //   content: "넘모오 좋아요",
 
-      image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-      nickname: "김차박1",
-      createdAt: "2021-12-06",
-    },
-    {
-      post_id: 2,
-      location: "화성2",
-      content: "넘모오오 좋아요",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박1",
+    //   createdAt: "2021-12-06",
+    // },
+    // {
+    //   post_id: 2,
+    //   location: "화성2",
+    //   content: "넘모오오 좋아요",
 
-      image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-      nickname: "김차박2",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박2",
 
-      createdAt: "2021-12-06",
-    },
+    //   createdAt: "2021-12-06",
+    // },
   ],
   paging: { start: null, next: null, size: 3 },
   is_loading: false,
@@ -65,7 +65,7 @@ const initialState = {
 
 
 const initialPost = {
-  post_id: "",
+  id: "",
   location: "",
   image_url: null,
   content: "",
@@ -101,7 +101,7 @@ export const deletePostDB =
 
 //-- addPostDB --
 export const addPostDB = 
-  (_content, _location, formData, id) =>
+  (_content, _location, formData, post_id) =>
   async (dispatch, getState, { history }) => {
     try {
       const user_id = getState().user.nickname;
@@ -111,7 +111,7 @@ export const addPostDB =
 
       const _post = {
         ...initialPost,
-        post_id: id,
+        post_id: post_id,
         content: _content,
         location: _location,
         nickname: user_id,
@@ -123,7 +123,7 @@ export const addPostDB =
       // await apis.add(location, content, multipartFile, nickname);
       
       dispatch(addPost(_post));
-      console.log(image_url)
+      
       history.push('/');
       dispatch(imageActions.setPreview(null));
     } catch (err) {
@@ -133,34 +133,34 @@ export const addPostDB =
 
 //-- editPostDB --
 export const editPostDB = 
-  (post_id=null, content={}, location, formData) => 
+  (id=null, content={}, location, formData) => 
   async (dispatch, getState, {history}) => {
     try {
-      if(!post_id) {
+      if(!id) {
         console.log('게시물 정보가 없어요!');
         return;
-      }
+      };
 
       const multipartFile = formData
       const image_url = getState().image.preview;
       
-      const post_idx = getState().post.list.findIndex(p => p.id === post_id);
+      const post_idx = getState().post.list.findIndex(p => p.post_id === Number(id));
       const post = getState().post.list[post_idx];
-      console.log(post.image_url)
-
       if(image_url === post.image_url && location === post.location) {
         // await apis.add(post.location, content, post_id);
-        dispatch(editPost(post_id, {...content}));
+        console.log('if 1')
+        dispatch(editPost(id, {...content}));
       } else {
         // await apis.eidt(post.location, content, multipartFile, post_id)
-        dispatch(editPost(post_id, {...post, image_url: image_url, location: location}));
-      }
+        dispatch(editPost(id, {...content, image_url: image_url, location: location}));
+        console.log('if 2')
+      };
 
-      history.goBack();
+      history.replace('/');
       dispatch(imageActions.setPreview(null));
     } catch (err) {
-      window.alert('이미지를 선택해주세요')
-      console.log(err)
+      window.alert('이미지를 선택해주세요');
+      console.log(err);
     };
   }
 
@@ -178,14 +178,14 @@ export default handleActions(
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.unshift(action.payload.post);
+
       }),
 
     [EDIT_POST]: (state, action) => 
       produce(state, (draft) => {
-        console.log('editPost:', action.payload.id);
-        let idx = draft.list.findIndex(p => p.id === action.payload.id)
-        
-        draft.list[idx] = {...draft.list, ...action.payload.post}
+        let idx = draft.list.findIndex(p => p.id === Number(action.payload.id));
+
+        draft.list[idx] = {...draft.list[idx], ...action.payload.post};
       }),
 
     [LOADING]: (state, action) =>
