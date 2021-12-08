@@ -15,6 +15,7 @@ const setCookie = (name, value, exp = 5) => {
 };
 //---- 쿠키 삭제 ----
 const deleteCookie = (name) => {
+  console.log(name);
   let date = new Date("2020-01-01").toUTCString();
   document.cookie = name + "=; expires=" + date;
 };

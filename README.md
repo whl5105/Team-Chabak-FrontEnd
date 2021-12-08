@@ -1,71 +1,86 @@
-# Getting Started with Create React App
+# Team Chabak 프론트엔드
+## 차박 소개🚗  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+차박(차에서 숙박) 할 꿀 장소들을 공유하는 SNS입니다.
+다양한 차박 장소들을 사진, 지역과 글을 통해 공유할 수 있습니다👍.
 
-## Available Scripts
+<br/>
+<br/>
 
-In the project directory, you can run:
+## Team Chabak Rule 🤝
+✔️ 프론트, 백엔드로 진행되는 첫 프로젝트이기 때문에 대화를 통해 문제점을 개선해 나갑니다.
 
-### `yarn start`
+✔️ 그 어떤 의사결정도 당연한 것이 없기 때문에 서로에게 끊임없이 되묻습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+✔️ PR 후 Merge는 팀원이 알 수 있도록 공유 후에 진행합니다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+✔️ 막히는 부분은 공유하고, 가능하면 같이 해결해 나갑니다.
 
-### `yarn test`
+✔️ 개발 중 드는 의문에 대해서는 노션에 남겨 토론을 진행합니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+✔️ 토론한 내용을 바탕으로 팀 노션에 문서화하여 기록으로 남깁니다.
 
-### `yarn build`
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Team Chabak Backend
+- 최수인 => 로그인, 회원가입 기능 구현
+- 박재우 => 메인,상세 게시판,게시글삭제 기능 구현
+- 정민수 => 게시글 등록,수정 기능 구현
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 기술 스택 🧰
+### Back-end
+- Java 8
+- SpringBoot 2.5.3  
+- Spring Security  
+- Gradle  
+- JPA  
+- MySQL 8.0  
 
-### `yarn eject`
+### Front-end
+- React
+- Redux
+- JavaScript ES6+
+- Styled Components
+- Hook API
+- axios
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<br/>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### DevOps
+- AWS EC2 (Centos7)
+- AWS RDS (MySQL 8.0)
+- AWS S3
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<br/>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 개발 포인트 🔍
 
-## Learn More
+- Git을 활용한 협업 진행
+- 노션을 통한 진행상황 공유
+- 팀 프로젝트 중 개선할 점 혹은 피드백 노션에 정리
+- AWS를 활용한 배포
+- DB 설계, 와이어프레임 결과물, 툴을 사용해서 프론트, 백엔드 공유 => ex) 피그마, ERDcloud
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<br/>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 설계 ✏
+- API 설계 - 노션 페이지, Swagger API 문서 자동화
+- ERD 설계 - ERDcloud
+- 와이어프레임 - 피그마(Figma)
 
-### Code Splitting
+---
+# 프로젝트 후기
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 최수인
+- 내용
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 박재우
+- 내용
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 정민수
+- 내용
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Team-Chabak-FrontEnd
