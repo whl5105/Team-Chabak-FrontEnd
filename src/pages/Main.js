@@ -10,7 +10,7 @@ const Main = (props) => {
   const post_list = useSelector((state) => state.post.list);
   const user_info = useSelector((state) => state.user);
 
-  console.log(post_list[0]);
+  // console.log(post_list[0]);
 
   console.log(post_list);
   React.useEffect(() => {
@@ -18,7 +18,7 @@ const Main = (props) => {
   }, []);
   console.log(props);
   return (
-    <React.Fragment url="../1.jpg">
+    <React.Fragment>
       {post_list.map((p, idx) => {
         if (p.nickname) {
           return (

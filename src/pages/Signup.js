@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 const Signup = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
-  
+
   // const isLogin = useSelector((store) => store.user.is_login);
   const isIdResponse = useSelector((store) => store.user.response);
+  console.log(isIdResponse);
 
   //-- 아아디, 비밀번호, 비밀번호확인 , 이메일  --
   const [id, setId] = React.useState("");
@@ -43,15 +44,17 @@ const Signup = (props) => {
       // setIsId(true);
     }
   };
-  //---- 아이디 중복  표시  ----
+  //---- 아이디 중복  버튼 클릭시   ----
   const isIdCheck = () => {
-    if (!isIdResponse) {
-      setIdMessage("이미 있는 아이디 입니다.");
-      setIsId(false);
-    } else {
-      setIdMessage("사용할 수 있는 아이디 입니다.");
-      setIsId(true);
-    }
+    dispatch(userActions.signUpIdCheckDB(id));
+    // if (!isIdResponse) {
+    //   setIdMessage("이미 있는 아이디 입니다.");
+    //   // setIsId(false);
+    // } else {
+    //   setIdMessage("사용할 수 있는 아이디 입니다.");
+
+    //   // setIsId(true);
+    // }
   };
   //---- 비밀번호 유효성 검사  ----
   const onChangePassword = (e) => {
@@ -100,10 +103,10 @@ const Signup = (props) => {
   };
   // ---- 회원가입 버튼 클릭 ----
   const signUpClick = () => {
-    if (!isId || !isPassword || !isPwdCheck || !isEmail) {
-      window.alert("아이디, 패스워드, 이메일을 정확아게  입력해주세요");
-      return;
-    }
+    // if (!isId || !isPassword || !isPwdCheck || !isEmail) {
+    //   window.alert("아이디, 패스워드, 이메일을 정확아게  입력해주세요");
+    //   return;
+    // }
     dispatch(userActions.signUpDB(id, pwd, email));
   };
   return (

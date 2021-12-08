@@ -19,7 +19,7 @@ const initialState = {
   // username: null,
   // email: null,
   is_login: true, //로그인 확인
-  response: true, //닉네임 중복 확인
+  response: false, //닉네임 중복 확인
 };
 
 //---- 회원가입 DB ----
@@ -39,6 +39,7 @@ const signUpDB = (id, email, pwd) => {
 };
 //---- 회원가입 아이디 확인  DB ----
 const signUpIdCheckDB = (id) => {
+  console.log(id);
   return function (dispatch, getState, { history }) {
     apis
       .signupId(id)
@@ -62,14 +63,13 @@ const loginDB = (id, pwd) => {
       .login(id, pwd)
       .then((res) => {
         // setCookie("is_login", res.data[1].token, 7);
-        setCookie("is_login", res.data[1].token, 7);
+        setCookie("token", res.data[1].token, 7);
         // localStorage.setItem("username", res.data[0].username);
         dispatch(setLogin({ nickaname: id }));
         history.replace("/");
       })
       .catch((err) => {
         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
-        setCookie("is_login", "suin", 7);
         //빨간색 표시 알림
       });
   };
