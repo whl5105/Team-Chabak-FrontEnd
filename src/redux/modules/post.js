@@ -45,8 +45,7 @@ const initialState = {
     //   post_id: 1,
     //   location: "화성1",
     //   content: "넘모오 좋아요",
-    //   image_url:
-    //     "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
     //   nickname: "김차박1",
     //   createdAt: "2021-12-06",
     // },
@@ -54,8 +53,7 @@ const initialState = {
     //   post_id: 2,
     //   location: "화성2",
     //   content: "넘모오오 좋아요",
-    //   image_url:
-    //     "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
     //   nickname: "김차박2",
     //   createdAt: "2021-12-06",
     // },
@@ -123,6 +121,7 @@ export const addPostDB =
 
       await apis.add(location, content, multipartFile, nickname);
       console.log("yes");
+
       dispatch(addPost(_post));
 
       history.push("/");
