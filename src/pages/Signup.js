@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 const Signup = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
-  
+
   // const isLogin = useSelector((store) => store.user.is_login);
   const isIdResponse = useSelector((store) => store.user.response);
+  console.log(isIdResponse);
 
   //-- 아아디, 비밀번호, 비밀번호확인 , 이메일  --
   const [id, setId] = React.useState("");
@@ -40,18 +41,27 @@ const Signup = (props) => {
       setIsId(false);
     } else {
       setIdMessage("중복확인이 필요합니다.:)");
+
       // setIsId(true);
     }
   };
-  //---- 아이디 중복  표시  ----
+  //---- 아이디 중복  버튼 클릭시   ----
   const isIdCheck = () => {
-    if (!isIdResponse) {
-      setIdMessage("이미 있는 아이디 입니다.");
-      setIsId(false);
+    if (id.length < 3 || id.length > 10) {
+      setIdMessage("3글자 이상 10글자 미만으로 입력해주세요.");
+      return;
     } else {
-      setIdMessage("사용할 수 있는 아이디 입니다.");
-      setIsId(true);
+      setIdMessage("중복확인이 필요합니다.:)");
+      dispatch(userActions.signUpIdCheckDB(id));
+      // setIsId(true);
     }
+    // if (!isIdResponse) {
+    //   setIdMessage("이미 있는 아이디 입니다.");
+    //   // setIsId(false);
+    // } else {
+    //   setIdMessage("사용할 수 있는 아이디 입니다.");
+    //   setIsId(true);
+    // }
   };
   //---- 비밀번호 유효성 검사  ----
   const onChangePassword = (e) => {

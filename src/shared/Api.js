@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "요청보낼 서버 도메인",
+  baseURL: "http://52.78.31.61:8080/",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -34,14 +34,13 @@ export const apis = {
   // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
   // user
-  login: (id, pwd) => api.post("/user/login", { nickaname: id, password: pwd }),
+  login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
   signup: (id, email, pwd) =>
     api.post("/user/signup", {
       nickname: id,
       email: email,
       password: pwd,
     }),
-  signupId: (id) =>
-    api.post("/user/nickname/duplicate", { nickaname: id }),
+  signupId: (id) => api.post("/user/nickname/duplicate", { nickname: id }),
   logout: () => api.get("/api/logout"),
 };
