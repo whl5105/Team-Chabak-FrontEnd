@@ -18,7 +18,7 @@ const initialState = {
   nickname: "suin",
   // username: null,
   // email: null,
-  is_login: true, //로그인 확인
+  is_login: false, //로그인 확인
   response: true, //닉네임 중복 확인
 };
 

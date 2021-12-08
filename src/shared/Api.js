@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "요청보낼 서버 도메인",
+  baseURL: "http://52.78.31.61:8080/",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -41,7 +41,6 @@ export const apis = {
       email: email,
       password: pwd,
     }),
-  signupId: (id) =>
-    api.post("/user/nickname/duplicate", { nickaname: id }),
+  signupId: (id) => api.post("/user/nickname/duplicate", { nickaname: id }),
   logout: () => api.get("/api/logout"),
 };

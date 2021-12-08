@@ -18,7 +18,7 @@ function App() {
   return (
     <React.Fragment>
       <Header></Header>
-      <Grid margin="100px auto">
+      <Grid margin="100px auto" bg="#ffffff">
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />
