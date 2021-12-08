@@ -74,14 +74,20 @@ const setLoginDB = (id, pwd) => {
 //---- 로그아웃 DB ----
 const logOutDB = () => {
   return function (dispatch, getState, { history }) {
-
-    apis.logout().then((res) => {
-      deleteCookie("is_login");
-      localStorage.removeItem("username");
-      dispatch(logOut());
-      history.replace("/");
-    });
-
+    apis
+      .logout()
+      .then((res) => {
+        deleteCookie("is_login");
+        localStorage.removeItem("username");
+        dispatch(logOut());
+        history.replace("/");
+      })
+      .catch((err) => {
+        deleteCookie("is_login");
+        localStorage.removeItem("username");
+        dispatch(logOut());
+        history.replace("/");
+      });
   };
 };
 
