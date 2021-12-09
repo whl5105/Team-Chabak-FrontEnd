@@ -19,6 +19,7 @@ const initialState = {
   // username: null,
   // email: null,
   is_login: false, //로그인 확인
+
   response: null, //닉네임 중복 확인
 };
 

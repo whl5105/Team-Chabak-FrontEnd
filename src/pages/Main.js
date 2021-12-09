@@ -21,53 +21,45 @@ const Main = (props) => {
 
   React.useEffect(() => {
     if (post_list.length === 0) {
-      dispatch(postActions.getPostDB(0));
+      dispatch(postActions.getPostDB());
     }
   }, []);
   console.log(props);
   return (
     <React.Fragment>
-      <InfinityScroll
+      {/* <InfinityScroll
         callNext={() => {
-          console.log("next!");
-          dispatch(postActions.getPostDB(paging.next));
+          dispatch(postActions.getPostDB());
         }}
         // is_next={paging.next ? true : false}
-        loading={is_loading}
-      >
-        {post_list.map((p, idx) => {
-          if (p.nickname) {
-            return (
-              <Grid
-                key={idx}
-                _onClick={() => {
-                  history.push(`/detail/${idx}`);
-                }}
-              >
-                <Post {...p} is_me></Post>
-              </Grid>
-            );
-          } else {
-            return (
-              <Grid
-                key={idx}
-                _onClick={() => {
-                  history.push(`/detail/${idx}`);
-                }}
-              >
-                <Post {...p}></Post>
-              </Grid>
-            );
-          }
-        })}
-      </InfinityScroll>
-      <Button
-        _onClick={() => {
-          dispatch(postActions.getPostDB(paging.next));
-        }}
-      >
-        클릭
-      </Button>
+        // loading={is_loading}
+      > */}
+      {post_list.map((p, idx) => {
+        if (p.nickname) {
+          return (
+            <Grid
+              key={idx}
+              _onClick={() => {
+                history.push(`/detail/${idx}`);
+              }}
+            >
+              <Post {...p} is_me></Post>
+            </Grid>
+          );
+        } else {
+          return (
+            <Grid
+              key={idx}
+              _onClick={() => {
+                history.push(`/detail/${idx}`);
+              }}
+            >
+              <Post {...p}></Post>
+            </Grid>
+          );
+        }
+      })}
+      {/* </InfinityScroll> */}
     </React.Fragment>
   );
 };
