@@ -7,6 +7,7 @@ import Post from "../components/Post";
 import InfinityScroll from "../shared/InfinityScroll";
 
 import api from "../api/posts";
+import { Button } from "@mui/material";
 
 const Main = (props) => {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ const Main = (props) => {
   const paging = useSelector((state) => state.post.paging);
   //리덕스 관리
   // console.log(post_list[0]);
-
   console.log(post_list);
+
   React.useEffect(() => {
     if (post_list.length === 0) {
       dispatch(postActions.getPostDB(0));
@@ -28,10 +29,11 @@ const Main = (props) => {
     <React.Fragment>
       <InfinityScroll
         callNext={() => {
-          dispatch(postActions.getPostDB(post_num + 1));
+          console.log("next!");
+          dispatch(postActions.getPostDB(paging.next));
         }}
         // is_next={paging.next ? true : false}
-        // loading={is_loading}
+        loading={is_loading}
       >
         {post_list.map((p, idx) => {
           if (p.nickname) {
@@ -39,7 +41,7 @@ const Main = (props) => {
               <Grid
                 key={idx}
                 _onClick={() => {
-                  history.push(`/detail/${idx + 1}`);
+                  history.push(`/detail/${idx}`);
                 }}
               >
                 <Post {...p} is_me></Post>
@@ -50,7 +52,7 @@ const Main = (props) => {
               <Grid
                 key={idx}
                 _onClick={() => {
-                  history.push(`/detail/${idx + 1}`);
+                  history.push(`/detail/${idx}`);
                 }}
               >
                 <Post {...p}></Post>
@@ -59,6 +61,13 @@ const Main = (props) => {
           }
         })}
       </InfinityScroll>
+      <Button
+        _onClick={() => {
+          dispatch(postActions.getPostDB(paging.next));
+        }}
+      >
+        클릭
+      </Button>
     </React.Fragment>
   );
 };
