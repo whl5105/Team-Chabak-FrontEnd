@@ -6,6 +6,7 @@ import "moment";
 import { ActionCreators as imageActions } from "./image";
 import { Sync } from "@mui/icons-material";
 
+import api from "../../api/posts";
 // ---- actions type ----
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
@@ -71,9 +72,30 @@ const initialPost = {
 };
 
 // ---- middleware actions ----
+// const fatchPosts = async (dispatch, getState) => {
+//   try {
+//     const response = await api.get("/list");
+//     // console.log(response);
+//     // console.log(response.data);
+//     const post_list = response.data;
+//     dispatch(getPost(post_list));
+//     // setPosts(response.data);
+//     // console.log(posts);
+//   } catch (err) {
+//     // if (err.response) {
+//     //   //Not in the 200 response range
+//     //   console.log(err.response.data);
+//     //   console.log(err.response.status);
+//     //   console.log(err.response.headers);
+//     // } else {
+//     //   console.log(`Error:${err.response.data}`);
+//     // }
+//   }
+// };
+
 //-- getPostDB(DB 데이터 가져오기) --
 
-//로드
+// 로드;
 export const getPostDB =
   () =>
   async (dispatch, getState, { history }) => {
@@ -212,6 +234,7 @@ const actionCreators = {
   addPostDB,
   editPostDB,
   deletePostDB,
+  // fatchPosts,
 };
 
 export { actionCreators };

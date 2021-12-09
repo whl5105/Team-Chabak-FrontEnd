@@ -59,7 +59,13 @@ const Login = (props) => {
         {/* -- 소셜 로그인 -- */}
         <Grid>
           <Text>소셜 계정으로 로그인</Text>
-          <Button text="카카오 로그인"></Button>
+          <Button
+            text="카카오 로그인"
+            _onClick={() => {
+              window.location.href =
+                "https://kauth.kakao.com/oauth/authorize?client_id=5e5973832c7a103d67abc5842198fde4&redirect_uri=http://52.78.31.61:8080/user/kakao/callback&response_type=code ";
+            }}
+          ></Button>
         </Grid>
       </Grid>
     </React.Fragment>

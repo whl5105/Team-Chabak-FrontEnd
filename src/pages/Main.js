@@ -5,6 +5,8 @@ import { history } from "../redux/configureStore";
 import { actionCreators as postActions } from "../redux/modules/post";
 import Post from "../components/Post";
 
+import api from "../api/posts";
+
 const Main = (props) => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
@@ -15,6 +17,7 @@ const Main = (props) => {
   console.log(post_list);
   React.useEffect(() => {
     dispatch(postActions.getPostDB);
+    // dispatch(postActions.fatchPosts);
   }, []);
   console.log(props);
   return (

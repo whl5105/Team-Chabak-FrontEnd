@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // import { BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
@@ -18,7 +18,7 @@ function App() {
   return (
     <React.Fragment>
       <Header></Header>
-      <Grid margin="100px auto" bg="#ffffff">
+      <Grid margin="0 auto" bg="#ffffff" height="100vh">
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />

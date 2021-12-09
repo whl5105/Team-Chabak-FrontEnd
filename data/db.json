@@ -1,0 +1,25 @@
+{
+  "list":[ 
+    {
+      "id": 1,
+      "location": "경기도",
+      "content": "여기 짱입니다",
+      "image": "이미지URL",
+      "nickname": "수인"
+    },
+    {
+      "id": 2,
+      "location": "강원도",
+      "content": "여기 짱입니다",
+      "image": "이미지URL",
+      "nickname": "수인"
+    },
+    {
+      "id": 3,
+      "location": "충청도",
+      "content": "여기 짱입니다",
+      "image": "이미지URL",
+      "nickname": "수인"
+    }
+    ]
+}
