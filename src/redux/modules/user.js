@@ -18,7 +18,7 @@ const initialState = {
   nickname: "suin",
   // username: null,
   // email: null,
-  is_login: false, //로그인 확인
+  is_login: true, //로그인 확인
 
   response: false, //닉네임 중복 확인
 };
@@ -40,10 +40,10 @@ const initialState = {
 // };
 //---- 회원가입 DB ----
 export const signUpDB =
-  (id, email, pwd) =>
+  (id, pwd, email) =>
   async (dispatch, getState, { history }) => {
     try {
-      const response = await apis.signup(id, email, pwd);
+      const response = await apis.signup(id, pwd, email);
       console.log(response.data);
     } catch (err) {
       console.log(`오류 발생!${err}`);

@@ -24,7 +24,7 @@ const PostWrite = (props) => {
   const is_edit = post_id ? true : false;
 
   let _post = is_edit ? post_list.find((p) => p.post_id === Number(post_id)) : null;
-  console.log(_post);
+  // console.log(_post);
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
   
@@ -107,6 +107,8 @@ const PostWrite = (props) => {
   const addPost = () => {
     const formData = new FormData();
     formData.append('img', imageFile);
+    console.log(formData.has('img'));
+    console.log(formData.get('img'));
     dispatch(postActions.addPostDB(content, location, formData));
   };
 

@@ -126,11 +126,12 @@ export const addPostDB =
   (_content, _location, formData) =>
   async (dispatch, getState, { history }) => {
     try {
-      console.log(formData);
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
-      const multipartFile = formData;
-
+      const multipartFile = formData.get('img');
+      console.log(multipartFile);
+      console.log(multipartFile.has('img'))
+      console.log(multipartFile.get('img'))
       const _post = {
         ...initialPost,
         content: _content,
@@ -141,7 +142,7 @@ export const addPostDB =
 
       const { content, location, nickname } = _post;
 
-      await apis.add(location, content, multipartFile, nickname);
+      // await apis.add(location, content, multipartFile, nickname);
       console.log("yes");
 
       dispatch(addPost(_post));
@@ -171,17 +172,11 @@ export const editPostDB =
         (p) => p.id === Number(post_id)
       );
 
-      const post = getState().post.list[post_idx];
-      if (image_url === post.image_url && location === post.location) {
-        // await apis.add(post.location, content, post_id);
-
-        dispatch(editPost(post_id, { ...content }));
-      } else {
-        // await apis.eidt(post.location, content, multipartFile, post_id)
-        dispatch(
-          editPost(post_id, { ...content, ...location, image_url: image_url })
-        );
-      }
+      
+      // await apis.eidt(post.location, content, multipartFile, post_id)
+      dispatch(
+        editPost(post_id, { ...content, ...location, image_url: image_url })
+      );
 
       history.replace("/");
       dispatch(imageActions.setPreview(null));
