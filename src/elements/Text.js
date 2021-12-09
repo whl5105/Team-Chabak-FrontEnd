@@ -1,8 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 const Text = (props) => {
-  const { bold, color, size, margin, children, center, is_text, __onClick } =
-    props;
+  const {
+    bold,
+    color,
+    size,
+    margin,
+    children,
+    center,
+    is_text,
+    __onClick,
+    is_sns,
+  } = props;
 
   const styles = {
     bold: bold,
@@ -16,6 +25,10 @@ const Text = (props) => {
 
   if (is_text) {
     return <Div onClick={__onClick}>Chabak</Div>;
+  }
+  //---- 소셜 로그인 ----
+  if (is_sns) {
+    return <Sns onClick={__onClick}>소셜 계정으로 로그인 </Sns>;
   }
 
   return (
@@ -51,4 +64,27 @@ const Div = styled.div`
     cursor: pointer;
   }
 `;
+const Sns = styled.div`
+  text-align: center;
+  padding: 20px 0;
+  &::before {
+    position: absolute;
+    top: 28px;
+    left: 50px;
+    width: 108px;
+    height: 1px;
+    content: "";
+    background: #eee;
+  }
+  &::after {
+    position: absolute;
+    top: 28px;
+    right: 50px;
+    width: 108px;
+    height: 1px;
+    content: "";
+    background: #eee;
+  }
+`;
+
 export default Text;

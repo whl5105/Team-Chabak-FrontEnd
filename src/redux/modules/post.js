@@ -100,9 +100,9 @@ export const getPostDB =
   () =>
   async (dispatch, getState, { history }) => {
     try {
-      const { post_list } = await apis.boards();
+      const post_list = await apis.boards();
       console.log(post_list);
-      dispatch(getPost(post_list));
+      // dispatch(getPost(post_list));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
     }
