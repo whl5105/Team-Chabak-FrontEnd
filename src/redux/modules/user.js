@@ -19,10 +19,6 @@ const initialState = {
   // username: null,
   // email: null,
   is_login: false, //로그인 확인
-<<<<<<< HEAD
-
-=======
->>>>>>> 8a0a87e8d2835950e5975d69ad650c5fde6e6127
   response: null, //닉네임 중복 확인
 };
 
