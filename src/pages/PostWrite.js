@@ -24,7 +24,7 @@ const PostWrite = (props) => {
   const is_edit = post_id ? true : false;
 
   let _post = is_edit ? post_list.find((p) => p.post_id === Number(post_id)) : null;
-  console.log(_post);
+  // console.log(_post);
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
   

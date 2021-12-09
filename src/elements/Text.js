@@ -43,7 +43,7 @@ const P = styled.p`
 `;
 
 const Div = styled.div`
-  color: #3974d9;
+  color: aliceblue;
   font-size: 2em;
   font-weight: 800;
   &:hover {

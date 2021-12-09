@@ -15,9 +15,8 @@ const LOADING = "LOADING";
 // const DELETE_POST = "DELETE_POST";
 
 // ---- action creators ----
-const getPost = createAction(GET_POST, (post_list, paging) => ({
+const getPost = createAction(GET_POST, (post_list) => ({
   post_list,
-  paging,
 }));
 const addPost = createAction(ADD_POST, (post) => ({
   post,
@@ -32,41 +31,16 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 
 // ---- initialState ----
 const initialState = {
-  list: [
-    // {
-    //   post_id: 0,
-    //   location: "경기도",
-    //   content: "넘모 좋아요",
-    //   image_url:
-    //     "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-    //   nickname: "김차박",
-    //   createdAt: "2021-12-06",
-    // },
-    // {
-    //   post_id: 1,
-    //   location: "화성1",
-    //   content: "넘모오 좋아요",
-    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-    //   nickname: "김차박1",
-    //   createdAt: "2021-12-06",
-    // },
-    // {
-    //   post_id: 2,
-    //   location: "화성2",
-    //   content: "넘모오오 좋아요",
-    //   image_url: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-    //   nickname: "김차박2",
-    //   createdAt: "2021-12-06",
-    // },
-  ],
+  list: [],
   paging: { start: null, next: null, size: 3 },
   is_loading: false,
+  pageNum: 1,
 };
 
 const initialPost = {
   id: 1,
   location: "",
-  image_url: null,
+  image: null,
   content: "",
   nickname: "",
 };
@@ -97,12 +71,13 @@ const initialPost = {
 
 // 로드;
 export const getPostDB =
-  () =>
+  (pageNum) =>
   async (dispatch, getState, { history }) => {
     try {
-      const { post_list } = await apis.boards();
-      console.log(post_list);
-      dispatch(getPost(post_list));
+      console.log("목록 불러오기 성공");
+      const postlist = await apis.boards(pageNum);
+      console.log(postlist);
+      dispatch(getPost(postlist.data.content));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
     }
@@ -142,6 +117,7 @@ export const addPostDB =
       const { content, location, nickname } = _post;
 
       await apis.add(location, content, multipartFile, nickname);
+
       console.log("yes");
 
       dispatch(addPost(_post));
