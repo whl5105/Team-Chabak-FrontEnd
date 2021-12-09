@@ -1,10 +1,10 @@
 import React from "react";
+import styled from "styled-components";
 import { userCreators as userActions } from "../redux/modules/user";
 import { Text, Input, Grid, Button } from "../elements";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-// import { style } from "@mui/system";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const Signup = (props) => {
   const [emailMessage, setEmailMessage] = React.useState("");
 
   // 유효성 검사
-  const [isId, setIsId] = React.useState(true);
+  const [isId, setIsId] = React.useState(false);
   const [isPassword, setIsPassword] = React.useState(false);
   const [isPwdCheck, setIsPwdCheck] = React.useState(false);
   const [isEmail, setIsEmail] = React.useState(false);
@@ -57,11 +57,12 @@ const Signup = (props) => {
       // setIsId(true);
     }
     if (isIdResponse) {
+      console.log(`리덕스-isIdResponse  : ` + isIdResponse);
       setIdMessage("이미 있는 아이디 입니다.");
       setIsId(false);
     } else {
       setIdMessage("사용할 수 있는 아이디 입니다.");
-      // setIsId(true);
+      setIsId(true);
     }
   };
   //---- 비밀번호 유효성 검사  ----
@@ -120,58 +121,79 @@ const Signup = (props) => {
   return (
     <div>
       <Grid>
-        <Text bold size="30px" color="333">
+        <Text bold size="30px" color="333" center>
           회원가입
         </Text>
         {/* -- 아이디 --  */}
         <Grid>
           <Grid is_flex>
             <Input
+              bginput
               label="아이디"
               placeholder="3~10자로 입력해주세요."
               _onChange={idCheck}
             ></Input>
-            <Button text="중복확인" _onClick={isIdCheck}></Button>
+            <Button
+              text="중복확인"
+              _onClick={isIdCheck}
+              width="30%"
+              margin="11px 0 0 10px"
+              radius="10px"
+              opacity="0.8"
+            ></Button>
           </Grid>
-          {id.length > 0 && <span>{idMessage}</span>}
+          {id.length > 0 && <Span>{idMessage}</Span>}
         </Grid>
         {/* -- 비밀번호 --  */}
         <Grid>
           <Input
+            bginput
             type="password"
             label="비밀번호"
             placeholder="8~16자 영문 대 소문자, 숫자"
             _onChange={onChangePassword}
           ></Input>
 
-          {pwd.length > 0 && <span>{pwdMessage}</span>}
-          <span>{setIdMessage}</span>
+          {pwd.length > 0 && <Span>{pwdMessage}</Span>}
+          {/* <span>{setIdMessage}</span> */}
         </Grid>
         {/* -- 비밀번호 확인 -- */}
         <Grid>
           <Input
+            bginput
             type="password"
             label="비밀번호 확인"
             placeholder="비밀번호를 한번 더 입력해주세요"
             _onChange={onChangePasswordCheck}
           ></Input>
-          {pwd_check.length > 0 && <span>{pwdCheckMessage}</span>}
+          {pwd_check.length > 0 && <Span>{pwdCheckMessage}</Span>}
         </Grid>
         {/* -- 이메일 -- */}
         <Grid>
           <Input
+            bginput
             label="이메일"
             type="email"
             placeholder="이메일을 입력해주세요"
             _onChange={onChangeEmail}
           ></Input>
-          {email.length > 0 && <span>{emailMessage}</span>}
+          {email.length > 0 && <Span>{emailMessage}</Span>}
         </Grid>
 
-        <Button text="회원가입" _onClick={signUpClick}></Button>
+        <Button
+          text="회원가입"
+          _onClick={signUpClick}
+          radius="10px"
+          margin="20px 0 0 0"
+        ></Button>
       </Grid>
     </div>
   );
 };
+const Span = styled.span`
+  margin-bottom: 12px;
+  display: flex;
+  font-size: 14px;
+`;
 
 export default Signup;

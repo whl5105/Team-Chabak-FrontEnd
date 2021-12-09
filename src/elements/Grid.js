@@ -16,6 +16,7 @@ const Grid = (props) => {
     _onClick,
     position,
     justify,
+    height,
   } = props;
 
   const styles = {
@@ -28,6 +29,9 @@ const Grid = (props) => {
     center: center,
     position: position,
     justify: justify,
+    height: height,
+    position: position,
+
   };
 
   return (
@@ -51,17 +55,20 @@ Grid.defaultProps = {
   _onClick: () => {},
   position: false,
   justify: false,
+  height: false,
 };
 
 const GridBox = styled.div`
   max-width: 500px;
   width: ${(props) => props.width};
   box-sizing: border-box;
+  ${(props) => (props.height ? `height: ${props.height};` : "")}
   ${(props) => (props.justify ? `justify-content: ${props.justify};` : "")}
   ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
   ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
   ${(props) => (props.is_flex ? "display: flex; align-items: center;" : "")}
   ${(props) => (props.position ? `position: ${props.position};` : "")}
+  
 `;
 export default Grid;
