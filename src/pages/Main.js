@@ -7,6 +7,7 @@ import Post from "../components/Post";
 import InfinityScroll from "../shared/InfinityScroll";
 
 import api from "../api/posts";
+import { Button } from "@mui/material";
 
 const Main = (props) => {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ const Main = (props) => {
   const paging = useSelector((state) => state.post.paging);
   //리덕스 관리
   // console.log(post_list[0]);
-
   console.log(post_list);
+
   React.useEffect(() => {
     if (post_list.length === 0) {
       dispatch(postActions.getPostDB());

@@ -14,7 +14,7 @@ const LOADING = "LOADING";
 // const DELETE_POST = "DELETE_POST";
 
 // ---- action creators ----
-const getPost = createAction(GET_POST, (post_list) => ({
+const getPost = createAction(GET_POST, (post_list, paging) => ({
   post_list,
 }));
 const addPost = createAction(ADD_POST, (post) => ({
@@ -31,10 +31,12 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // ---- initialState ----
 const initialState = {
   list: [],
+
   // paging: { start: null, next: null, size: 3 },
   // is_loading: false,
   pageNum: 0,
 };
+//만약에 4개를 불러왔으면 3개 다음으로 무언가 있기때문에
 
 const initialPost = {
   id: 1,
@@ -73,10 +75,13 @@ export const getPostDB =
   () =>
   async (dispatch, getState, { history }) => {
     try {
+      // dispatch(loading(true));
       console.log("목록 불러오기 성공");
       const postlist = await apis.boards();
+
       console.log(postlist);
       dispatch(getPost(postlist.data));
+
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
     }
