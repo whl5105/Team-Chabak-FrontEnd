@@ -1,3 +1,4 @@
+import { height } from "@mui/system";
 import React from "react";
 
 import styled from "styled-components";
@@ -6,6 +7,7 @@ const Grid = (props) => {
   const {
     is_flex,
     width,
+    hright,
     padding,
     margin,
     bg,
@@ -19,6 +21,7 @@ const Grid = (props) => {
   const styles = {
     is_flex: is_flex,
     width: width,
+    height: height,
     margin: margin,
     padding: padding,
     bg: bg,
@@ -40,6 +43,7 @@ Grid.defaultProps = {
   children: null,
   is_flex: false,
   width: "100%",
+  height: false,
   padding: false,
   margin: false,
   bg: false,
@@ -52,7 +56,6 @@ Grid.defaultProps = {
 const GridBox = styled.div`
   max-width: 500px;
   width: ${(props) => props.width};
-  height: 100%;
   box-sizing: border-box;
   ${(props) => (props.justify ? `justify-content: ${props.justify};` : "")}
   ${(props) => (props.padding ? `padding: ${props.padding};` : "")}

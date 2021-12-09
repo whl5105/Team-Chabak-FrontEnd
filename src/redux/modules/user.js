@@ -21,35 +21,16 @@ const initialState = {
   is_login: false, //로그인 확인
 
   response: false, //닉네임 중복 확인
-
 };
 
 //---- 회원가입 DB ----
-const signUpDB = (id, email, pwd) => {
-  return function (dispatch, getState, { history }) {
-    apis
-      .signup(id, email, pwd)
-      .then(function (response) {
-        //회원가입 확인
-        console.log(response);
-      })
-      .catch(function (error) {
-        //회원가입 에러
-        console.log(error);
-      });
-  };
-};
-//---- 회원가입 아이디 확인  DB ----
-// const signUpIdCheckDB = (id) => {
-//   console.log(id);
+// const signUpDB = (id, email, pwd) => {
 //   return function (dispatch, getState, { history }) {
 //     apis
-//       .signupId(id)
+//       .signup(id, email, pwd)
 //       .then(function (response) {
 //         //회원가입 확인
-//         //response: true or false;
 //         console.log(response);
-//         dispatch(signupId(response));
 //       })
 //       .catch(function (error) {
 //         //회원가입 에러
@@ -57,17 +38,29 @@ const signUpDB = (id, email, pwd) => {
 //       });
 //   };
 // };
+//---- 회원가입 DB ----
+export const signUpDB =
+  (id, email, pwd) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      const response = await apis.signup(id, email, pwd);
+      console.log(response.data);
+    } catch (err) {
+      console.log(`오류 발생!${err}`);
+    }
+  };
 
-//-------
+
+//----회원가입 아이디 확인 ----
 export const signUpIdCheckDB =
   (id) =>
   async (dispatch, getState, { history }) => {
     try {
-      const { response } = await apis.signupId(id);
+      const response = await apis.signupId(id);
       console.log(response);
+      // dispatch(signupId(response));
     } catch (err) {
       console.log(`조회 오류 발생!${err}`);
-      
     }
   };
 
@@ -96,7 +89,7 @@ const logoutDB = () => {
     apis
       .logout()
       .then((res) => {
-        deleteCookie("is_login");
+        deleteCookie("token");
 
         // localStorage.removeItem("username");
         dispatch(logout());
@@ -105,7 +98,6 @@ const logoutDB = () => {
       .catch((err) => {
         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
         //빨간색 표시 알림
-        deleteCookie("is_login");
       });
   };
 };

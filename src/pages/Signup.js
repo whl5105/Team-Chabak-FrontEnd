@@ -27,10 +27,11 @@ const Signup = (props) => {
   const [emailMessage, setEmailMessage] = React.useState("");
 
   // 유효성 검사
-  const [isId, setIsId] = React.useState(false);
+  const [isId, setIsId] = React.useState(true);
   const [isPassword, setIsPassword] = React.useState(false);
   const [isPwdCheck, setIsPwdCheck] = React.useState(false);
   const [isEmail, setIsEmail] = React.useState(false);
+  console.log(isId, isPassword, isPwdCheck, isEmail);
 
   //---- 아이디 유효성 검사  ----
   const idCheck = (e) => {
@@ -38,7 +39,7 @@ const Signup = (props) => {
     setId(idCurrent);
     if (id.length < 3 || id.length > 10) {
       setIdMessage("3글자 이상 10글자 미만으로 입력해주세요.");
-      setIsId(false);
+      // setIsId(false);
     } else {
       setIdMessage("중복확인이 필요합니다.:)");
 
@@ -53,7 +54,7 @@ const Signup = (props) => {
     } else {
       setIdMessage("중복확인이 필요합니다.:)");
       dispatch(userActions.signUpIdCheckDB(id));
-      // setIsId(true);
+      setIsId(true);
     }
     // if (!isIdResponse) {
     //   setIdMessage("이미 있는 아이디 입니다.");
