@@ -31,9 +31,9 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // ---- initialState ----
 const initialState = {
   list: [],
-  paging: { start: null, next: null, size: 3 },
-  is_loading: false,
-  pageNum: 1,
+  // paging: { start: null, next: null, size: 3 },
+  // is_loading: false,
+  pageNum: 0,
 };
 
 const initialPost = {
@@ -70,13 +70,13 @@ const initialPost = {
 
 // 로드;
 export const getPostDB =
-  (pageNum) =>
+  () =>
   async (dispatch, getState, { history }) => {
     try {
       console.log("목록 불러오기 성공");
-      const postlist = await apis.boards(pageNum);
+      const postlist = await apis.boards();
       console.log(postlist);
-      dispatch(getPost(postlist.data.content));
+      dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
     }

@@ -27,7 +27,7 @@ export const apis = {
   edit: (location, content, multipartFile, id) =>
     api.put(`/api/board/detail/${id}`, {location, content, multipartFile}),
   del: (id) => api.delete(`/api/board/detail/${id}`),
-  boards: (pageNum) => api.get(`/api/board/${pageNum}`),
+  boards: () => api.get(`/api/board/`),
   board: (id) => api.get(`/api/board/detail/${id}`),
 
   // comment
