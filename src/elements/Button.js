@@ -11,6 +11,10 @@ const Button = (props) => {
     padding,
     text_color,
     disabled,
+    radius,
+    bgcolor,
+    opacity,
+    color,
   } = props;
 
   const styles = {
@@ -18,7 +22,12 @@ const Button = (props) => {
     width: width,
     padding: padding,
     disabled: disabled,
+    radius: radius,
+    bgcolor: bgcolor,
+    opacity: opacity,
+    color: color,
   };
+
   if (text_color) {
     return (
       <React.Fragment>
@@ -47,6 +56,10 @@ Button.defaultProps = {
   width: "100%",
   padding: "12px 0px",
   disabled: false,
+  radius: false,
+  bgcolor: false,
+  opacity: 1,
+  color: "#ffffff",
 };
 //---- 기본 return Button ----
 const ElButton = styled.button`
@@ -69,14 +82,19 @@ const ElButton = styled.button`
 const RoundButton = styled.button`
   width: ${(props) => props.width};
   font-weight: 800;
-  background-color: #3974d9;
-  color: #ffffff;
+  ${(props) =>
+    props.bgcolor
+      ? `background-color: ${props.bgcolor};`
+      : "background-color:#3974d9"};
+  ${(props) => (props.color ? `color: ${props.color};` : "color:$ffffff")};
   padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: none;
-  border-radius: 20px;
+  ${(props) =>
+    props.radius ? `border-radius: ${props.radius};` : "border-radius:20px"};
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")};
   position: ${(props) => (props.position ? `${props.position}` : "")};
+  opacity: ${(props) => (props.opacity ? `${props.opacity}` : "")};
   &:hover {
     opacity: 0.8;
     cursor: pointer;
