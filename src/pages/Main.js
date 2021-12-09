@@ -20,45 +20,45 @@ const Main = (props) => {
   console.log(post_list);
   React.useEffect(() => {
     if (post_list.length === 0) {
-      dispatch(postActions.getPostDB(0));
+      dispatch(postActions.getPostDB());
     }
   }, []);
   console.log(props);
   return (
     <React.Fragment>
-      <InfinityScroll
+      {/* <InfinityScroll
         callNext={() => {
-          dispatch(postActions.getPostDB(post_num + 1));
+          dispatch(postActions.getPostDB());
         }}
         // is_next={paging.next ? true : false}
         // loading={is_loading}
-      >
-        {post_list.map((p, idx) => {
-          if (p.nickname) {
-            return (
-              <Grid
-                key={idx}
-                _onClick={() => {
-                  history.push(`/detail/${idx + 1}`);
-                }}
-              >
-                <Post {...p} is_me></Post>
-              </Grid>
-            );
-          } else {
-            return (
-              <Grid
-                key={idx}
-                _onClick={() => {
-                  history.push(`/detail/${idx + 1}`);
-                }}
-              >
-                <Post {...p}></Post>
-              </Grid>
-            );
-          }
-        })}
-      </InfinityScroll>
+      > */}
+      {post_list.map((p, idx) => {
+        if (p.nickname) {
+          return (
+            <Grid
+              key={idx}
+              _onClick={() => {
+                history.push(`/detail/${idx}`);
+              }}
+            >
+              <Post {...p} is_me></Post>
+            </Grid>
+          );
+        } else {
+          return (
+            <Grid
+              key={idx}
+              _onClick={() => {
+                history.push(`/detail/${idx}`);
+              }}
+            >
+              <Post {...p}></Post>
+            </Grid>
+          );
+        }
+      })}
+      {/* </InfinityScroll> */}
     </React.Fragment>
   );
 };
