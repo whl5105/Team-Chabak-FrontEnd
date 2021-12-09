@@ -24,6 +24,7 @@ const Header = (props) => {
             left: "0",
             zIndex: "1",
             backgroundColor: "#ffffff",
+            borderBottom: "1px solid #eee",
           }}
         >
           <Grid is_flex margin=" 0px auto">
@@ -69,6 +70,7 @@ const Header = (props) => {
           left: "0",
           zIndex: "1",
           backgroundColor: "#ffffff",
+          borderBottom: "1px solid #eee",
         }}
       >
         <Grid is_flex margin=" 0px auto">

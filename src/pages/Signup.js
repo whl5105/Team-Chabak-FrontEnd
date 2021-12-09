@@ -12,6 +12,7 @@ const Signup = (props) => {
 
   // const isLogin = useSelector((store) => store.user.is_login);
   const isIdResponse = useSelector((store) => store.user.response);
+  console.log(isIdResponse);
 
   //-- 아아디, 비밀번호, 비밀번호확인 , 이메일  --
   const [id, setId] = React.useState("");
@@ -26,10 +27,11 @@ const Signup = (props) => {
   const [emailMessage, setEmailMessage] = React.useState("");
 
   // 유효성 검사
-  const [isId, setIsId] = React.useState(false);
+  const [isId, setIsId] = React.useState(true);
   const [isPassword, setIsPassword] = React.useState(false);
   const [isPwdCheck, setIsPwdCheck] = React.useState(false);
   const [isEmail, setIsEmail] = React.useState(false);
+  console.log(isId, isPassword, isPwdCheck, isEmail);
 
   //---- 아이디 유효성 검사  ----
   const idCheck = (e) => {
@@ -37,14 +39,23 @@ const Signup = (props) => {
     setId(idCurrent);
     if (id.length < 3 || id.length > 10) {
       setIdMessage("3글자 이상 10글자 미만으로 입력해주세요.");
-      setIsId(false);
+      // setIsId(false);
     } else {
       setIdMessage("중복확인이 필요합니다.:)");
+
       // setIsId(true);
     }
   };
-  //---- 아이디 중복  표시  ----
+  //---- 아이디 중복  버튼 클릭시   ----
   const isIdCheck = () => {
+    if (id.length < 3 || id.length > 10) {
+      setIdMessage("3글자 이상 10글자 미만으로 입력해주세요.");
+      return;
+    } else {
+      setIdMessage("중복확인이 필요합니다.:)");
+      dispatch(userActions.signUpIdCheckDB(id));
+      setIsId(true);
+    }
     if (isIdResponse) {
       setIdMessage("이미 있는 아이디 입니다.");
       setIsId(false);
