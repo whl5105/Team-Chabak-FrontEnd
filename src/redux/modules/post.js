@@ -129,7 +129,8 @@ export const addPostDB =
       console.log(formData);
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
-      const multipartFile = formData;
+      const multipartFile = formData.get("img");
+      console.log(multipartFile);
 
       const _post = {
         ...initialPost,
@@ -142,6 +143,7 @@ export const addPostDB =
       const { content, location, nickname } = _post;
 
       await apis.add(location, content, multipartFile, nickname);
+
       console.log("yes");
 
       dispatch(addPost(_post));

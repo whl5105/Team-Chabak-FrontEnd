@@ -35,11 +35,11 @@ export const apis = {
 
   // user
   login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
-  signup: (id, email, pwd) =>
+  signup: (id, pwd, email) =>
     api.post("/user/signup", {
       nickname: id,
-      email: email,
       password: pwd,
+      email: email,
     }),
 
   signupId: (id) => api.post("/user/nickname/duplicate", { nickname: id }),
