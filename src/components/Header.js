@@ -19,11 +19,8 @@ const Header = (props) => {
           style={{
             width: "100%",
             padding: "20px 0",
-            position: "fixed",
-            top: "0",
-            left: "0",
-            zIndex: "1",
-            backgroundColor: "#ffffff",
+
+            // backgroundColor: "#ffffff",
             borderBottom: "1px solid #eee",
           }}
         >
@@ -65,12 +62,6 @@ const Header = (props) => {
         style={{
           width: "100%",
           padding: "20px 0",
-          position: "fixed",
-          top: "0",
-          left: "0",
-          zIndex: "1",
-          backgroundColor: "#ffffff",
-          borderBottom: "1px solid #eee",
         }}
       >
         <Grid is_flex margin=" 0px auto">

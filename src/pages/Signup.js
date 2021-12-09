@@ -19,7 +19,7 @@ const Signup = (props) => {
   const [pwd, setPwd] = React.useState("");
   const [pwd_check, setPwdCheck] = React.useState("");
   const [email, setEmail] = React.useState("");
-
+  console.log(email);
   //오류메시지 상태저장
   const [idMessage, setIdMessage] = React.useState("");
   const [pwdMessage, setPwdMessage] = React.useState("");
@@ -54,15 +54,15 @@ const Signup = (props) => {
     } else {
       setIdMessage("중복확인이 필요합니다.:)");
       dispatch(userActions.signUpIdCheckDB(id));
-      setIsId(true);
+      // setIsId(true);
     }
-    // if (!isIdResponse) {
-    //   setIdMessage("이미 있는 아이디 입니다.");
-    //   // setIsId(false);
-    // } else {
-    //   setIdMessage("사용할 수 있는 아이디 입니다.");
-    //   setIsId(true);
-    // }
+    if (isIdResponse) {
+      setIdMessage("이미 있는 아이디 입니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("사용할 수 있는 아이디 입니다.");
+      // setIsId(true);
+    }
   };
   //---- 비밀번호 유효성 검사  ----
   const onChangePassword = (e) => {
@@ -112,7 +112,7 @@ const Signup = (props) => {
   // ---- 회원가입 버튼 클릭 ----
   const signUpClick = () => {
     if (!isId || !isPassword || !isPwdCheck || !isEmail) {
-      window.alert("아이디, 패스워드, 이메일을 정확아게  입력해주세요");
+      window.alert("아이디, 패스워드, 이메일을 정확하게  입력해주세요");
       return;
     }
     dispatch(userActions.signUpDB(id, pwd, email));

@@ -18,9 +18,9 @@ const initialState = {
   nickname: "suin",
   // username: null,
   // email: null,
-  is_login: false, //로그인 확인
+  is_login: true, //로그인 확인
 
-  response: false, //닉네임 중복 확인
+  response: null, //닉네임 중복 확인
 };
 
 //---- 회원가입 DB ----
@@ -40,16 +40,15 @@ const initialState = {
 // };
 //---- 회원가입 DB ----
 export const signUpDB =
-  (id, email, pwd) =>
+  (id, pwd, email) =>
   async (dispatch, getState, { history }) => {
     try {
-      const response = await apis.signup(id, email, pwd);
+      const response = await apis.signup(id, pwd, email);
       console.log(response.data);
     } catch (err) {
       console.log(`오류 발생!${err}`);
     }
   };
-
 
 //----회원가입 아이디 확인 ----
 export const signUpIdCheckDB =
@@ -57,50 +56,81 @@ export const signUpIdCheckDB =
   async (dispatch, getState, { history }) => {
     try {
       const response = await apis.signupId(id);
-      console.log(response);
-      // dispatch(signupId(response));
+      console.log(response.data);
+      dispatch(signupId(response));
     } catch (err) {
       console.log(`조회 오류 발생!${err}`);
     }
   };
-
-//---- 로그인  DB ----
-const loginDB = (id, pwd) => {
-  console.log(id, pwd);
-  return function (dispatch, getState, { history }) {
-    apis
-      .login(id, pwd)
-      .then((res) => {
-        // setCookie("is_login", res.data[1].token, 7);
-        setCookie("token", res.data[1].token, 7);
-        // localStorage.setItem("username", res.data[0].username);
-        dispatch(setLogin({ nickaname: id }));
-        history.replace("/");
-      })
-      .catch((err) => {
-        window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
-        //빨간색 표시 알림
-      });
+//----로그인  ----
+export const loginDB =
+  (id, pwd) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      const response = await apis.login(id, pwd);
+      console.log(response);
+      console.log(response.data);
+      setCookie("token", response.data[1].token, 7);
+      dispatch(setLogin({ nickaname: id }));
+      history.replace("/");
+    } catch (err) {
+      window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
+      console.log(`오류 발생!${err}`);
+    }
   };
-};
-//---- 로그아웃 DB ----
-const logoutDB = () => {
-  return function (dispatch, getState, { history }) {
-    apis
-      .logout()
-      .then((res) => {
-        deleteCookie("token");
 
-        // localStorage.removeItem("username");
-        dispatch(logout());
-        history.replace("/");
-      })
-      .catch((err) => {
-        window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
-        //빨간색 표시 알림
-      });
+// //---- 로그인  DB ----
+// const loginDB = (id, pwd) => {
+//   console.log(id, pwd);
+//   return function (dispatch, getState, { history }) {
+//     apis
+//       .login(id, pwd)
+//       .then((res) => {
+//         // setCookie("is_login", res.data[1].token, 7);
+//         setCookie("token", res.data[1].token, 7);
+//         // localStorage.setItem("username", res.data[0].username);
+//         dispatch(setLogin({ nickaname: id }));
+//         history.replace("/");
+//       })
+//       .catch((err) => {
+//         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
+//         //빨간색 표시 알림
+//       });
+//   };
+// };
+// //---- 로그아웃 DB ----
+// const logoutDB = () => {
+//   return function (dispatch, getState, { history }) {
+//     apis
+//       .logout()
+//       .then((res) => {
+//         deleteCookie("token");
+
+//         // localStorage.removeItem("username");
+//         dispatch(logout());
+//         history.replace("/");
+//       })
+//       .catch((err) => {
+//         window.alert("로그아웃 에러 ");
+//         //빨간색 표시 알림
+//       });
+//   };
+// };
+// ---- 로그아웃 ----
+export const logoutDB =
+  () =>
+  async (dispatch, getState, { history }) => {
+    try {
+      const response = await apis.logout();
+      deleteCookie("token");
+      console.log(response.data);
+      dispatch(logout());
+      history.replace("/");
+      // dispatch(signupId(response));
+    } catch (err) {
+      console.log(`로그아웃  오류 발생!${err}`);
+    }
   };
-};
 
 // const loginCheckDB = () => {
 //   return function (dispatch, getState, { history }) {
