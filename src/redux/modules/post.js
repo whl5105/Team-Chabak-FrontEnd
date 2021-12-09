@@ -6,7 +6,6 @@ import "moment";
 import { ActionCreators as imageActions } from "./image";
 import { Sync } from "@mui/icons-material";
 
-import api from "../../api/posts";
 // ---- actions type ----
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
@@ -123,15 +122,17 @@ export const deletePostDB =
 //-- addPostDB --
 
 export const addPostDB =
-  (_content, _location, formData) =>
+  (_location, _content, formData) =>
   async (dispatch, getState, { history }) => {
     try {
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
-      const multipartFile = formData.get('img');
-      console.log(multipartFile);
-      console.log(multipartFile.has('img'))
-      console.log(multipartFile.get('img'))
+      // const multipartFile = formData;
+      console.log(_location);
+      console.log(_content);
+      // console.log(formData.has("data"));
+      // console.log(formData.get("data"));
+
       const _post = {
         ...initialPost,
         content: _content,
@@ -142,12 +143,13 @@ export const addPostDB =
 
       const { content, location, nickname } = _post;
 
-      // await apis.add(location, content, multipartFile, nickname);
+      await apis.add(formData);
+
       console.log("yes");
 
       dispatch(addPost(_post));
 
-      history.push("/");
+      // history.push("/");
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);

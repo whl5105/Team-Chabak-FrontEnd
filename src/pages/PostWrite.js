@@ -82,7 +82,7 @@ const PostWrite = (props) => {
   /* 이미지 선택 */
   const selectFile = (e) => {
 
-    console.log(fileInput.current.files);
+    // console.log(fileInput.current.files);
 
     const reader = new FileReader();
     const file = fileInput.current.files[0];
@@ -95,21 +95,26 @@ const PostWrite = (props) => {
       if (file) {
         // reader.readAsDataURL(e.target.files[0]);
         setImageFile(file);
-        console.log(file);
+        // console.log(file);
       }
 
     };
-    console.log(imageFile);
+    // console.log(imageFile);
   };
   //---------------------------------
   // };
 
   const addPost = () => {
-    const formData = new FormData();
-    formData.append('img', imageFile);
-    console.log(formData.has('img'));
-    console.log(formData.get('img'));
-    dispatch(postActions.addPostDB(content, location, formData));
+    let formData = new FormData();
+    formData.append('imgFile', imageFile);
+
+    let post_info = [{
+      location: location,
+      content: content,
+    }]
+    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
+    // console.log(formData.get("data"));
+    dispatch(postActions.addPostDB(location, content, formData));
   };
 
   const editPost = () => {

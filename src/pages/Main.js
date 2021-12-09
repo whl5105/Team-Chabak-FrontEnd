@@ -16,7 +16,7 @@ const Main = (props) => {
 
   console.log(post_list);
   React.useEffect(() => {
-    dispatch(postActions.getPostDB);
+    dispatch(postActions.getPostDB());
     // dispatch(postActions.fatchPosts);
   }, []);
   console.log(props);
