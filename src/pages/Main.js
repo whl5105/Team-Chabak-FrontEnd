@@ -3,6 +3,7 @@ import { Grid } from "../elements";
 import { useSelector, useDispatch } from "react-redux";
 import { history } from "../redux/configureStore";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { userCreators as userActions } from "../redux/modules/user";
 import Post from "../components/Post";
 import InfinityScroll from "../shared/InfinityScroll";
 
@@ -22,6 +23,7 @@ const Main = (props) => {
   React.useEffect(() => {
     if (post_list.length === 0) {
       dispatch(postActions.getPostDB());
+      dispatch(userActions.loginCheckDB());
     }
   }, []);
   console.log(props);

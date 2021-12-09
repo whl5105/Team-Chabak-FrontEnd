@@ -15,11 +15,16 @@ import Login from "../pages/Login";
 import PostWrite from "../pages/PostWrite";
 
 function App() {
-
   return (
     <React.Fragment>
       <Header></Header>
-      <Grid margin="0px auto" bg="#ffffff" height="100vh">
+      <Grid
+        margin="0px auto"
+        bg="#ffffff"
+        height="90vh"
+        overflow="scroll"
+        padding="20px"
+      >
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />

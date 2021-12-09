@@ -43,7 +43,7 @@ const Post = (props) => {
             )}
           </Grid>
         </Grid>
-        <Text>{props.content}</Text>
+        {/* <Text>{props.content}</Text> */}
 
         {props.is_me ? (
           <Image shape="rectangle" src={props.image}></Image>

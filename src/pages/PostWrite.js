@@ -1,6 +1,7 @@
 /* eslint-disable no-const-assign */
 /* eslint-disable no-use-before-define */
 import React from "react";
+import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { Grid, Input, Button, Text, Image } from "../elements";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,24 +13,26 @@ import { ActionCreators as imageActions } from "../redux/modules/image";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
-  const preview = useSelector(state => state.image.preview);
+  const preview = useSelector((state) => state.image.preview);
   const [imageFile, setImageFile] = React.useState(null);
   const fileInput = React.useRef();
-  const is_login = useSelector(state => state.user.is_login);
-  const post_list = useSelector(state => state.post.list);
-  const {history} = props;
-  
+  const is_login = useSelector((state) => state.user.is_login);
+  const post_list = useSelector((state) => state.post.list);
+  const { history } = props;
+
   let post_id = props.match.params.id;
 
   const is_edit = post_id ? true : false;
 
-  let _post = is_edit ? post_list.find((p) => p.post_id === Number(post_id)) : null;
+  let _post = is_edit
+    ? post_list.find((p) => p.post_id === Number(post_id))
+    : null;
   // console.log(_post);
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
-  
+
   React.useEffect(() => {
-    if (is_edit && !_post ) {
+    if (is_edit && !_post) {
       console.log("포스트 정보가 없어요!");
       history.goBack();
 
@@ -40,7 +43,6 @@ const PostWrite = (props) => {
       dispatch(imageActions.setPreview(_post.image_url));
     }
   }, []);
-
 
   const onChange = (e) => {
     setContents(e.target.value);
@@ -81,7 +83,6 @@ const PostWrite = (props) => {
 
   /* 이미지 선택 */
   const selectFile = (e) => {
-
     // console.log(fileInput.current.files);
 
     const reader = new FileReader();
@@ -89,7 +90,6 @@ const PostWrite = (props) => {
 
     reader.readAsDataURL(file);
 
-    
     reader.onloadend = () => {
       dispatch(imageActions.setPreview(reader.result));
       if (file) {
@@ -97,7 +97,6 @@ const PostWrite = (props) => {
         setImageFile(file);
         // console.log(file);
       }
-
     };
     // console.log(imageFile);
   };
@@ -106,31 +105,45 @@ const PostWrite = (props) => {
 
   const addPost = () => {
     let formData = new FormData();
-    formData.append('imgFile', imageFile);
+    formData.append("imgFile", imageFile);
 
-    let post_info = [{
-      location: location,
-      content: content,
-    }]
-    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
+    let post_info = [
+      {
+        location: location,
+        content: content,
+      },
+    ];
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(post_info)], { type: "application/json" })
+    );
     // console.log(formData.get("data"));
     dispatch(postActions.addPostDB(location, content, formData));
   };
 
   const editPost = () => {
     const formData = new FormData();
-    formData.append('img', imageFile);
-    dispatch(postActions.editPostDB(post_id, {content: content}, {location: location}, formData));
+    formData.append("img", imageFile);
+    dispatch(
+      postActions.editPostDB(
+        post_id,
+        { content: content },
+        { location: location },
+        formData
+      )
+    );
   };
 
-  if(!is_login) {
-    return(
-      <Grid margin='350px 0'>
-        <Text size='20px' center bold>로그인 후 이용할 수 있습니다.</Text>
-        <Button text='로그인'></Button>
-        <Text size='11px' center color='#999'>
-          아직 회원이 아니신가요?&nbsp;&nbsp;&nbsp; <span style={{textDecoration: 'underline',}}>회원가입하기</span>
-
+  if (!is_login) {
+    return (
+      <Grid margin="350px 0">
+        <Text size="20px" center bold>
+          로그인 후 이용할 수 있습니다.
+        </Text>
+        <Button text="로그인"></Button>
+        <Text size="11px" center color="#999">
+          아직 회원이 아니신가요?&nbsp;&nbsp;&nbsp;{" "}
+          <span style={{ textDecoration: "underline" }}>회원가입하기</span>
         </Text>
       </Grid>
     );
@@ -140,13 +153,20 @@ const PostWrite = (props) => {
     <React.Fragment>
       <Grid>
         <Grid padding="0 0 16px">
-          <Text size="36px">{!is_edit ? "게시글 등록" : "게시글 수정"}</Text>
+          <Text size="36px" bold center="center">
+            {!is_edit ? "게시글 등록" : "게시글 수정"}
+          </Text>
           <Select
             value={location}
             onChange={handleChange}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
-            style={{ borderRadius: "0", border: "1px solid #000" }}
+            style={{
+              width: "100%",
+              borderRadius: "5px",
+              color: "#555",
+              height: "40px",
+            }}
           >
             <MenuItem value="">
               <em>지역을 선택하세요.</em>
@@ -162,9 +182,22 @@ const PostWrite = (props) => {
           </Select>
         </Grid>
 
-        <Grid padding='0 0 16px'>
-          <input type="file" onChange={selectFile} ref={fileInput}/>
-          <Image src={preview? preview: "http://via.placeholder.com/400x300"}/>
+        <Grid padding="0 0 16px">
+          <Filebox>
+            <InputFile value="첨부파일" placeholder="첨부파일" />
+            <InputLabel for="file">파일찾기</InputLabel>
+            <input
+              type="file"
+              id="file"
+              onChange={selectFile}
+              ref={fileInput}
+            />
+            {/* <InputFile /> */}
+          </Filebox>
+
+          <Image
+            src={preview ? preview : "http://via.placeholder.com/400x300"}
+          />
         </Grid>
 
         <Grid padding="0 0 16px">
@@ -188,5 +221,36 @@ const PostWrite = (props) => {
     </React.Fragment>
   );
 };
-
-export default PostWrite
+const InputFile = styled.input`
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 78%;
+  color: #999;
+`;
+const InputLabel = styled.label`
+  display: inline-block;
+  padding: 10px 8px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: #c4c4c4;
+  cursor: pointer;
+  margin-left: 7px;
+  border-radius: 5px;
+`;
+const Filebox = styled.div`
+  margin: 10px 0;
+  overflow: hidden;
+  & input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+`;
+export default PostWrite;
