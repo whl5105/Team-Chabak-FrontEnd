@@ -28,6 +28,7 @@ const Grid = (props) => {
     center: center,
     position: position,
     justify: justify,
+    position: position,
   };
 
   return (
@@ -63,5 +64,6 @@ const GridBox = styled.div`
   ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
   ${(props) => (props.is_flex ? "display: flex; align-items: center;" : "")}
   ${(props) => (props.position ? `position: ${props.position};` : "")}
+  
 `;
 export default Grid;

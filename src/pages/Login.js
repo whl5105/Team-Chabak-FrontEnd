@@ -29,12 +29,13 @@ const Login = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        <Text bold size="30px" color="333">
+        <Text bold size="30px" color="333" center>
           로그인
         </Text>
         {/* -- 아이디 --  */}
         <Grid>
           <Input
+            bginput
             label="아이디"
             placeholder="아이디를 입력해주세요"
             _onChange={(e) => {
@@ -45,6 +46,7 @@ const Login = (props) => {
         {/* -- 비밀번호 --  */}
         <Grid>
           <Input
+            bginput
             type="password"
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
@@ -55,12 +57,15 @@ const Login = (props) => {
         </Grid>
         {id.length > 0 && <span>{Message}</span>}
         {/*--  button --*/}
-        <Button text="로그인" _onClick={login}></Button>
+        <Button text="로그인" _onClick={login} radius="10px"></Button>
         {/* -- 소셜 로그인 -- */}
-        <Grid>
-          <Text>소셜 계정으로 로그인</Text>
+        <Grid position="relative" margin="50px 0">
+          <Text is_sns>소셜 계정으로 로그인</Text>
           <Button
+            radius="10px"
             text="카카오 로그인"
+            bgcolor="#fae100"
+            color="#786a6a"
             _onClick={() => {
               window.location.href =
                 "https://kauth.kakao.com/oauth/authorize?client_id=5e5973832c7a103d67abc5842198fde4&redirect_uri=http://52.78.31.61:8080/user/kakao/callback&response_type=code ";

@@ -16,28 +16,10 @@ const signupId = createAction(SIGNUPID, (id) => ({ id }));
 // ---- initialState ----
 const initialState = {
   nickname: "suin",
-  // username: null,
-  // email: null,
-  is_login: true, //로그인 확인
-
+  is_login: false, //로그인 확인
   response: null, //닉네임 중복 확인
 };
 
-//---- 회원가입 DB ----
-// const signUpDB = (id, email, pwd) => {
-//   return function (dispatch, getState, { history }) {
-//     apis
-//       .signup(id, email, pwd)
-//       .then(function (response) {
-//         //회원가입 확인
-//         console.log(response);
-//       })
-//       .catch(function (error) {
-//         //회원가입 에러
-//         console.log(error);
-//       });
-//   };
-// };
 //---- 회원가입 DB ----
 export const signUpDB =
   (id, pwd, email) =>
@@ -50,7 +32,7 @@ export const signUpDB =
     }
   };
 
-//----회원가입 아이디 확인 ----
+//---- 회원가입 아이디 체크 DB ----
 export const signUpIdCheckDB =
   (id) =>
   async (dispatch, getState, { history }) => {
@@ -62,7 +44,7 @@ export const signUpIdCheckDB =
       console.log(`조회 오류 발생!${err}`);
     }
   };
-//----로그인  ----
+//---- 로그인 DB ----
 export const loginDB =
   (id, pwd) =>
   async (dispatch, getState, { history }) => {
@@ -71,6 +53,7 @@ export const loginDB =
       console.log(response);
       console.log(response.data);
       setCookie("token", response.data[1].token, 7);
+      // localStorage.setItem("username", res.data[0].username);
       dispatch(setLogin({ nickaname: id }));
       history.replace("/");
     } catch (err) {
@@ -79,25 +62,6 @@ export const loginDB =
     }
   };
 
-// //---- 로그인  DB ----
-// const loginDB = (id, pwd) => {
-//   console.log(id, pwd);
-//   return function (dispatch, getState, { history }) {
-//     apis
-//       .login(id, pwd)
-//       .then((res) => {
-//         // setCookie("is_login", res.data[1].token, 7);
-//         setCookie("token", res.data[1].token, 7);
-//         // localStorage.setItem("username", res.data[0].username);
-//         dispatch(setLogin({ nickaname: id }));
-//         history.replace("/");
-//       })
-//       .catch((err) => {
-//         window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
-//         //빨간색 표시 알림
-//       });
-//   };
-// };
 // //---- 로그아웃 DB ----
 // const logoutDB = () => {
 //   return function (dispatch, getState, { history }) {
@@ -116,22 +80,28 @@ export const loginDB =
 //       });
 //   };
 // };
-// ---- 로그아웃 ----
-export const logoutDB =
-  () =>
-  async (dispatch, getState, { history }) => {
-    try {
-      const response = await apis.logout();
-      deleteCookie("token");
-      console.log(response.data);
-      dispatch(logout());
-      history.replace("/");
-      // dispatch(signupId(response));
-    } catch (err) {
-      console.log(`로그아웃  오류 발생!${err}`);
-    }
-  };
 
+// ---- 로그아웃 DB ----
+// export const logoutDB =
+//   () =>
+//   async (dispatch, getState, { history }) => {
+//     try {
+//       const response = await apis.logout();
+//       deleteCookie("token");
+//       console.log(response.data);
+//       dispatch(logout());
+//       history.replace("/");
+//       // dispatch(signupId(response));
+//     } catch (err) {
+//       console.log(`로그아웃  오류 발생!${err}`);
+//     }
+//   };
+const logoutDB = () => {
+  return function (dispatch, getState, { history }) {
+    dispatch(logout());
+    history.replace("/");
+  };
+};
 // const loginCheckDB = () => {
 //   return function (dispatch, getState, { history }) {
 //     // const userId = localStorage.getItem("username");
@@ -154,6 +124,7 @@ export default handleActions(
       }),
     [LOGOUT]: (state, action) =>
       produce(state, (draft) => {
+        deleteCookie("token");
         draft.user = null;
         draft.is_login = false;
       }),
