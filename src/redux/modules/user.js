@@ -19,7 +19,7 @@ const initialState = {
   // username: null,
   // email: null,
   is_login: false, //로그인 확인
-  response: true, //닉네임 중복 확인
+  response: false, //닉네임 중복 확인
 };
 
 //---- 회원가입 DB ----
