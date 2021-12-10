@@ -97,7 +97,7 @@ export const deletePostDB =
 //-- addPostDB --
 
 export const addPostDB =
-  (_location, _content, formData) =>
+  (_location, _content) =>
   async (dispatch, getState, { history }) => {
     try {
       const user_id = getState().user.nickname;
@@ -111,9 +111,7 @@ export const addPostDB =
         image_url: image_url,
       };
 
-      const { content, location, nickname } = _post;
-
-      await apis.add(formData);
+      await apis.add(_location, _content);
 
       console.log("yes");
 

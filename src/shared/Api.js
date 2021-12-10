@@ -16,14 +16,8 @@ api.interceptors.request.use(function (config) {
 });
 
 export const apis = {
-  add: (multipartFile) =>
-    api.post("/api/board", {multipartFile},
-    {
-      headers: {
-        "content-type": `multipart/form-data`,
-      },
-    }
-  ),
+  add: (location, content) =>
+    api.post("/api/board", {location, content}),
   edit: (location, content, multipartFile, id) =>
     api.put(`/api/board/detail/${id}`, {location, content, multipartFile}),
   del: (id) => api.delete(`/api/board/detail/${id}`),

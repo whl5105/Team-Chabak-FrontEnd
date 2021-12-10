@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { ActionCreators as imageActions } from "../redux/modules/image";
 
+import axios from "axios";
+
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   const preview = useSelector(state => state.image.preview);
@@ -106,15 +108,28 @@ const PostWrite = (props) => {
 
   const addPost = () => {
     let formData = new FormData();
-    formData.append('imgFile', imageFile);
+    formData.append('multipartFile', imageFile);
+    
+    axios({
+      method: "post",
+      url: "http://52.78.31.61:8080/api/board",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // Authorization: localStorage.getItem("user_token"), // 쿠키를 가져와야함
+      },
+    })
+      .then((response) => {
+        window.alert("사진이 업로드 되었습니다.");
+        console.log(response.data.imageUrl);
+        console.log(`http://52.78.31.61:8080${response.data.imageUrl}`);
+      })
+      .catch((err) => {
+        window.alert("사진 업로드 실패");
+        console.log(err)
+      });
 
-    let post_info = [{
-      location: location,
-      content: content,
-    }]
-    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
-    // console.log(formData.get("data"));
-    dispatch(postActions.addPostDB(location, content, formData));
+    dispatch(postActions.addPostDB(location, content));
   };
 
   const editPost = () => {
