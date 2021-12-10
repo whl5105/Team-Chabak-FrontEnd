@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
-  console.log(props);
   const dispatch = useDispatch();
   const paramIdx = useParams();
   console.log(paramIdx);

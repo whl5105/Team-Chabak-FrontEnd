@@ -19,7 +19,6 @@ const initialState = {
   // username: null,
   // email: null,
   is_login: false, //로그인 확인
-
   response: null, //닉네임 중복 확인
 };
 
@@ -30,7 +29,6 @@ export const signUpDB =
     try {
       const response = await apis.signup(id, pwd, email);
       console.log(response.data);
-      history.replace("/user/login");
     } catch (err) {
       console.log(`오류 발생!${err}`);
     }

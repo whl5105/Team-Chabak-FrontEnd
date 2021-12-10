@@ -8,7 +8,6 @@ import Post from "../components/Post";
 import InfinityScroll from "../shared/InfinityScroll";
 
 import api from "../api/posts";
-import { Button } from "@mui/material";
 
 const Main = (props) => {
   const dispatch = useDispatch();
@@ -21,6 +20,7 @@ const Main = (props) => {
   //리덕스 관리
   // console.log(post_list[0]);
 
+  console.log(post_list);
   React.useEffect(() => {
     if (post_list.length === 0) {
       dispatch(postActions.getPostDB());
@@ -31,11 +31,12 @@ const Main = (props) => {
     <React.Fragment>
       {/* <InfinityScroll
         callNext={() => {
-          dispatch(postActions.getPostDB());
+          dispatch(postActions.getPostDB(post_num + 1));
         }}
         // is_next={paging.next ? true : false}
         // loading={is_loading}
       > */}
+      
 
       {/* 목록글 화면에 보여주기 */}
       {post_list.map((p, idx) => {

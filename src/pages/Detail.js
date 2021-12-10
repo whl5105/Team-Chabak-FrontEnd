@@ -15,6 +15,7 @@ const Detail = (props) => {
   const id = props.match.params.idx;
 
   const user_info = useSelector((state) => state.user.user);
+
   const post_list = useSelector((store) => store.post.list);
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
@@ -23,6 +24,7 @@ const Detail = (props) => {
   // const is_me = post.nickname === user_info?.id ? true : false;
   // console.log(is_me);
   // console.log(post.nickname);
+
 
   const getOnePostDB = async (id) => {
     try {

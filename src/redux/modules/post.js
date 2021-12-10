@@ -7,6 +7,8 @@ import { ActionCreators as imageActions } from "./image";
 import { Sync } from "@mui/icons-material";
 import { findIndex } from "lodash";
 
+import axios from "axios";
+
 // ---- actions type ----
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
@@ -15,7 +17,7 @@ const LOADING = "LOADING";
 // const DELETE_POST = "DELETE_POST";
 
 // ---- action creators ----
-const getPost = createAction(GET_POST, (post_list, paging) => ({
+const getPost = createAction(GET_POST, (post_list) => ({
   post_list,
 }));
 
@@ -63,7 +65,6 @@ const initialState = {
   // is_loading: false,
   pageNum: 0,
 };
-//만약에 4개를 불러왔으면 3개 다음으로 무언가 있기때문에
 
 const initialPost = {
   id: 1,
@@ -99,13 +100,11 @@ const initialPost = {
 
 // 목록 불러오기
 export const getPostDB =
-  () =>
+  (pageNum) =>
   async (dispatch, getState, { history }) => {
     try {
-      // dispatch(loading(true));
       console.log("목록 불러오기 성공");
-      const postlist = await apis.boards();
-
+      const postlist = await apis.boards(pageNum);
       console.log(postlist);
       dispatch(getPost(postlist.data));
     } catch (err) {
@@ -148,6 +147,9 @@ export const addPostDB =
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
 
+      const accessToken = document.cookie.split("=")[1];
+
+
       const _post = {
         ...initialPost,
         content: _content,
@@ -156,15 +158,30 @@ export const addPostDB =
         image_url: image_url,
       };
 
-      const { content, location, nickname } = _post;
-
-      await apis.add(formData);
+      axios({
+        method: "post",
+        url: "http://52.78.31.61:8080/api/board",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-AUTH-TOKEN": `${accessToken}`, 
+        },
+        processData: false,
+      })
+      .then((response) => {
+        window.alert("게시물 업로드 완료");
+        console.log(response);
+      })
+      .catch((err) => {
+        window.alert("게시물 업로드 실패");
+        console.log(err)
+      });
 
       console.log("yes");
 
       dispatch(addPost(_post));
 
-      // history.push("/");
+      history.push("/");
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
@@ -181,14 +198,30 @@ export const editPostDB =
         return;
       }
       console.log(post_id);
-      const multipartFile = formData;
       const image_url = getState().image.preview;
 
-      const post_idx = getState().post.list.findIndex(
-        (p) => p.id === Number(post_id)
-      );
-
-      // await apis.eidt(post.location, content, multipartFile, post_id)
+      const accessToken = document.cookie.split("=")[1];
+      
+      axios({
+        method: "post",
+        url: "http://52.78.31.61:8080/api/board",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-AUTH-TOKEN": `${accessToken}`, 
+        },
+        processData: false,
+      })
+      .then((response) => {
+        window.alert("게시물 수정 완료");
+        console.log(response);
+      })
+      .catch((err) => {
+        window.alert("게시물 수정 실패");
+        console.log(err)
+      });
+      
+    
       dispatch(
         editPost(post_id, { ...content, ...location, image_url: image_url })
       );
