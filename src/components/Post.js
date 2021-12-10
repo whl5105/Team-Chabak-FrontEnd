@@ -4,12 +4,21 @@ import { Grid, Text, Image, Button } from "../elements";
 import { history } from "../redux/configureStore";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { actionCreators as postActions } from "../redux/modules/post";
+import {
+  actionCreators as postActions,
+  deletePostDB,
+} from "../redux/modules/post";
 
 const Post = (props) => {
   const dispatch = useDispatch();
   //메인에서 반복문으로 돌린 게시물 인덱스번호 가지고 오기위해 사용
   const paramIdx = useParams();
+
+  function deletePost(idx) {
+    return (
+      dispatch(postActions.deletePostDB(idx)), dispatch(postActions.getPostDB())
+    );
+  }
   return (
     <React.Fragment>
       <Grid border="5px solid aliceblue" radius="10px" bg="#ffffff">
@@ -20,8 +29,10 @@ const Post = (props) => {
           <Grid is_flex width="13em" justify="flex-end" padding="0 5px 0 0">
             {/* 로그인한 경우 (수정,삭제버튼) 보이도록하기 */}
             {/* is_me = 로그인한경우 */}
+
             {props.is_me &&
             props.detail_view && (
+
               <Button
                 width="4em"
                 padding="3px"
@@ -32,15 +43,17 @@ const Post = (props) => {
               ></Button>
             )}
 
+
             {props.is_me &&
             props.detail_view && (
+
               <Button
                 width="4em"
                 margin="0 2px"
                 padding="3px"
                 text="삭제"
                 _onClick={() => {
-                  dispatch(postActions.deletePostDB(paramIdx.idx));
+                  deletePost(paramIdx.idx);
                 }}
               ></Button>
             )}

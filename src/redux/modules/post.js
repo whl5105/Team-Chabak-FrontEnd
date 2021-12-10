@@ -4,8 +4,6 @@ import { apis } from "../../shared/Api";
 import "moment";
 
 import { ActionCreators as imageActions } from "./image";
-import { Sync } from "@mui/icons-material";
-import { findIndex } from "lodash";
 
 import axios from "axios";
 
@@ -15,7 +13,7 @@ const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = 'DELETE_POST'
 const LOADING = "LOADING";
-// const DELETE_POST = "DELETE_POST";
+const DELETE_POST = "DELETE_POST";
 
 // ---- action creators ----
 const getPost = createAction(GET_POST, (post_list) => ({
@@ -31,44 +29,11 @@ const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post,
 }));
 
-const deletePost = createAction(DELETE_POST, (post_id) => ({
-  post_id,
-}))
-
-const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
-// const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
+const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
 // ---- initialState ----
 const initialState = {
-  list: [
-    // {
-    //   id: 0,
-    //   location: "경기도",
-    //   content: "넘모 좋아요",
-    //   image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-    //   nickname: "김차박",
-    //   createdAt: "2021-12-06",
-    // },
-    // {
-    //   id: 1,
-    //   location: "화성1",
-    //   content: "넘모오 좋아요",
-    //   image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-    //   nickname: "김차박1",
-    //   createdAt: "2021-12-06",
-    // },
-    // {
-    //   id: 2,
-    //   location: "화성2",
-    //   content: "넘모오오 좋아요",
-    //   image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
-    //   nickname: "김차박2",
-    //   createdAt: "2021-12-06",
-    // },
-  ],
-
-  // paging: { start: null, next: null, size: 3 },
-  // is_loading: false,
+  list: [],
 };
 
 const initialPost = {
@@ -114,7 +79,7 @@ export const getPostDB =
     }
   };
 
-// 목록 하나만 부르기
+// 목록data 하나만 부르기
 export const getOnePostDB =
   (id) =>
   async (dispatch, getState, { history }) => {
@@ -129,23 +94,13 @@ export const getOnePostDB =
     }
   };
 
-//-- deletePostFB(post 삭제)  --
-// export const deletePostDB =
-//   (id) =>
-//   async (dispatch, getState, { history }) => {
-//     try {
-//       await apis.del(id);
-//       history.replace("/");
-//     } catch (err) {
-//       console.error("Error removing document: ", err);
-//     }
-//   };
 
 //-- deletePostDB --
 export const deletePostDB =
   (post_id) =>
   async (dispatch, getState, { history }) => {
     try {
+
       const accessToken = document.cookie.split(';')[0].split('=')[1];
       axios
         .delete(`http://52.78.31.61:8080/api/board/detail/${post_id}`, {
@@ -164,6 +119,7 @@ export const deletePostDB =
         });
     } catch (err) {
       console.error('게시물 삭제 문제 발생', err);
+
     }
   };
 
@@ -219,15 +175,22 @@ export const editPostDB =
         console.log("게시물 정보가 없어요!");
         return;
       }
-      console.log(post_id);
       const image_url = getState().image.preview;
 
       const accessToken = document.cookie.split("=")[1];
+
+      const _post = {
+        ..._post,
+        content: content,
+        location: location,
+        image: image_url,
+      };
 
       axios({
         method: "put",
         url: `http://52.78.31.61:8080/api/board/detail/${post_id}`,
         data: formData,
+        _post,
         headers: {
           "Content-Type": "multipart/form-data",
           "X-AUTH-TOKEN": `${accessToken}`,
@@ -235,67 +198,25 @@ export const editPostDB =
       })
         .then((response) => {
           window.alert("게시물 수정 완료");
+
           dispatch(
             editPost(post_id, { ...content, ...location, image: image_url })
           );
           dispatch(imageActions.setPreview(null));
           history.replace("/");
           console.log(post_id, { ...content, ...location, image: image_url });
+
         })
         .catch((err) => {
           window.alert("게시물 수정 실패");
           console.log(err);
         });
 
-
     } catch (err) {
       window.alert("이미지를 선택해주세요");
       console.log(err);
     }
   };
-
-// //상세게시물 요청  DB
-// export const getOnePostDB =
-//   (id) =>
-//   async (dispatch, getState, { history }) => {
-//     try {
-//       // dispatch(loading(true));
-//       console.log("목록 불러오기 성공");
-//       const postOne = await apis.board(id);
-//       console.log(postOne);
-//       // dispatch(getPost(postlist.data));
-//     } catch (err) {
-//       console.log(`boards 조회 오류 발생!${err}`);
-//     }
-//   };
-
-// const getOnePostDB = (id) => {
-//   return function (didispatch, getState, { history }) {
-//     const postDB = firestore.collection("post");
-//     postDB
-//       .doc(id)
-//       .get()
-//       .then((doc) => {
-//         console.log(doc);
-//         console.log(doc.data());
-
-//         let _post = doc.data();
-//         let post = Object.keys(_post).reduce(
-//           (acc, cur) => {
-//             if (cur.indexOf("user_") !== -1) {
-//               return {
-//                 ...acc,
-//                 user_info: { ...acc.user_info, [cur]: _post[cur] },
-//               };
-//             }
-//             return { ...acc, [cur]: _post[cur] };
-//           },
-//           { id: doc.id, user_info: {} }
-//         );
-//         dispatch(getPost([post]));
-//       });
-//   };
-// };
 
 //---- reducer ----
 export default handleActions(
@@ -345,11 +266,15 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
       }),
-    // [DELETE_POST]: (state, action) =>
-    //   produce(state, (draft) => {
-    //     let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
-    //     draft.list.splice(idx, 1);
-    //   }),
+
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        let deleted_list = draft.list.filter(
+          (p) => p.id !== Number(action.payload.post_id)
+        );
+        console.log(deleted_list);
+        draft.list = deleted_list;
+      }),
   },
   initialState
 );
@@ -361,7 +286,7 @@ const actionCreators = {
   addPostDB,
   editPostDB,
   deletePostDB,
-  // getOnePostDB,
+  deletePost,
   // fatchPosts,
 };
 
