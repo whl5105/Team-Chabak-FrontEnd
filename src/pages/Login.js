@@ -35,7 +35,7 @@ const Login = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        <Text bold size="30px" color="333" center>
+        <Text bold size="40px" color="333" center>
           로그인
         </Text>
         {/* -- 아이디 --  */}

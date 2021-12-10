@@ -11,9 +11,8 @@ import axios from "axios";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
-const DELETE_POST = 'DELETE_POST'
-const LOADING = "LOADING";
 const DELETE_POST = "DELETE_POST";
+const LOADING = "LOADING";
 
 // ---- action creators ----
 const getPost = createAction(GET_POST, (post_list) => ({
@@ -94,32 +93,29 @@ export const getOnePostDB =
     }
   };
 
-
 //-- deletePostDB --
 export const deletePostDB =
   (post_id) =>
   async (dispatch, getState, { history }) => {
     try {
-
-      const accessToken = document.cookie.split(';')[0].split('=')[1];
+      const accessToken = document.cookie.split(";")[0].split("=")[1];
       axios
         .delete(`http://52.78.31.61:8080/api/board/detail/${post_id}`, {
           headers: {
-            'X-AUTH-TOKEN': accessToken,
+            "X-AUTH-TOKEN": accessToken,
           },
         })
         .then((response) => {
-          window.alert('게시물 삭제 완료');
+          window.alert("게시물 삭제 완료");
           dispatch(deletePost(post_id));
-          history.replace('/');
+          history.replace("/");
         })
         .catch((err) => {
-          window.alert('게시물 삭제 실패');
+          window.alert("게시물 삭제 실패");
           console.log(err);
         });
     } catch (err) {
-      console.error('게시물 삭제 문제 발생', err);
-
+      console.error("게시물 삭제 문제 발생", err);
     }
   };
 
@@ -205,13 +201,11 @@ export const editPostDB =
           dispatch(imageActions.setPreview(null));
           history.replace("/");
           console.log(post_id, { ...content, ...location, image: image_url });
-
         })
         .catch((err) => {
           window.alert("게시물 수정 실패");
           console.log(err);
         });
-
     } catch (err) {
       window.alert("이미지를 선택해주세요");
       console.log(err);
@@ -252,15 +246,15 @@ export default handleActions(
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
 
-    [DELETE_POST]: (state, action) => 
-    produce(state, (draft) => {
-      let deleted_list = draft.list.filter(
-        p => p.id !== Number(action.payload.post_id)
-      );
-      console.log(deleted_list)
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        let deleted_list = draft.list.filter(
+          (p) => p.id !== Number(action.payload.post_id)
+        );
+        console.log(deleted_list);
 
-      draft.list = deleted_list;
-    }),
+        draft.list = deleted_list;
+      }),
 
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
