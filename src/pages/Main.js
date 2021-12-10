@@ -20,7 +20,7 @@ const Main = (props) => {
   //리덕스 관리
   // console.log(post_list[0]);
 
-  console.log(post_list);
+  // console.log(post_list);
   React.useEffect(() => {
     if (post_list.length === 0) {
       dispatch(postActions.getPostDB());

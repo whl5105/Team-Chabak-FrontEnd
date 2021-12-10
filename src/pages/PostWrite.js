@@ -18,15 +18,19 @@ const PostWrite = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
   const post_list = useSelector((state) => state.post.list);
   const { history } = props;
+  // console.log(post_list)
 
-  let post_id = props.match.params.id;
+  let post_id = props.match.params.idx;
+  // console.log(post_id);
 
   const is_edit = post_id ? true : false;
+  // console.log(is_edit);
 
   let _post = is_edit
-    ? post_list.find((p) => p.post_id === Number(post_id))
+    ? post_list.find((p) => p.id === Number(post_id))
     : null;
   // console.log(_post);
+
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
 
@@ -39,7 +43,7 @@ const PostWrite = (props) => {
     }
 
     if (is_edit) {
-      dispatch(imageActions.setPreview(_post.image_url));
+      dispatch(imageActions.setPreview(_post.image));
     }
   }, []);
 
@@ -183,7 +187,7 @@ const PostWrite = (props) => {
         </Grid>
 
         <Grid padding="0 0 16px">
-          {false ? (
+          {!is_edit ? (
             <Button text="게시글 등록" _onClick={addPost}></Button>
           ) : (
             <Button text="게시글 수정" _onClick={editPost}></Button>

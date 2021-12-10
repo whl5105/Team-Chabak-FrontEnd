@@ -9,7 +9,7 @@ import { actionCreators as postActions } from "../redux/modules/post";
 const Post = (props) => {
   const dispatch = useDispatch();
   const paramIdx = useParams();
-  console.log(paramIdx);
+  // console.log(paramIdx);
   return (
     <React.Fragment>
       <Grid border="5px solid aliceblue" radius="10px" bg="#ffffff">
