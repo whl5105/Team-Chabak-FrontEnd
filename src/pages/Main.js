@@ -6,6 +6,10 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import { userCreators as userActions } from "../redux/modules/user";
 import Post from "../components/Post";
 
+import InfinityScroll from "../shared/InfinityScroll";
+
+
+
 const Main = (props) => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
