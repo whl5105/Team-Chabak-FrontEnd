@@ -17,15 +17,17 @@ api.interceptors.request.use(function (config) {
 
 export const apis = {
   add: (multipartFile) =>
-    api.post("/api/board", {multipartFile},
-    {
-      headers: {
-        "content-type": `multipart/form-data`,
-      },
-    }
-  ),
+    api.post(
+      "/api/board",
+      { multipartFile },
+      {
+        headers: {
+          "content-type": `multipart/form-data`,
+        },
+      }
+    ),
   edit: (location, content, multipartFile, id) =>
-    api.put(`/api/board/detail/${id}`, {location, content, multipartFile}),
+    api.put(`/api/board/detail/${id}`, { location, content, multipartFile }),
   del: (id) => api.delete(`/api/board/detail/${id}`),
   boards: () => api.get(`/api/board/`),
   board: (id) => api.get(`/api/board/detail/${id}`),
@@ -38,7 +40,7 @@ export const apis = {
   // editComment: (id, coId, content) =>
   // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
-  // ---- user ---- 
+  // ---- user ----
   login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
   signup: (id, pwd, email) =>
     api.post("/user/signup", {
