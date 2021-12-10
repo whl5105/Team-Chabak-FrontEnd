@@ -19,13 +19,11 @@ const PostWrite = (props) => {
   const post_list = useSelector((state) => state.post.list);
   const { history } = props;
 
-  let post_id = props.match.params.id;
+  let post_id = props.match.params.idx;
 
   const is_edit = post_id ? true : false;
 
-  let _post = is_edit
-    ? post_list.find((p) => p.post_id === Number(post_id))
-    : null;
+  let _post = is_edit ? post_list.find((p) => p.id === Number(post_id)) : null;
   // console.log(_post);
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
@@ -39,7 +37,7 @@ const PostWrite = (props) => {
     }
 
     if (is_edit) {
-      dispatch(imageActions.setPreview(_post.image_url));
+      dispatch(imageActions.setPreview(_post.image));
     }
   }, []);
 
@@ -71,15 +69,16 @@ const PostWrite = (props) => {
 
     const post_info = {
       location: location,
-      content: content
-    }
+      content: content,
+    };
 
-    formData.append('multipartFile', imageFile);
-    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
+    formData.append("multipartFile", imageFile);
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(post_info)], { type: "application/json" })
+    );
 
     dispatch(postActions.addPostDB(location, content, formData));
-    
-    
   };
 
   const editPost = () => {
@@ -88,11 +87,14 @@ const PostWrite = (props) => {
 
     const post_info = {
       location: location,
-      content: content
-    }
+      content: content,
+    };
 
-    formData.append('multipartFile', imageFile);
-    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
+    formData.append("multipartFile", imageFile);
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(post_info)], { type: "application/json" })
+    );
 
     dispatch(
       postActions.editPostDB(
@@ -102,8 +104,6 @@ const PostWrite = (props) => {
         formData
       )
     );
-    
-    
   };
 
   if (!is_login) {
@@ -183,7 +183,7 @@ const PostWrite = (props) => {
         </Grid>
 
         <Grid padding="0 0 16px">
-          {false ? (
+          {!is_edit ? (
             <Button text="게시글 등록" _onClick={addPost}></Button>
           ) : (
             <Button text="게시글 수정" _onClick={editPost}></Button>

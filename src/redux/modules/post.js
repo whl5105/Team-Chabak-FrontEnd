@@ -63,7 +63,6 @@ const initialState = {
 
   // paging: { start: null, next: null, size: 3 },
   // is_loading: false,
-  pageNum: 0,
 };
 
 const initialPost = {
@@ -97,15 +96,12 @@ const initialPost = {
 // };
 
 //-- getPostDB(DB 데이터 가져오기) --
-
-// 목록 불러오기
 export const getPostDB =
-  (pageNum) =>
+  () =>
   async (dispatch, getState, { history }) => {
     try {
       console.log("목록 불러오기 성공");
-      const postlist = await apis.boards(pageNum);
-      console.log(postlist);
+      const postlist = await apis.boards();
       dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
@@ -149,13 +145,12 @@ export const addPostDB =
 
       const accessToken = document.cookie.split("=")[1];
 
-
       const _post = {
         ...initialPost,
         content: _content,
         location: _location,
         nickname: user_id,
-        image_url: image_url,
+        image: image_url,
       };
 
       axios({
@@ -164,25 +159,21 @@ export const addPostDB =
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-AUTH-TOKEN": `${accessToken}`, 
+          "X-AUTH-TOKEN": `${accessToken}`,
         },
         processData: false,
       })
-      .then((response) => {
-        window.alert("게시물 업로드 완료");
-        console.log(response);
-      })
-      .catch((err) => {
-        window.alert("게시물 업로드 실패");
-        console.log(err)
-      });
-
-      console.log("yes");
-
-      dispatch(addPost(_post));
-
-      history.push("/");
-      dispatch(imageActions.setPreview(null));
+        .then((response) => {
+          dispatch(addPost(_post));
+          window.alert("게시물 업로드 완료");
+          history.replace("/");
+          dispatch(actionCreators.getPostDB());
+          dispatch(imageActions.setPreview(null));
+        })
+        .catch((err) => {
+          window.alert("게시물 업로드 실패");
+          console.log(err);
+        });
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
     }
@@ -201,27 +192,26 @@ export const editPostDB =
       const image_url = getState().image.preview;
 
       const accessToken = document.cookie.split("=")[1];
-      
+
       axios({
         method: "post",
         url: "http://52.78.31.61:8080/api/board",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-AUTH-TOKEN": `${accessToken}`, 
+          "X-AUTH-TOKEN": `${accessToken}`,
         },
         processData: false,
       })
-      .then((response) => {
-        window.alert("게시물 수정 완료");
-        console.log(response);
-      })
-      .catch((err) => {
-        window.alert("게시물 수정 실패");
-        console.log(err)
-      });
-      
-    
+        .then((response) => {
+          window.alert("게시물 수정 완료");
+          console.log(response);
+        })
+        .catch((err) => {
+          window.alert("게시물 수정 실패");
+          console.log(err);
+        });
+
       dispatch(
         editPost(post_id, { ...content, ...location, image_url: image_url })
       );
