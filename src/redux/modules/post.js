@@ -105,7 +105,7 @@ export const getPostDB =
     try {
       console.log("목록 불러오기 성공");
       const postlist = await apis.boards(pageNum);
-      console.log(postlist);
+      // console.log(postlist);
       dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
@@ -149,13 +149,12 @@ export const addPostDB =
 
       const accessToken = document.cookie.split("=")[1];
 
-
       const _post = {
         ...initialPost,
         content: _content,
         location: _location,
         nickname: user_id,
-        image_url: image_url,
+        image: image_url,
       };
 
       axios({
@@ -166,10 +165,11 @@ export const addPostDB =
           "Content-Type": "multipart/form-data",
           "X-AUTH-TOKEN": `${accessToken}`, 
         },
-        processData: false,
       })
       .then((response) => {
         window.alert("게시물 업로드 완료");
+        dispatch(addPost(_post));
+        history.replace("/");
         console.log(response);
       })
       .catch((err) => {
@@ -177,11 +177,8 @@ export const addPostDB =
         console.log(err)
       });
 
-      console.log("yes");
+      
 
-      dispatch(addPost(_post));
-
-      history.push("/");
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
@@ -203,14 +200,13 @@ export const editPostDB =
       const accessToken = document.cookie.split("=")[1];
       
       axios({
-        method: "post",
-        url: "http://52.78.31.61:8080/api/board",
+        method: "put",
+        url: `http://52.78.31.61:8080/api/board/detail/${post_id}`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
           "X-AUTH-TOKEN": `${accessToken}`, 
         },
-        processData: false,
       })
       .then((response) => {
         window.alert("게시물 수정 완료");
@@ -226,7 +222,7 @@ export const editPostDB =
         editPost(post_id, { ...content, ...location, image_url: image_url })
       );
 
-      history.replace("/");
+      // history.replace("/");
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       window.alert("이미지를 선택해주세요");
