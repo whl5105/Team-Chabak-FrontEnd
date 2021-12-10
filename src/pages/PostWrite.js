@@ -2,7 +2,6 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
 import { Grid, Input, Button, Text, Image } from "../elements";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -20,13 +19,11 @@ const PostWrite = (props) => {
   const post_list = useSelector((state) => state.post.list);
   const { history } = props;
 
-  let post_id = props.match.params.id;
+  let post_id = props.match.params.idx;
 
   const is_edit = post_id ? true : false;
 
-  let _post = is_edit
-    ? post_list.find((p) => p.post_id === Number(post_id))
-    : null;
+  let _post = is_edit ? post_list.find((p) => p.id === Number(post_id)) : null;
   // console.log(_post);
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
@@ -40,7 +37,7 @@ const PostWrite = (props) => {
     }
 
     if (is_edit) {
-      dispatch(imageActions.setPreview(_post.image_url));
+      dispatch(imageActions.setPreview(_post.image));
     }
   }, []);
 
@@ -52,39 +49,8 @@ const PostWrite = (props) => {
     setLocation(event.target.value);
   };
 
-  // const selectFile = (e) => {
-  // console.log(fileInput.current.files[0].name);
-  // const reader = new FileReader();
-  // const file = fileInput.current.files[0];
-  // reader.readAsDataURL(file);
-  // // reader.readAsDataURL(e.target.files[0]);
-  // // console.log(reader);
-  // // console.log(file);
-  // console.log(reader);
-  // e.preventDefault();
-  // const base64 = reader.result;
-  // reader.onloadend = () => {
-  //무한렌더링...
-  // dispatch(imageActions.setPreview(reader.result));
-  // console.log("무한렌더링");
-  // if (file) {
-  //   reader.readAsDataURL(file);
-  //   setImageFile(file);
-  // }
-  // if (base64) {
-  //   setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
-  // }
-  // if (fileInput.current.files[0]) {
-  //   reader.readAsDataURL(e.target.files[0]);
-  //   setImageFile(e.target.files[0]);
-  // }
-
-  //---------------------------------
-
   /* 이미지 선택 */
   const selectFile = (e) => {
-    // console.log(fileInput.current.files);
-
     const reader = new FileReader();
     const file = fileInput.current.files[0];
 
@@ -93,37 +59,43 @@ const PostWrite = (props) => {
     reader.onloadend = () => {
       dispatch(imageActions.setPreview(reader.result));
       if (file) {
-        // reader.readAsDataURL(e.target.files[0]);
         setImageFile(file);
-        // console.log(file);
       }
     };
-    // console.log(imageFile);
   };
-  //---------------------------------
-  // };
 
   const addPost = () => {
     let formData = new FormData();
-    formData.append("imgFile", imageFile);
 
-    let post_info = [
-      {
-        location: location,
-        content: content,
-      },
-    ];
+    const post_info = {
+      location: location,
+      content: content,
+    };
+
+    formData.append("multipartFile", imageFile);
     formData.append(
       "data",
       new Blob([JSON.stringify(post_info)], { type: "application/json" })
     );
-    // console.log(formData.get("data"));
+
     dispatch(postActions.addPostDB(location, content, formData));
   };
 
   const editPost = () => {
     const formData = new FormData();
     formData.append("img", imageFile);
+
+    const post_info = {
+      location: location,
+      content: content,
+    };
+
+    formData.append("multipartFile", imageFile);
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(post_info)], { type: "application/json" })
+    );
+
     dispatch(
       postActions.editPostDB(
         post_id,

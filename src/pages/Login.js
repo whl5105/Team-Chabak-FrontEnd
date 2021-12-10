@@ -72,7 +72,7 @@ const Login = (props) => {
             text="카카오 로그인"
             bgcolor="#fae100"
             color="#786a6a"
-            onClick={() => {
+            _onClick={() => {
               window.location.href = KAKAO_AUTH_URL;
             }}
           ></Button>

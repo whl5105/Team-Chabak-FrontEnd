@@ -7,33 +7,30 @@ import { userCreators as userActions } from "../redux/modules/user";
 import Post from "../components/Post";
 import InfinityScroll from "../shared/InfinityScroll";
 
-import api from "../api/posts";
-import { Button } from "@mui/material";
+// import api from "../api/posts";
 
 const Main = (props) => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
   const user_info = useSelector((state) => state.user.user);
-
   const post_num = useSelector((state) => state.post.pageNum);
   const is_loading = useSelector((state) => state.post.is_loading);
   const paging = useSelector((state) => state.post.paging);
   //리덕스 관리
   // console.log(post_list[0]);
-  console.log(post_list);
 
+  console.log(post_list);
   React.useEffect(() => {
     if (post_list.length === 0) {
       dispatch(postActions.getPostDB());
       dispatch(userActions.loginCheckDB());
     }
   }, []);
-  console.log(props);
   return (
     <React.Fragment>
       {/* <InfinityScroll
         callNext={() => {
-          dispatch(postActions.getPostDB());
+          dispatch(postActions.getPostDB(post_num + 1));
         }}
         // is_next={paging.next ? true : false}
         // loading={is_loading}

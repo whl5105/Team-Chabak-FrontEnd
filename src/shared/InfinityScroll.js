@@ -37,11 +37,7 @@ const InfinityScroll = (props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [is_next, loading]);
 
-  return (
-    <React.Fragment>
-      {props.children}
-    </React.Fragment>
-  );
+  return <React.Fragment>{props.children}</React.Fragment>;
 };
 
 InfinityScroll.defaultProps = {

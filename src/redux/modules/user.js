@@ -28,7 +28,6 @@ export const signUpDB =
     try {
       const response = await apis.signup(id, pwd, email);
       console.log(response.data);
-      history.replace("/user/login");
     } catch (err) {
       console.log(`오류 발생!${err}`);
     }
