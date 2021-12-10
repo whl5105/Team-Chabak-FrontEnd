@@ -121,7 +121,7 @@ const Signup = (props) => {
   return (
     <div>
       <Grid>
-        <Text bold size="30px" color="333" center>
+        <Text bold size="40px" color="333" center>
           회원가입
         </Text>
         {/* -- 아이디 --  */}
@@ -142,7 +142,11 @@ const Signup = (props) => {
               opacity="0.8"
             ></Button>
           </Grid>
-          {id.length > 0 && <Span>{idMessage}</Span>}
+          {id.length > 0 && (
+            <Span className={`message ${isId ? "success" : "error"}`}>
+              {idMessage}
+            </Span>
+          )}
         </Grid>
         {/* -- 비밀번호 --  */}
         <Grid>
@@ -154,7 +158,12 @@ const Signup = (props) => {
             _onChange={onChangePassword}
           ></Input>
 
-          {pwd.length > 0 && <Span>{pwdMessage}</Span>}
+          {pwd.length > 0 && (
+            <Span className={`message ${isPassword ? "success" : "error"}`}>
+              {pwdMessage}
+            </Span>
+          )}
+
           {/* <span>{setIdMessage}</span> */}
         </Grid>
         {/* -- 비밀번호 확인 -- */}
@@ -166,7 +175,11 @@ const Signup = (props) => {
             placeholder="비밀번호를 한번 더 입력해주세요"
             _onChange={onChangePasswordCheck}
           ></Input>
-          {pwd_check.length > 0 && <Span>{pwdCheckMessage}</Span>}
+          {pwd_check.length > 0 && (
+            <Span className={`message ${isPwdCheck ? "success" : "error"}`}>
+              {pwdCheckMessage}
+            </Span>
+          )}
         </Grid>
         {/* -- 이메일 -- */}
         <Grid>
@@ -177,7 +190,11 @@ const Signup = (props) => {
             placeholder="이메일을 입력해주세요"
             _onChange={onChangeEmail}
           ></Input>
-          {email.length > 0 && <Span>{emailMessage}</Span>}
+          {email.length > 0 && (
+            <Span className={`message ${isEmail ? "success" : "error"}`}>
+              {emailMessage}
+            </Span>
+          )}
         </Grid>
 
         <Button
@@ -194,6 +211,13 @@ const Span = styled.span`
   margin-bottom: 12px;
   display: flex;
   font-size: 14px;
+  left: 0;
+  &.success {
+    color: #437244;
+  }
+  &.error {
+    color: #ff2727;
+  }
 `;
 
 export default Signup;

@@ -21,7 +21,12 @@ const Post = (props) => {
   }
   return (
     <React.Fragment>
-      <Grid border="5px solid aliceblue" radius="10px" bg="#ffffff">
+      <Grid
+        border="1px solid #eeeeee"
+        radius="10px"
+        bg="#ffffff"
+        margin="8px 0"
+      >
         <Grid is_flex justify="space-between">
           <Text padding="10px 0 0 10px" bold="800">
             {props.location}
@@ -30,9 +35,7 @@ const Post = (props) => {
             {/* 로그인한 경우 (수정,삭제버튼) 보이도록하기 */}
             {/* is_me = 로그인한경우 */}
 
-            {props.is_me &&
-            props.detail_view && (
-
+            {props.is_me && props.detail_view && (
               <Button
                 width="4em"
                 padding="3px"
@@ -43,10 +46,7 @@ const Post = (props) => {
               ></Button>
             )}
 
-
-            {props.is_me &&
-            props.detail_view && (
-
+            {props.is_me && props.detail_view && (
               <Button
                 width="4em"
                 margin="0 2px"
