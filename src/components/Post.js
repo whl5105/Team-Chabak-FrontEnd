@@ -7,9 +7,10 @@ import { useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
+  console.log(props);
   const dispatch = useDispatch();
   const paramIdx = useParams();
-  console.log(props);
+  // console.log(props);
   return (
     <React.Fragment>
       <Grid>
@@ -18,7 +19,7 @@ const Post = (props) => {
           <Text>{props.location}</Text>
           <Grid is_flex width="13em">
             <Text>{props.createdAt}</Text>
-            {!props.is_me && (
+            {props.is_me && (
               <Button
                 width="4em"
                 padding="3px"
@@ -29,7 +30,7 @@ const Post = (props) => {
               ></Button>
             )}
 
-            {!props.is_me && (
+            {props.is_me && (
               <Button
                 width="4em"
                 margin="0 2px"
@@ -42,12 +43,12 @@ const Post = (props) => {
             )}
           </Grid>
         </Grid>
-        <Text>{props.content}</Text>
+        {/* <Text>{props.content}</Text> */}
 
-        {props.is_me ? (
-          <Image shape="rectangle" src={props.image}></Image>
-        ) : (
+        {props.detail_view ? (
           <Image src={props.image}></Image>
+        ) : (
+          <Image state="hover" src={props.image}></Image>
         )}
 
         <Grid is_flex>

@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: "http://52.78.31.61:8080/",
   headers: {
     "content-type": "application/json;charset=UTF-8",
-    accept: "application/json,",
+    accept: "application/json",
   },
 });
 
@@ -16,11 +16,16 @@ api.interceptors.request.use(function (config) {
 });
 
 export const apis = {
-  // article
-  add: (location, content, multipartFile, nickname) =>
-    api.post("/api/board", location, content, multipartFile, nickname),
+  add: (multipartFile) =>
+    api.post("/api/board", {multipartFile},
+    {
+      headers: {
+        "content-type": `multipart/form-data`,
+      },
+    }
+  ),
   edit: (location, content, multipartFile, id) =>
-    api.put(`/api/board/detail/${id}`, location, content, multipartFile),
+    api.put(`/api/board/detail/${id}`, {location, content, multipartFile}),
   del: (id) => api.delete(`/api/board/detail/${id}`),
   boards: () => api.get(`/api/board/`),
   board: (id) => api.get(`/api/board/detail/${id}`),

@@ -1,5 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userCreators as userActions } from "../redux/modules/user";
 
 // import { BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
@@ -15,10 +17,24 @@ import Login from "../pages/Login";
 import PostWrite from "../pages/PostWrite";
 
 function App() {
+  const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
+
+  React.useEffect(() => {
+    if (is_login) {
+      dispatch(userActions.loginCheckFB());
+    }
+  }, []);
   return (
     <React.Fragment>
       <Header></Header>
-      <Grid margin="0px auto" bg="#ffffff" height="100vh">
+      <Grid
+        margin="0px auto"
+        bg="#ffffff"
+        height="90vh"
+        overflow="scroll"
+        padding="20px"
+      >
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail" component={Detail} />

@@ -6,7 +6,6 @@ import "moment";
 import { ActionCreators as imageActions } from "./image";
 import { Sync } from "@mui/icons-material";
 
-import api from "../../api/posts";
 // ---- actions type ----
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
@@ -15,7 +14,7 @@ const LOADING = "LOADING";
 // const DELETE_POST = "DELETE_POST";
 
 // ---- action creators ----
-const getPost = createAction(GET_POST, (post_list) => ({
+const getPost = createAction(GET_POST, (post_list, paging) => ({
   post_list,
 }));
 const addPost = createAction(ADD_POST, (post) => ({
@@ -32,10 +31,12 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // ---- initialState ----
 const initialState = {
   list: [],
+
   // paging: { start: null, next: null, size: 3 },
   // is_loading: false,
   pageNum: 0,
 };
+//만약에 4개를 불러왔으면 3개 다음으로 무언가 있기때문에
 
 const initialPost = {
   id: 1,
@@ -74,10 +75,13 @@ export const getPostDB =
   () =>
   async (dispatch, getState, { history }) => {
     try {
+      // dispatch(loading(true));
       console.log("목록 불러오기 성공");
       const postlist = await apis.boards();
+
       console.log(postlist);
       dispatch(getPost(postlist.data));
+
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
     }
@@ -98,13 +102,12 @@ export const deletePostDB =
 //-- addPostDB --
 
 export const addPostDB =
-  (_content, _location, formData) =>
+  (_location, _content, formData) =>
   async (dispatch, getState, { history }) => {
     try {
-      console.log(formData);
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
-      const multipartFile = formData.get("img");
+
 
       const _post = {
         ...initialPost,
@@ -116,13 +119,13 @@ export const addPostDB =
 
       const { content, location, nickname } = _post;
 
-      await apis.add(location, content, multipartFile, nickname);
+      await apis.add(formData);
 
       console.log("yes");
 
       dispatch(addPost(_post));
 
-      history.push("/");
+      // history.push("/");
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
@@ -147,17 +150,11 @@ export const editPostDB =
         (p) => p.id === Number(post_id)
       );
 
-      const post = getState().post.list[post_idx];
-      if (image_url === post.image_url && location === post.location) {
-        // await apis.add(post.location, content, post_id);
-
-        dispatch(editPost(post_id, { ...content }));
-      } else {
-        // await apis.eidt(post.location, content, multipartFile, post_id)
-        dispatch(
-          editPost(post_id, { ...content, ...location, image_url: image_url })
-        );
-      }
+      
+      // await apis.eidt(post.location, content, multipartFile, post_id)
+      dispatch(
+        editPost(post_id, { ...content, ...location, image_url: image_url })
+      );
 
       history.replace("/");
       dispatch(imageActions.setPreview(null));

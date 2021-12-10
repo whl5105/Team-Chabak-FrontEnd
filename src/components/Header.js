@@ -8,22 +8,21 @@ import { userCreators as userActions } from "../redux/modules/user";
 
 const Header = (props) => {
   const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
+  console.log(is_login);
   const is_token = document.cookie;
 
   //로그인한 경우 보여질 헤더
-  if (is_token) {
+  if (is_login) {
     return (
       <React.Fragment>
         <div
           style={{
             width: "100%",
             padding: "20px 0",
-
-            // backgroundColor: "#ffffff",
-            borderBottom: "1px solid #eee",
           }}
         >
-          <Grid is_flex margin=" 0px auto">
+          <Grid is_flex margin=" 0px auto" padding="0 20px">
             <Grid>
               <Text
                 is_text
@@ -63,7 +62,7 @@ const Header = (props) => {
           padding: "20px 0",
         }}
       >
-        <Grid is_flex margin=" 0px auto">
+        <Grid is_flex margin=" 0px auto" padding="0 20px">
           <Grid>
             <Text
               is_text
