@@ -20,7 +20,7 @@ const Post = (props) => {
             {props.location}
           </Text>
           <Grid is_flex width="13em" justify="flex-end" padding="0 5px 0 0">
-            {!props.is_me && (
+            {props.is_me && (
               <Button
                 width="4em"
                 padding="3px"
@@ -31,7 +31,7 @@ const Post = (props) => {
               ></Button>
             )}
 
-            {!props.is_me && (
+            {props.is_me && (
               <Button
                 width="4em"
                 margin="0 2px"
