@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "../elements";
 
 import Post from "../components/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
-import { history } from "../redux/configureStore";
+import { apis } from "../shared/Api";
+
+import CommentList from "../components/CommentList";
+import CommentWrite from "../components/CommentWrite";
+
 
 const Detail = (props) => {
   const dispatch = useDispatch();
@@ -16,11 +20,26 @@ const Detail = (props) => {
   const post_data = post_list[post_idx];
 
   const [post, setPost] = React.useState(post_data ? post_data : null);
+  // const is_me = post.nickname === user_info?.id ? true : false;
+  // console.log(is_me);
+  // console.log(post.nickname);
+
+  const getOnePostDB = async (id) => {
+    try {
+      const postOne = await apis.board(id);
+      console.log(postOne);
+      setPost(postOne.data);
+    } catch (err) {
+      console.log(`board 조회 오류 발생!${err}`);
+    }
+  };
+  //
 
   React.useEffect(() => {
     if (post) {
       return;
     }
+    getOnePostDB(id);
 
     dispatch(postActions.getOnePostDB(id));
     setPost(post);
@@ -37,6 +56,8 @@ const Detail = (props) => {
           />
         )}
       </Grid>
+      <CommentWrite />
+      <CommentList />
     </React.Fragment>
   );
 };
