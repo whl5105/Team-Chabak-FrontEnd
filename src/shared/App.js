@@ -1,12 +1,12 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { userCreators as userActions } from "../redux/modules/user";
 
 // import { BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Link, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { Grid } from "../elements/index";
 
 import Header from "../components/Header";
@@ -29,6 +29,7 @@ function App() {
       dispatch(userActions.loginCheckDB());
     }
   }, []);
+
   return (
     <React.Fragment>
       <Bg>
