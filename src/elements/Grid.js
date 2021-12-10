@@ -17,6 +17,7 @@ const Grid = (props) => {
     position,
     justify,
     height,
+    overflow,
   } = props;
 
   const styles = {
@@ -31,7 +32,7 @@ const Grid = (props) => {
     justify: justify,
     height: height,
     position: position,
-
+    overflow: overflow,
   };
 
   return (
@@ -55,7 +56,7 @@ Grid.defaultProps = {
   _onClick: () => {},
   position: false,
   justify: false,
-  height: false,
+  overflow: false,
 };
 
 const GridBox = styled.div`
@@ -69,6 +70,9 @@ const GridBox = styled.div`
   ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
   ${(props) => (props.is_flex ? "display: flex; align-items: center;" : "")}
   ${(props) => (props.position ? `position: ${props.position};` : "")}
-  
+  ${(props) => (props.overflow ? `overflow: ${props.overflow};` : "")}
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 export default Grid;

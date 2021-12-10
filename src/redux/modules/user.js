@@ -55,7 +55,7 @@ export const loginDB =
       console.log(response);
       console.log(response.data);
       setCookie("token", response.data[1].token, 7);
-      // localStorage.setItem("username", res.data[0].username);
+      localStorage.setItem("username", response.data[0].username);
       dispatch(setLogin({ nickaname: id }));
       history.replace("/");
     } catch (err) {
@@ -102,19 +102,20 @@ const logoutDB = () => {
   return function (dispatch, getState, { history }) {
     dispatch(logout());
     history.replace("/");
+    localStorage.removeItem("username");
   };
 };
-// const loginCheckDB = () => {
-//   return function (dispatch, getState, { history }) {
-//     // const userId = localStorage.getItem("username");
-//     const tokenCheck = document.cookie;
-//     if (tokenCheck) {
-//       dispatch(setLogin({ id: userId }));
-//     } else {
-//       dispatch(logOut());
-//     }
-//   };
-// };
+const loginCheckDB = () => {
+  return function (dispatch, getState, { history }) {
+    const userId = localStorage.getItem("username");
+    const tokenCheck = document.cookie;
+    if (tokenCheck) {
+      dispatch(setLogin({ id: userId }));
+    } else {
+      dispatch(logout());
+    }
+  };
+};
 
 // ---- reducer ----
 export default handleActions(
@@ -143,7 +144,7 @@ const userCreators = {
   signUpDB,
   logoutDB,
   signUpIdCheckDB,
-  // loginCheckDB,
+  loginCheckDB,
 };
 
 export { userCreators };

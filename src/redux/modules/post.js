@@ -6,6 +6,8 @@ import "moment";
 import { ActionCreators as imageActions } from "./image";
 import { Sync } from "@mui/icons-material";
 
+import axios from "axios";
+
 // ---- actions type ----
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
@@ -97,11 +99,13 @@ export const deletePostDB =
 //-- addPostDB --
 
 export const addPostDB =
-  (_location, _content) =>
+  (_location, _content, formData) =>
   async (dispatch, getState, { history }) => {
     try {
       const user_id = getState().user.nickname;
       const image_url = getState().image.preview;
+
+      const accessToken = document.cookie.split("=")[1];
 
       const _post = {
         ...initialPost,
@@ -111,13 +115,30 @@ export const addPostDB =
         image_url: image_url,
       };
 
-      await apis.add(_location, _content);
+      axios({
+        method: "post",
+        url: "http://52.78.31.61:8080/api/board",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-AUTH-TOKEN": `${accessToken}`, 
+        },
+        processData: false,
+      })
+      .then((response) => {
+        window.alert("게시물 업로드 완료");
+        console.log(response);
+      })
+      .catch((err) => {
+        window.alert("게시물 업로드 실패");
+        console.log(err)
+      });
 
       console.log("yes");
 
       dispatch(addPost(_post));
 
-      // history.push("/");
+      history.push("/");
       dispatch(imageActions.setPreview(null));
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
@@ -135,15 +156,29 @@ export const editPostDB =
         return;
       }
       console.log(post_id);
-      const multipartFile = formData;
       const image_url = getState().image.preview;
 
-      const post_idx = getState().post.list.findIndex(
-        (p) => p.id === Number(post_id)
-      );
-
+      const accessToken = document.cookie.split("=")[1];
       
-      // await apis.eidt(post.location, content, multipartFile, post_id)
+      axios({
+        method: "post",
+        url: "http://52.78.31.61:8080/api/board",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-AUTH-TOKEN": `${accessToken}`, 
+        },
+        processData: false,
+      })
+      .then((response) => {
+        window.alert("게시물 수정 완료");
+        console.log(response);
+      })
+      .catch((err) => {
+        window.alert("게시물 수정 실패");
+        console.log(err)
+      });
+      
       dispatch(
         editPost(post_id, { ...content, ...location, image_url: image_url })
       );
