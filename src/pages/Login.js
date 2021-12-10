@@ -68,7 +68,7 @@ const Login = (props) => {
             color="#786a6a"
             _onClick={() => {
               window.location.href =
-                "https://kauth.kakao.com/oauth/authorize?client_id=5e5973832c7a103d67abc5842198fde4&redirect_uri=http://52.78.31.61:8080/user/kakao/callback&response_type=code ";
+                "https://kauth.kakao.com/oauth/authorize?client_id=737e574eedc3c6c15cccbf1b2c985a14&redirect_uri=http://52.78.31.61:8080/user/kakao/callback&response_type=code ";
             }}
           ></Button>
         </Grid>
