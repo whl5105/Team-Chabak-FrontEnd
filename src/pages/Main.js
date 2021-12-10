@@ -20,7 +20,6 @@ const Main = (props) => {
   const paging = useSelector((state) => state.post.paging);
   //리덕스 관리
   // console.log(post_list[0]);
-  console.log(post_list);
 
   React.useEffect(() => {
     if (post_list.length === 0) {
@@ -28,7 +27,6 @@ const Main = (props) => {
       dispatch(userActions.loginCheckDB());
     }
   }, []);
-  console.log(props);
   return (
     <React.Fragment>
       {/* <InfinityScroll

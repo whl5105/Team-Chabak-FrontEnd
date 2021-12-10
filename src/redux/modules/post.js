@@ -18,6 +18,7 @@ const LOADING = "LOADING";
 const getPost = createAction(GET_POST, (post_list, paging) => ({
   post_list,
 }));
+
 const addPost = createAction(ADD_POST, (post) => ({
   post,
 }));
@@ -96,7 +97,7 @@ const initialPost = {
 
 //-- getPostDB(DB 데이터 가져오기) --
 
-// 로드;
+// 목록 불러오기
 export const getPostDB =
   () =>
   async (dispatch, getState, { history }) => {
@@ -109,6 +110,21 @@ export const getPostDB =
       dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
+    }
+  };
+
+// 목록 하나만 부르기
+export const getOnePostDB =
+  (id) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      console.log("목록 불러오기 성공");
+      const postlist = await apis.board(id);
+
+      console.log(postlist);
+      dispatch(getPost(postlist.data));
+    } catch (err) {
+      console.log(`board 조회 오류 발생!${err}`);
     }
   };
 
@@ -277,6 +293,7 @@ export default handleActions(
 const actionCreators = {
   getPost,
   getPostDB,
+  getOnePostDB,
   addPostDB,
   editPostDB,
   deletePostDB,

@@ -22,10 +22,10 @@ import bgimg from "../1.jpg";
 import OAuth from "./OAuth";
 function App() {
   const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
+  const is_local = localStorage.getItem("username") ? true : false;
 
   React.useEffect(() => {
-    if (is_login) {
+    if (is_local) {
       dispatch(userActions.loginCheckDB());
     }
   }, []);
@@ -36,10 +36,11 @@ function App() {
           <Header></Header>
           <Grid
             margin="0px auto"
-            bg="#ffffff"
+            bg="aliceblue"
             height="90vh"
             overflow="scroll"
             padding="20px"
+            radius="5px"
           >
             <ConnectedRouter history={history}>
               <Route exact path="/" component={Main} />
