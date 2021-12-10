@@ -11,6 +11,8 @@ const Text = (props) => {
     is_text,
     __onClick,
     is_sns,
+    justify,
+    padding,
   } = props;
 
   const styles = {
@@ -21,6 +23,8 @@ const Text = (props) => {
     center: center,
     is_text: is_text,
     __onClick: __onClick,
+    justify: justify,
+    padding: padding,
   };
 
   if (is_text) {
@@ -39,18 +43,22 @@ const Text = (props) => {
 };
 
 Text.defalutProps = {
-  blod: false,
+  bold: false,
   color: "#222831",
   size: "14px",
   margin: false,
   center: false,
   is_text: false,
   __onClick: () => {},
+  justify: false,
+  padding: false,
 };
 const P = styled.p`
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
-  font-weight: ${(props) => (props.bold ? "600" : "400")};
+  font-weight: ${(props) => props.bold};
+  ${(props) => (props.padding ? `padding:${props.padding};` : "")}
+  ${(props) => (props.justify ? `justify-content:${props.justify};` : "")}
   ${(props) => (props.margin ? `margin:${props.margin};` : "")};
   ${(props) => (props.center ? "text-align: center" : "")};
 `;

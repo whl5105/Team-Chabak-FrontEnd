@@ -39,7 +39,7 @@ const AspectInner = styled.div`
   overflow: hidden;
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 `;
 
 const AspectInnerHover = styled.div`
@@ -48,6 +48,7 @@ const AspectInnerHover = styled.div`
   overflow: hidden;
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  /* border-radius: 5px; */
   &:hover {
     opacity: 0.8;
     cursor: pointer;
