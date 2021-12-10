@@ -13,6 +13,7 @@ import axios from "axios";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
+const DELETE_POST = 'DELETE_POST'
 const LOADING = "LOADING";
 // const DELETE_POST = "DELETE_POST";
 
@@ -29,6 +30,11 @@ const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
   post,
 }));
+
+const deletePost = createAction(DELETE_POST, (post_id) => ({
+  post_id,
+}))
+
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 // const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
@@ -63,7 +69,6 @@ const initialState = {
 
   // paging: { start: null, next: null, size: 3 },
   // is_loading: false,
-  pageNum: 0,
 };
 
 const initialPost = {
@@ -97,15 +102,12 @@ const initialPost = {
 // };
 
 //-- getPostDB(DB 데이터 가져오기) --
-
-// 목록 불러오기
 export const getPostDB =
-  (pageNum) =>
+  () =>
   async (dispatch, getState, { history }) => {
     try {
       console.log("목록 불러오기 성공");
-      const postlist = await apis.boards(pageNum);
-      // console.log(postlist);
+      const postlist = await apis.boards();
       dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
@@ -120,7 +122,7 @@ export const getOnePostDB =
       console.log("목록 불러오기 성공");
       const postlist = await apis.board(id);
 
-      console.log(postlist);
+      // console.log(postlist);
       dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`board 조회 오류 발생!${err}`);
@@ -128,14 +130,40 @@ export const getOnePostDB =
   };
 
 //-- deletePostFB(post 삭제)  --
+// export const deletePostDB =
+//   (id) =>
+//   async (dispatch, getState, { history }) => {
+//     try {
+//       await apis.del(id);
+//       history.replace("/");
+//     } catch (err) {
+//       console.error("Error removing document: ", err);
+//     }
+//   };
+
+//-- deletePostDB --
 export const deletePostDB =
-  (id) =>
+  (post_id) =>
   async (dispatch, getState, { history }) => {
     try {
-      await apis.del(id);
-      history.replace("/");
+      const accessToken = document.cookie.split(';')[0].split('=')[1];
+      axios
+        .delete(`http://52.78.31.61:8080/api/board/detail/${post_id}`, {
+          headers: {
+            'X-AUTH-TOKEN': accessToken,
+          },
+        })
+        .then((response) => {
+          window.alert('게시물 삭제 완료');
+          dispatch(deletePost(post_id));
+          history.replace('/');
+        })
+        .catch((err) => {
+          window.alert('게시물 삭제 실패');
+          console.log(err);
+        });
     } catch (err) {
-      console.error("Error removing document: ", err);
+      console.error('게시물 삭제 문제 발생', err);
     }
   };
 
@@ -163,23 +191,20 @@ export const addPostDB =
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-AUTH-TOKEN": `${accessToken}`, 
+          "X-AUTH-TOKEN": `${accessToken}`,
         },
       })
-      .then((response) => {
-        window.alert("게시물 업로드 완료");
-        dispatch(addPost(_post));
-        history.replace("/");
-        console.log(response);
-      })
-      .catch((err) => {
-        window.alert("게시물 업로드 실패");
-        console.log(err)
-      });
-
-      
-
-      dispatch(imageActions.setPreview(null));
+        .then((response) => {
+          dispatch(addPost(_post));
+          window.alert("게시물 업로드 완료");
+          history.replace("/");
+          // dispatch(actionCreators.getPostDB());
+          dispatch(imageActions.setPreview(null));
+        })
+        .catch((err) => {
+          window.alert("게시물 업로드 실패");
+          console.log(err);
+        });
     } catch (err) {
       console.error("게시물 업로드 문제 발생", err);
     }
@@ -198,32 +223,31 @@ export const editPostDB =
       const image_url = getState().image.preview;
 
       const accessToken = document.cookie.split("=")[1];
-      
+
       axios({
         method: "put",
         url: `http://52.78.31.61:8080/api/board/detail/${post_id}`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-AUTH-TOKEN": `${accessToken}`, 
+          "X-AUTH-TOKEN": `${accessToken}`,
         },
       })
-      .then((response) => {
-        window.alert("게시물 수정 완료");
-        console.log(response);
-      })
-      .catch((err) => {
-        window.alert("게시물 수정 실패");
-        console.log(err)
-      });
-      
-    
-      dispatch(
-        editPost(post_id, { ...content, ...location, image_url: image_url })
-      );
+        .then((response) => {
+          window.alert("게시물 수정 완료");
+          dispatch(
+            editPost(post_id, { ...content, ...location, image: image_url })
+          );
+          dispatch(imageActions.setPreview(null));
+          history.replace("/");
+          console.log(post_id, { ...content, ...location, image: image_url });
+        })
+        .catch((err) => {
+          window.alert("게시물 수정 실패");
+          console.log(err);
+        });
 
-      // history.replace("/");
-      dispatch(imageActions.setPreview(null));
+
     } catch (err) {
       window.alert("이미지를 선택해주세요");
       console.log(err);
@@ -302,9 +326,20 @@ export default handleActions(
         let idx = draft.list.findIndex(
           (p) => p.id === Number(action.payload.post_id)
         );
-
+        console.log(idx);
+        console.log({ ...draft.list[idx], ...action.payload.post });
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
+
+    [DELETE_POST]: (state, action) => 
+    produce(state, (draft) => {
+      let deleted_list = draft.list.filter(
+        p => p.id !== Number(action.payload.post_id)
+      );
+      console.log(deleted_list)
+
+      draft.list = deleted_list;
+    }),
 
     [LOADING]: (state, action) =>
       produce(state, (draft) => {

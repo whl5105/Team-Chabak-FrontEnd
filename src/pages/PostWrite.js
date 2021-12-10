@@ -21,7 +21,6 @@ const PostWrite = (props) => {
   // console.log(post_list)
 
   let post_id = props.match.params.idx;
-  // console.log(post_id);
 
   const is_edit = post_id ? true : false;
   // console.log(is_edit);
@@ -71,43 +70,45 @@ const PostWrite = (props) => {
   };
 
   const addPost = () => {
-    let formData = new FormData();
+    let addFormData = new FormData();
 
     const post_info = {
       location: location,
-      content: content
-    }
+      content: content,
+    };
 
-    formData.append('multipartFile', imageFile);
-    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
+    addFormData.append("multipartFile", imageFile);
+    addFormData.append(
+      "data",
+      new Blob([JSON.stringify(post_info)], { type: "application/json" })
+    );
 
-    dispatch(postActions.addPostDB(location, content, formData));
-    
-    
+    dispatch(postActions.addPostDB(location, content, addFormData));
   };
 
   const editPost = () => {
-    const formData = new FormData();
-    formData.append("img", imageFile);
-
+    const editFormData = new FormData();
+    editFormData.append("img", imageFile);
+    // console.log(editFormData.get('img'));
     const post_info = {
       location: location,
-      content: content
-    }
+      content: content,
+    };
 
-    formData.append('multipartFile', imageFile);
-    formData.append("data", new Blob([JSON.stringify(post_info)], {type: "application/json"}))
+    editFormData.append("multipartFile", imageFile);
+    editFormData.append(
+      "data",
+      new Blob([JSON.stringify(post_info)], { type: "application/json" })
+    );
 
     dispatch(
       postActions.editPostDB(
         post_id,
         { content: content },
         { location: location },
-        formData
+        editFormData
       )
     );
-    
-    
   };
 
   if (!is_login) {

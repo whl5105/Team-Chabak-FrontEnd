@@ -16,7 +16,6 @@ api.interceptors.request.use(function (config) {
 });
 
 export const apis = {
-
   del: (id) => api.delete(`/api/board/detail/${id}`),
   boards: () => api.get(`/api/board/`),
   board: (id) => api.get(`/api/board/detail/${id}`),

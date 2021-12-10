@@ -15,7 +15,7 @@ const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
 // ---- initialState ----
 const initialState = {
-  nickname: "suin",
+  nickname: "",
   // username: null,
   // email: null,
   is_login: false, //로그인 확인
