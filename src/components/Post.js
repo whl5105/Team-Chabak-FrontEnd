@@ -8,17 +8,18 @@ import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
   const dispatch = useDispatch();
+  //메인에서 반복문으로 돌린 게시물 인덱스번호 가지고 오기위해 사용
   const paramIdx = useParams();
-  console.log(paramIdx);
   return (
     <React.Fragment>
       <Grid border="5px solid aliceblue" radius="10px" bg="#ffffff">
-        {/* 로그인한 경우 수정과 삭제버튼 보이도록하기 */}
         <Grid is_flex justify="space-between">
           <Text padding="10px 0 0 10px" bold="800">
             {props.location}
           </Text>
           <Grid is_flex width="13em" justify="flex-end" padding="0 5px 0 0">
+            {/* 로그인한 경우 (수정,삭제버튼) 보이도록하기 */}
+            {/* is_me = 로그인한경우 */}
             {props.is_me && (
               <Button
                 width="4em"
@@ -43,8 +44,8 @@ const Post = (props) => {
             )}
           </Grid>
         </Grid>
-        {/* <Text>{props.content}</Text> */}
-
+        {/* detail_view = 메인과 상세보기페이지 차이점을 주기위해 상세페이지인 경우에만 적용되는 변수로 사용*/}
+        {/* 3항 연산식으로 메인과 상세페이지로 보여질 부분을 나눔 */}
         {props.detail_view ? (
           <Image src={props.image}></Image>
         ) : (
