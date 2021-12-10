@@ -29,7 +29,10 @@ const Post = (props) => {
           <Grid is_flex width="13em" justify="flex-end" padding="0 5px 0 0">
             {/* 로그인한 경우 (수정,삭제버튼) 보이도록하기 */}
             {/* is_me = 로그인한경우 */}
-            {props.is_me && props.detail_view && (
+
+            {props.is_me &&
+            props.detail_view && (
+
               <Button
                 width="4em"
                 padding="3px"
@@ -40,7 +43,10 @@ const Post = (props) => {
               ></Button>
             )}
 
-            {props.is_me && props.detail_view && (
+
+            {props.is_me &&
+            props.detail_view && (
+
               <Button
                 width="4em"
                 margin="0 2px"
