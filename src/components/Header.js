@@ -8,11 +8,10 @@ import { userCreators as userActions } from "../redux/modules/user";
 
 const Header = (props) => {
   const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
   const is_token = document.cookie;
 
   //로그인한 경우 보여질 헤더
-  if (is_login) {
+  if (is_token) {
     return (
       <React.Fragment>
         <div
