@@ -38,7 +38,7 @@ export const apis = {
   // editComment: (id, coId, content) =>
   // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
-  // user
+  // ---- user ---- 
   login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
   signup: (id, pwd, email) =>
     api.post("/user/signup", {
