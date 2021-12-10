@@ -16,6 +16,7 @@ api.interceptors.request.use(function (config) {
 });
 
 export const apis = {
+
   del: (id) => api.delete(`/api/board/detail/${id}`),
   boards: (pageNum) => api.get(`/api/board/${pageNum}`),
   board: (id) => api.get(`/api/board/detail/${id}`),
@@ -28,7 +29,7 @@ export const apis = {
   // editComment: (id, coId, content) =>
   // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
-  // ---- user ---- 
+  // ---- user ----
   login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
   signup: (id, pwd, email) =>
     api.post("/user/signup", {

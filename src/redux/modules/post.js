@@ -5,6 +5,7 @@ import "moment";
 
 import { ActionCreators as imageActions } from "./image";
 import { Sync } from "@mui/icons-material";
+import { findIndex } from "lodash";
 
 import axios from "axios";
 
@@ -19,6 +20,7 @@ const LOADING = "LOADING";
 const getPost = createAction(GET_POST, (post_list) => ({
   post_list,
 }));
+
 const addPost = createAction(ADD_POST, (post) => ({
   post,
 }));
@@ -32,10 +34,36 @@ const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 
 // ---- initialState ----
 const initialState = {
-  list: [],
-  paging: { start: null, next: null, size: 3 },
-  is_loading: false,
-  pageNum: 1,
+  list: [
+    // {
+    //   id: 0,
+    //   location: "경기도",
+    //   content: "넘모 좋아요",
+    //   image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박",
+    //   createdAt: "2021-12-06",
+    // },
+    // {
+    //   id: 1,
+    //   location: "화성1",
+    //   content: "넘모오 좋아요",
+    //   image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박1",
+    //   createdAt: "2021-12-06",
+    // },
+    // {
+    //   id: 2,
+    //   location: "화성2",
+    //   content: "넘모오오 좋아요",
+    //   image: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
+    //   nickname: "김차박2",
+    //   createdAt: "2021-12-06",
+    // },
+  ],
+
+  // paging: { start: null, next: null, size: 3 },
+  // is_loading: false,
+  pageNum: 0,
 };
 
 const initialPost = {
@@ -70,7 +98,7 @@ const initialPost = {
 
 //-- getPostDB(DB 데이터 가져오기) --
 
-// 로드;
+// 목록 불러오기
 export const getPostDB =
   (pageNum) =>
   async (dispatch, getState, { history }) => {
@@ -78,9 +106,24 @@ export const getPostDB =
       console.log("목록 불러오기 성공");
       const postlist = await apis.boards(pageNum);
       console.log(postlist);
-      dispatch(getPost(postlist.data.content));
+      dispatch(getPost(postlist.data));
     } catch (err) {
       console.log(`boards 조회 오류 발생!${err}`);
+    }
+  };
+
+// 목록 하나만 부르기
+export const getOnePostDB =
+  (id) =>
+  async (dispatch, getState, { history }) => {
+    try {
+      console.log("목록 불러오기 성공");
+      const postlist = await apis.board(id);
+
+      console.log(postlist);
+      dispatch(getPost(postlist.data));
+    } catch (err) {
+      console.log(`board 조회 오류 발생!${err}`);
     }
   };
 
@@ -97,7 +140,6 @@ export const deletePostDB =
   };
 
 //-- addPostDB --
-
 export const addPostDB =
   (_location, _content, formData) =>
   async (dispatch, getState, { history }) => {
@@ -106,6 +148,7 @@ export const addPostDB =
       const image_url = getState().image.preview;
 
       const accessToken = document.cookie.split("=")[1];
+
 
       const _post = {
         ...initialPost,
@@ -146,7 +189,6 @@ export const addPostDB =
   };
 
 //-- editPostDB --
-
 export const editPostDB =
   (post_id = null, content = {}, location, formData) =>
   async (dispatch, getState, { history }) => {
@@ -179,6 +221,7 @@ export const editPostDB =
         console.log(err)
       });
       
+    
       dispatch(
         editPost(post_id, { ...content, ...location, image_url: image_url })
       );
@@ -191,12 +234,64 @@ export const editPostDB =
     }
   };
 
+// //상세게시물 요청  DB
+// export const getOnePostDB =
+//   (id) =>
+//   async (dispatch, getState, { history }) => {
+//     try {
+//       // dispatch(loading(true));
+//       console.log("목록 불러오기 성공");
+//       const postOne = await apis.board(id);
+//       console.log(postOne);
+//       // dispatch(getPost(postlist.data));
+//     } catch (err) {
+//       console.log(`boards 조회 오류 발생!${err}`);
+//     }
+//   };
+
+// const getOnePostDB = (id) => {
+//   return function (didispatch, getState, { history }) {
+//     const postDB = firestore.collection("post");
+//     postDB
+//       .doc(id)
+//       .get()
+//       .then((doc) => {
+//         console.log(doc);
+//         console.log(doc.data());
+
+//         let _post = doc.data();
+//         let post = Object.keys(_post).reduce(
+//           (acc, cur) => {
+//             if (cur.indexOf("user_") !== -1) {
+//               return {
+//                 ...acc,
+//                 user_info: { ...acc.user_info, [cur]: _post[cur] },
+//               };
+//             }
+//             return { ...acc, [cur]: _post[cur] };
+//           },
+//           { id: doc.id, user_info: {} }
+//         );
+//         dispatch(getPost([post]));
+//       });
+//   };
+// };
+
 //---- reducer ----
 export default handleActions(
   {
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
+        // 중복 처리하기
+        // draft.list = draft.list.reduce((acc, cur) => {
+        //   if (acc.findIndex((a) => a.id === cur.id) === -1) {
+        //     return [...acc, cur];
+        //   }else{
+        //     acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+        //     return acc;
+        //   }
+        // });
         draft.paging = action.payload.paging;
         draft.is_loading = false;
       }),
@@ -231,9 +326,11 @@ export default handleActions(
 const actionCreators = {
   getPost,
   getPostDB,
+  getOnePostDB,
   addPostDB,
   editPostDB,
   deletePostDB,
+  // getOnePostDB,
   // fatchPosts,
 };
 

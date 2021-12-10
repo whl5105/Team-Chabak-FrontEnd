@@ -6,7 +6,7 @@ import { userCreators as userActions } from "../redux/modules/user";
 // import { BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Route } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { Grid } from "../elements/index";
 
 import Header from "../components/Header";
@@ -19,12 +19,13 @@ import PostWrite from "../pages/PostWrite";
 import styled from "styled-components";
 import bgimg from "../1.jpg";
 
+import OAuth from "./OAuth";
 function App() {
   const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
+  const is_local = localStorage.getItem("username") ? true : false;
 
   React.useEffect(() => {
-    if (is_login) {
+    if (is_local) {
       dispatch(userActions.loginCheckDB());
     }
   }, []);
@@ -35,10 +36,11 @@ function App() {
           <Header></Header>
           <Grid
             margin="0px auto"
-            bg="#ffffff"
+            bg="aliceblue"
             height="90vh"
             overflow="scroll"
             padding="20px"
+            radius="5px"
           >
             <ConnectedRouter history={history}>
               <Route exact path="/" component={Main} />
@@ -48,6 +50,7 @@ function App() {
               <Route exact path="/detail/:idx" component={Detail} />
               <Route exact path="/write" component={PostWrite} />
               <Route exact path="/write/:idx" component={PostWrite} />
+              <Route path="/oauth/kakao/callback" component={OAuth} />
             </ConnectedRouter>
           </Grid>
         </Grid>

@@ -7,7 +7,6 @@ const Grid = (props) => {
   const {
     is_flex,
     width,
-    hright,
     padding,
     margin,
     bg,
@@ -18,6 +17,8 @@ const Grid = (props) => {
     justify,
     height,
     overflow,
+    border,
+    radius,
   } = props;
 
   const styles = {
@@ -33,6 +34,8 @@ const Grid = (props) => {
     height: height,
     position: position,
     overflow: overflow,
+    border: border,
+    radius: radius,
   };
 
   return (
@@ -57,6 +60,8 @@ Grid.defaultProps = {
   position: false,
   justify: false,
   overflow: false,
+  border: false,
+  radius: false,
 };
 
 const GridBox = styled.div`
@@ -70,6 +75,8 @@ const GridBox = styled.div`
   ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
   ${(props) => (props.is_flex ? "display: flex; align-items: center;" : "")}
   ${(props) => (props.position ? `position: ${props.position};` : "")}
+  ${(props) => (props.border ? `border: ${props.border};` : "")}
+  ${(props) => (props.radius ? `border-radius: ${props.radius};` : "")}
   ${(props) => (props.overflow ? `overflow: ${props.overflow};` : "")}
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/

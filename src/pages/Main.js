@@ -27,7 +27,6 @@ const Main = (props) => {
       dispatch(userActions.loginCheckDB());
     }
   }, []);
-  console.log(props);
   return (
     <React.Fragment>
       {/* <InfinityScroll

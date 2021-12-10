@@ -9,15 +9,16 @@ import { actionCreators as postActions } from "../redux/modules/post";
 const Post = (props) => {
   const dispatch = useDispatch();
   const paramIdx = useParams();
-  // console.log(props);
+  console.log(paramIdx);
   return (
     <React.Fragment>
-      <Grid>
+      <Grid border="5px solid aliceblue" radius="10px" bg="#ffffff">
         {/* 로그인한 경우 수정과 삭제버튼 보이도록하기 */}
-        <Grid is_flex>
-          <Text>{props.location}</Text>
-          <Grid is_flex width="13em">
-            <Text>{props.createdAt}</Text>
+        <Grid is_flex justify="space-between">
+          <Text padding="10px 0 0 10px" bold="800">
+            {props.location}
+          </Text>
+          <Grid is_flex width="13em" justify="flex-end" padding="0 5px 0 0">
             {props.is_me && (
               <Button
                 width="4em"
@@ -51,9 +52,18 @@ const Post = (props) => {
         )}
 
         <Grid is_flex>
-          <Text>{props.nickname}</Text>
+          <Text padding="0 0 0 10px" bold="800">
+            {props.nickname}
+          </Text>
           {/* <Text>댓글 10개</Text> */}
         </Grid>
+        {props.detail_view ? (
+          <Text padding="0 0 0 10px" justify="flex-end">
+            {props.content}
+          </Text>
+        ) : (
+          ""
+        )}
       </Grid>
     </React.Fragment>
   );
