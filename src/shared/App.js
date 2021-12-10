@@ -15,6 +15,7 @@ import Detail from "../pages/Detail";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import PostWrite from "../pages/PostWrite";
+import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
 
 import styled from "styled-components";
 import bgimg from "../1.jpg";
@@ -49,7 +50,11 @@ function App() {
               <Route exact path="/detail/:idx" component={Detail} />
               <Route exact path="/write" component={PostWrite} />
               <Route exact path="/write/:idx" component={PostWrite} />
-              <Route path="/oauth/kakao/callback" component={OAuth} />
+              <Route
+                path="/oauth/callback/kakao"
+                component={OAuth2RedirectHandler}
+              ></Route>
+              {/* <Route path="/oauth/kakao/callback" component={OAuth} /> */}
             </ConnectedRouter>
           </Grid>
         </Grid>

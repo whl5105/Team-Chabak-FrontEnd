@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 import { deleteCookie, setCookie } from "../../shared/Cookie";
 import { apis } from "../../shared/Api";
+import axios from "axios";
 
 // action
 const LOGIN = "user/LOGIN";
@@ -16,10 +17,7 @@ const signupId = createAction(SIGNUPID, (id) => ({ id }));
 // ---- initialState ----
 const initialState = {
   nickname: "suin",
-  // username: null,
-  // email: null,
   is_login: false, //로그인 확인
-
   response: null, //닉네임 중복 확인
 };
 
@@ -65,41 +63,7 @@ export const loginDB =
       console.log(`오류 발생!${err}`);
     }
   };
-
-// //---- 로그아웃 DB ----
-// const logoutDB = () => {
-//   return function (dispatch, getState, { history }) {
-//     apis
-//       .logout()
-//       .then((res) => {
-//         deleteCookie("token");
-
-//         // localStorage.removeItem("username");
-//         dispatch(logout());
-//         history.replace("/");
-//       })
-//       .catch((err) => {
-//         window.alert("로그아웃 에러 ");
-//         //빨간색 표시 알림
-//       });
-//   };
-// };
-
 // ---- 로그아웃 DB ----
-// export const logoutDB =
-//   () =>
-//   async (dispatch, getState, { history }) => {
-//     try {
-//       const response = await apis.logout();
-//       deleteCookie("token");
-//       console.log(response.data);
-//       dispatch(logout());
-//       history.replace("/");
-//       // dispatch(signupId(response));
-//     } catch (err) {
-//       console.log(`로그아웃  오류 발생!${err}`);
-//     }
-//   };
 const logoutDB = () => {
   return function (dispatch, getState, { history }) {
     dispatch(logout());
@@ -107,6 +71,8 @@ const logoutDB = () => {
     localStorage.removeItem("username");
   };
 };
+
+//---- 로그인 체크 DB ----
 const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const userId = localStorage.getItem("username");
@@ -116,6 +82,30 @@ const loginCheckDB = () => {
     } else {
       dispatch(logout());
     }
+  };
+};
+
+//---- 카카오 로그인 DB ---- 
+const kakaoLogin = (code) => {
+  console.log(code);
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "GET",
+      url: `http://52.78.31.61/oauth/callback/kakao?code=${code}`,
+    })
+      .then((response) => {
+        console.log(response); // 토큰이 넘어올 것임
+        console.log(response.data.token); // 토큰이 넘어올 것임
+        const ACCESS_TOKEN = response.data.token;
+        console.log(ACCESS_TOKEN);
+        setCookie("token", response.data.token, 5);
+        history.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
+      })
+      .catch((err) => {
+        console.log("소셜로그인 에러", err);
+        window.alert("로그인에 실패하였습니다.");
+        history.replace("/login"); // 로그인 실패하면 로그인화면으로 돌려보냄
+      });
   };
 };
 
@@ -147,6 +137,7 @@ const userCreators = {
   logoutDB,
   signUpIdCheckDB,
   loginCheckDB,
+  kakaoLogin,
 };
 
 export { userCreators };
