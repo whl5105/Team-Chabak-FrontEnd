@@ -50,8 +50,6 @@ export const getPostDB =
     }
   };
 
-
-
 //-- deletePostDB --
 export const deletePostDB =
   (post_id) =>

@@ -12,7 +12,7 @@ const SIGNUPID = "user/SIGNUPID";
 // ---- action creator ----
 const setLogin = createAction(LOGIN, (user) => ({ user }));
 const logout = createAction(LOGOUT, (user) => ({ user }));
-const signupId = createAction(SIGNUPID, (nickname) => ({ nickname }));
+const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
 // ---- initialState ----
 const initialState = {
