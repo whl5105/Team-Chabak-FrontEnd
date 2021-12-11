@@ -151,7 +151,6 @@ export const editPostDB =
         location: location,
         image: image_url,
       };
-      console.log(post_id);
 
       axios({
         method: "put",
@@ -171,7 +170,6 @@ export const editPostDB =
           );
           dispatch(imageActions.setPreview(null));
           history.replace("/");
-          console.log(post_id, { ...content, ...location, image: image_url });
         })
         .catch((err) => {
           window.alert("게시물 수정 실패");
@@ -201,8 +199,6 @@ export default handleActions(
         let idx = draft.list.findIndex(
           (p) => p.id === Number(action.payload.post_id)
         );
-        console.log(idx);
-        console.log({ ...draft.list[idx], ...action.payload.post });
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
 
@@ -211,7 +207,6 @@ export default handleActions(
         let deleted_list = draft.list.filter(
           (p) => p.id !== Number(action.payload.post_id)
         );
-        console.log(deleted_list);
 
         draft.list = deleted_list;
       }),

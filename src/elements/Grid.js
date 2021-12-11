@@ -56,7 +56,7 @@ Grid.defaultProps = {
   justify: false,
   overflow: false,
   border: false,
-  radius: false,
+  // radius: false,
   _onClick: () => {},
 };
 

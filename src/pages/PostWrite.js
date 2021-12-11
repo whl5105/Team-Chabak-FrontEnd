@@ -18,19 +18,14 @@ const PostWrite = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
   const post_list = useSelector((state) => state.post.list);
   const { history } = props;
-  console.log(post_list)
 
   let post_id = props.match.params.idx;
-  console.log(post_id);
 
   const is_edit = post_id ? true : false;
-  console.log(is_edit);
 
   let _post = is_edit
   ? post_list.find((p) => p.id === Number(post_id))
   : null;
-  // console.log(post_list[49].id)
-  console.log(_post);
 
   const [content, setContents] = React.useState(_post ? _post.content : "");
   const [location, setLocation] = React.useState(_post ? _post.location : "");
@@ -171,7 +166,6 @@ const PostWrite = (props) => {
               onChange={selectFile}
               ref={fileInput}
             />
-            {/* <InputFile /> */}
           </Filebox>
 
           <Image

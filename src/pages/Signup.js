@@ -8,18 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
-  const { history } = props;
 
-  // const isLogin = useSelector((store) => store.user.is_login);
   const isIdResponse = useSelector((store) => store.user.response);
-  console.log(isIdResponse);
 
   //-- 아아디, 비밀번호, 비밀번호확인 , 이메일  --
   const [id, setId] = React.useState("");
   const [pwd, setPwd] = React.useState("");
   const [pwd_check, setPwdCheck] = React.useState("");
   const [email, setEmail] = React.useState("");
-  console.log(email);
+
   //-- 오류메시지 상태저장--
   const [idMessage, setIdMessage] = React.useState("");
   const [pwdMessage, setPwdMessage] = React.useState("");
@@ -31,7 +28,6 @@ const Signup = (props) => {
   const [isPassword, setIsPassword] = React.useState(false);
   const [isPwdCheck, setIsPwdCheck] = React.useState(false);
   const [isEmail, setIsEmail] = React.useState(false);
-  console.log(isId, isPassword, isPwdCheck, isEmail);
 
   //---- 아이디 유효성 검사  ----
   const idCheck = (e) => {
@@ -39,11 +35,9 @@ const Signup = (props) => {
     setId(idCurrent);
     if (id.length < 3 || id.length > 10) {
       setIdMessage("3글자 이상 10글자 미만으로 입력해주세요.");
-      // setIsId(false);
     } else {
       setIdMessage("중복확인이 필요합니다.:)");
 
-      // setIsId(true);
     }
   };
   //---- 아이디 중복  버튼 클릭시   ----
@@ -56,20 +50,16 @@ const Signup = (props) => {
       dispatch(userActions.signUpIdCheckDB(id));
       // setIsId(true);
     }
-    console.log(isIdResponse)
     if (isIdResponse) {
-      console.log(`리덕스-isIdResponse  : ` + isIdResponse);
       setIdMessage("이미 있는 아이디 입니다.");
       setIsId(false);
     } else {
-      console.log(`리덕스-isIdResponse  : ` + isIdResponse);
       setIdMessage("사용할 수 있는 아이디 입니다.");
       setIsId(true);
     }
   };
   //---- 비밀번호 유효성 검사  ----
   const onChangePassword = (e) => {
-    // console.log(e.target.value);
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,10}$/;
     const passwordCurrent = e.target.value;
     setPwd(passwordCurrent);
@@ -88,7 +78,6 @@ const Signup = (props) => {
   const onChangePasswordCheck = (e) => {
     const pwdCurrent = e.target.value;
     setPwdCheck(pwdCurrent);
-    console.log(pwd);
     if (pwd === pwdCurrent) {
       setPwdCheckMessage("비밀번호를 똑같이 입력했어요 : )");
       setIsPwdCheck(true);
@@ -165,8 +154,6 @@ const Signup = (props) => {
               {pwdMessage}
             </Span>
           )}
-
-          {/* <span>{setIdMessage}</span> */}
         </Grid>
         {/* -- 비밀번호 확인 -- */}
         <Grid>

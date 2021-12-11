@@ -32,7 +32,6 @@
     "styled-components": "^5.3.3",
     "web-vitals": "^1.0.1"
   },
-  "proxy" :"http://52.78.31.61",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
