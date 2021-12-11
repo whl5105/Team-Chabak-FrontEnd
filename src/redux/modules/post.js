@@ -13,6 +13,7 @@ const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
+
 // ---- action creators ----
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
@@ -49,18 +50,7 @@ export const getPostDB =
     }
   };
 
-//-- 목록data 하나만 부르기 --
-export const getOnePostDB =
-  (id) =>
-  async (dispatch, getState, { history }) => {
-    try {
-      console.log("목록 불러오기 성공");
-      const postlist = await apis.board(id);
-      dispatch(getPost(postlist.data));
-    } catch (err) {
-      console.log(`board 조회 오류 발생!${err}`);
-    }
-  };
+
 
 //-- deletePostDB --
 export const deletePostDB =
@@ -84,7 +74,7 @@ export const deletePostDB =
           console.log(err);
         });
     } catch (err) {
-      console.error("게시물 삭제 문제 발생", err);
+      console.error('게시물 삭제 문제 발생', err);
     }
   };
 
@@ -222,7 +212,7 @@ export default handleActions(
 const actionCreators = {
   getPost,
   getPostDB,
-  getOnePostDB,
+  // getOnePostDB,
   addPostDB,
   editPostDB,
   deletePostDB,

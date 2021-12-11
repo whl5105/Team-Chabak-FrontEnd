@@ -71,7 +71,14 @@ const PostWrite = (props) => {
     };
   };
 
+  // 게시물 등록
   const addPost = () => {
+    // 이미지를 첨부하지 않았을 경우
+    if (imageFile === null) {
+      window.alert('이미지를 첨부해주세요!');
+      return;
+    }
+
     let addFormData = new FormData();
 
     const post_info = {

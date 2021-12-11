@@ -12,7 +12,7 @@ const SIGNUPID = "user/SIGNUPID";
 // ---- action creator ----
 const setLogin = createAction(LOGIN, (user) => ({ user }));
 const logout = createAction(LOGOUT, (user) => ({ user }));
-const signupId = createAction(SIGNUPID, (id) => ({ id }));
+const signupId = createAction(SIGNUPID, (nickname) => ({ nickname }));
 
 // ---- initialState ----
 const initialState = {
@@ -59,6 +59,7 @@ export const loginDB =
       localStorage.setItem("username", response.data[0].username);
       dispatch(setLogin(username));
       window.alert(`${username}님 환영합니다`);
+
       history.replace("/");
     } catch (err) {
       window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
@@ -121,6 +122,7 @@ export default handleActions(
       produce(state, (draft) => {
         draft.nickname = action.payload.user;
         console.log(action.payload.user);
+
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>
