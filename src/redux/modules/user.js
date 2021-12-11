@@ -56,6 +56,7 @@ export const loginDB =
       localStorage.setItem("username", response.data[0].username);
       dispatch(setLogin(username));
       window.alert(`${username}님 환영합니다`);
+
       history.replace("/");
     } catch (err) {
       window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
@@ -112,6 +113,7 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.nickname = action.payload.user;
+
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>

@@ -49,19 +49,6 @@ export const getPostDB =
     }
   };
 
-//-- 목록data 하나만 부르기 --
-export const getOnePostDB =
-  (id) =>
-  async (dispatch, getState, { history }) => {
-    try {
-      console.log("목록 불러오기 성공");
-      const postlist = await apis.board(id);
-      dispatch(getPost(postlist.data));
-    } catch (err) {
-      console.log(`board 조회 오류 발생!${err}`);
-    }
-  };
-
 //-- deletePostDB --
 export const deletePostDB =
   (post_id) =>
@@ -116,7 +103,9 @@ export const addPostDB =
         },
       })
         .then((response) => {
+          console.log(response.data);
           let post = { ..._post, nickname: response.user_id, image: image_url };
+          console.log(post);
           dispatch(addPost(post));
           window.alert("게시물 업로드 완료");
           // dispatch(getPost());
@@ -217,7 +206,7 @@ export default handleActions(
 const actionCreators = {
   getPost,
   getPostDB,
-  getOnePostDB,
+  // getOnePostDB,
   addPostDB,
   editPostDB,
   deletePostDB,

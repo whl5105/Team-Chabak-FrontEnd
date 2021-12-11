@@ -20,29 +20,42 @@ const Main = (props) => {
     <React.Fragment>
       {/* 목록글 화면에 보여주기 */}
       {post_list.map((p, idx) => {
-        if (p.nickname === user_info?.id) {
-          return (
-            <Grid
-              key={p.id}
-              _onClick={() => {
-                history.push(`/detail/${p.id}`);
-              }}
-            >
-              <Post {...p} is_me></Post>
-            </Grid>
-          );
-        } else {
-          return (
-            <Grid
-              key={p.id}
-              _onClick={() => {
-                history.push(`/detail/${p.id}`);
-              }}
-            >
-              <Post {...p}></Post>
-            </Grid>
-          );
-        }
+        // if (p.nickname === user_info?.id) {
+        //   return (
+        //     <Grid
+        //       key={p.id}
+        //       _onClick={() => {
+        //         history.push(`/detail/${p.id}`);
+        //       }}
+        //     >
+        //       <Post {...p} is_me></Post>
+        //     </Grid>
+        //   );
+        // } else {
+        //   return (
+        //     <Grid
+        //       key={p.id}
+        //       _onClick={() => {
+        //         history.push(`/detail/${p.id}`);
+        //       }}
+        //     >
+        //       <Post {...p}></Post>
+        //     </Grid>
+        //   );
+        // }
+        return(
+          <Grid
+            key={p.id}
+            _onClick={() => {
+              history.push(`/detail/${p.id}`);
+            }}
+          >
+            <Post 
+              {...p} 
+              is_me={p.nickname === user_info?.id ? true : false}
+            ></Post>
+          </Grid>
+        )
       })}
     </React.Fragment>
   );
