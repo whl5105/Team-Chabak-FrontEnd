@@ -15,6 +15,7 @@ const Detail = (props) => {
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
   const [post, setPost] = React.useState(post_data ? post_data : null);
+
   React.useEffect(() => {
     const accessToken = document.cookie.split("=")[1];
     axios({
@@ -25,17 +26,19 @@ const Detail = (props) => {
         "X-AUTH-TOKEN": `${accessToken}`,
       },
     })
-      .then((res) => {
-        setPost(res.data);
-        console.log("요청성공", res.data);
-        console.log(post);
-        console.log(post.nickname);
-        console.log(user_info.nickname);
-      })
-      .catch((err) => {
-        console.log("실패", err);
-      });
+
+    .then((res) => {
+      setPost(res.data);
+      console.log('요청성공', res.data);
+      console.log(post);
+      console.log(post.nickname);
+      console.log(user_info.nickname);
+    })
+    .catch((err) => {
+      console.log('실패', err);
+    });
   }, []);
+
   return (
     <React.Fragment>
       <Grid>

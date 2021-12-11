@@ -96,6 +96,12 @@ const PostWrite = (props) => {
   };
 
   const editPost = () => {
+    // 이미지를 변경하지 않았을 경우
+    if (imageFile === null) {
+      window.alert('이미지를 변경해주세요!');
+      return;
+    }
+
     const editFormData = new FormData();
     
     const post_info = {
