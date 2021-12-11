@@ -22,27 +22,7 @@ const Detail = (props) => {
   const post_data = post_list[post_idx];
   const [post, setPost] = React.useState(post_data ? post_data : null);
 
-  const getOnePostDB = async (id) => {
-    try {
-      const postOne = await apis.board(id);
-      console.log(postOne);
-      setPost(postOne.data);
-    } catch (err) {
-      console.log(`board 조회 오류 발생!${err}`);
-    }
-  };
-
   React.useEffect(() => {
-    // const getOnePostDB = async (id) => {
-    //   try {
-    //     const postOne = apis.board(id);
-    //     console.log(postOne);
-    //     setPost(postOne.data);
-    //   } catch (err) {
-    //     console.log(`board 조회 오류 발생!${err}`);
-    //   }
-    // };
-
     const accessToken = document.cookie.split("=")[1];
 
     axios({
@@ -57,23 +37,14 @@ const Detail = (props) => {
       setPost(res.data);
       console.log('요청성공', res.data);
       console.log(post);
+      console.log(post.nickname);
+      console.log(user_info.nickname);
     })
     .catch((err) => {
-      console.log('tlfvo', err);
+      console.log('실패', err);
     });
-
-
-    // if (post) {
-    //   return;
-    // }
-    // getOnePostDB(id);
-
-    // dispatch(postActions.getOnePostDB(id));
-    // setPost(post);
   }, []);
 
-  console.log(post.nickname);
-  console.log(user_info.nickname);
 
   return (
     <React.Fragment>
