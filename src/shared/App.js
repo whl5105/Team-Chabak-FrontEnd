@@ -19,6 +19,7 @@ import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
 
 import styled from "styled-components";
 import bgimg from "../1.jpg";
+import Text from "../elements/Text";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,16 +33,24 @@ function App() {
 
   return (
     <React.Fragment>
+      <BgText>
+        <h3 style={{ fontFamily: "Comfortaa" }}>chabak</h3>
+        <p>
+          차박에서 다양한 정보를 <br />
+          공유하고 소통해보세요!{" "}
+        </p>
+      </BgText>
       <Bg>
         <Grid margin="auto">
           <Header></Header>
           <Grid
             margin="0px auto"
-            bg="aliceblue"
+            bg="#f7fbff"
             height="90vh"
             overflow="scroll"
-            padding="20px"
-            radius="5px"
+            radius="20px"
+            position="absolute"
+            border="20px solid transparent"
           >
             <ConnectedRouter history={history}>
               <Route exact path="/" component={Main} />
@@ -67,5 +76,25 @@ const Bg = styled.div`
   width: 100%;
   height: 100vh;
   background-image: url(${bgimg});
+`;
+const BgText = styled.div`
+width: 300px;
+text-align : center;
+  color: :#c7c7c7;
+  position: absolute;
+  /* background: red; */
+  top: 29%;
+  left: 5%;
+  /* size: 20px; */
+  & h3{
+    font-size: 60px;
+    color: #fff;
+    margin: 0px;
+  }
+  & p{
+    color:#fff;
+    padding:5px ;
+    font-size: 19px;
+  }
 `;
 export default App;

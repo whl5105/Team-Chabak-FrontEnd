@@ -93,27 +93,25 @@ export const getOnePostDB =
     }
   };
 
-
 //-- deletePostDB --
 export const deletePostDB =
   (post_id) =>
   async (dispatch, getState, { history }) => {
     try {
-
-      const accessToken = document.cookie.split(';')[0].split('=')[1];
+      const accessToken = document.cookie.split(";")[0].split("=")[1];
       axios
         .delete(`http://52.78.31.61:8080/api/board/detail/${post_id}`, {
           headers: {
-            'X-AUTH-TOKEN': accessToken,
+            "X-AUTH-TOKEN": accessToken,
           },
         })
         .then((response) => {
-          window.alert('게시물 삭제 완료');
+          window.alert("게시물 삭제 완료");
           dispatch(deletePost(post_id));
-          history.replace('/');
+          history.replace("/");
         })
         .catch((err) => {
-          window.alert('게시물 삭제 실패');
+          window.alert("게시물 삭제 실패");
           console.log(err);
         });
     } catch (err) {
@@ -152,7 +150,6 @@ export const addPostDB =
           dispatch(addPost(_post));
           window.alert("게시물 업로드 완료");
           history.replace("/");
-          // dispatch(actionCreators.getPostDB());
           dispatch(imageActions.setPreview(null));
         })
         .catch((err) => {
@@ -204,13 +201,11 @@ export const editPostDB =
           dispatch(imageActions.setPreview(null));
           history.replace("/");
           console.log(post_id, { ...content, ...location, image: image_url });
-
         })
         .catch((err) => {
           window.alert("게시물 수정 실패");
           console.log(err);
         });
-
     } catch (err) {
       window.alert("");
       console.log(err);
@@ -223,17 +218,6 @@ export default handleActions(
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
-        // 중복 처리하기
-        // draft.list = draft.list.reduce((acc, cur) => {
-        //   if (acc.findIndex((a) => a.id === cur.id) === -1) {
-        //     return [...acc, cur];
-        //   }else{
-        //     acc[acc.findIndex((a) => a.id === cur.id)] = cur;
-        //     return acc;
-        //   }
-        // });
-        draft.paging = action.payload.paging;
-        draft.is_loading = false;
       }),
 
     [ADD_POST]: (state, action) =>
@@ -251,27 +235,13 @@ export default handleActions(
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
 
-    [DELETE_POST]: (state, action) => 
-    produce(state, (draft) => {
-      let deleted_list = draft.list.filter(
-        p => p.id !== Number(action.payload.post_id)
-      );
-      console.log(deleted_list)
-
-      draft.list = deleted_list;
-    }),
-
-    [LOADING]: (state, action) =>
-      produce(state, (draft) => {
-        draft.is_loading = action.payload.is_loading;
-      }),
-
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
         let deleted_list = draft.list.filter(
           (p) => p.id !== Number(action.payload.post_id)
         );
         console.log(deleted_list);
+
         draft.list = deleted_list;
       }),
   },

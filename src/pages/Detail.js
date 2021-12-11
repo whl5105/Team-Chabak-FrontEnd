@@ -9,13 +9,12 @@ import { apis } from "../shared/Api";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 
-
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.idx;
 
-  const user_info = useSelector((state) => state.user.user);
-
+  const user_info = useSelector((state) => state.user);
+  console.log(user_info)
   const post_list = useSelector((store) => store.post.list);
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
@@ -31,9 +30,18 @@ const Detail = (props) => {
       console.log(`board 조회 오류 발생!${err}`);
     }
   };
-  //
 
   React.useEffect(() => {
+    const getOnePostDB = async (id) => {
+      try {
+        const postOne = await apis.board(id);
+        console.log(postOne);
+        setPost(postOne.data);
+      } catch (err) {
+        console.log(`board 조회 오류 발생!${err}`);
+      }
+    };
+
     if (post) {
       return;
     }
@@ -43,13 +51,14 @@ const Detail = (props) => {
     setPost(post);
   }, []);
 
+
   return (
     <React.Fragment>
       <Grid>
         {post && (
           <Post
             {...post}
-            is_me={post.nickname === user_info?.id} 
+            is_me={post.nickname === user_info?.nickname} 
             detail_view={post_data}
           />
         )}

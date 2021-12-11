@@ -16,7 +16,7 @@ const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
 // ---- initialState ----
 const initialState = {
-  nickname: "",
+  nickname: "suin",
   is_login: false, //로그인 확인
   response: null, //닉네임 중복 확인
 };
@@ -28,6 +28,8 @@ export const signUpDB =
     try {
       const response = await apis.signup(id, pwd, email);
       console.log(response.data);
+      window.alert("회원가입이 완료되었습니다. 로그인 해주세요");
+      history.replace("/user/login");
     } catch (err) {
       console.log(`오류 발생!${err}`);
     }
@@ -55,7 +57,9 @@ export const loginDB =
       console.log(response.data);
       setCookie("token", response.data[1].token, 7);
       localStorage.setItem("username", response.data[0].username);
-      dispatch(setLogin({ nickaname: id }));
+      dispatch(setLogin(response.data[0].username));
+
+      window.alert(`${response.data[0].username}님 환영합니다`);
       history.replace("/");
     } catch (err) {
       window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
@@ -84,7 +88,7 @@ const loginCheckDB = () => {
   };
 };
 
-//---- 카카오 로그인 DB ---- 
+//---- 카카오 로그인 DB ----
 const kakaoLogin = (code) => {
   console.log(code);
   return function (dispatch, getState, { history }) {
@@ -99,6 +103,7 @@ const kakaoLogin = (code) => {
         console.log(ACCESS_TOKEN);
         setCookie("token", response.data.token, 5);
         history.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
+        dispatch(setLogin);
       })
       .catch((err) => {
         console.log("소셜로그인 에러", err);
@@ -113,7 +118,8 @@ export default handleActions(
   {
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
-        draft.user = action.payload.user;
+        console.log(action.payload.user);
+        draft.nickname = action.payload.user;
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>

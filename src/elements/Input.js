@@ -4,8 +4,16 @@ import styled from "styled-components";
 import { Text, Grid } from ".";
 
 const Input = (props) => {
-  const { label, placeholder, _onChange, type, multiLine, value, bginput } =
-    props;
+  const {
+    label,
+    placeholder,
+    _onChange,
+    type,
+    multiLine,
+    value,
+    bginput,
+    className,
+  } = props;
 
   // ---- 글쓰기 페이지 내용 영역 ----
   if (multiLine) {
@@ -76,9 +84,14 @@ const Underline = styled.input`
   border: none;
   width: 100%;
   margin: 4px 0 11px 0;
-  background: #eee;
+  background: #fff;
+  border: 1px solid #eee;
   padding: 12px;
   border-radius: 5px;
   box-sizing: border-box;
+  :focus {
+    outline: none;
+    border: 1px solid #777;
+  }
 `;
 export default Input;

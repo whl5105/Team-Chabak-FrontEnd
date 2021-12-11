@@ -1,43 +1,23 @@
-.App {
-  text-align: center;
+/*아래 폰트*/
+/* @font-face {
+  font-family: "BlackhanSans";
+  font-weight: 50;
+  src: url("./fonts/BlackHanSans-Regular.ttf") format("truetype");
+} */
+
+@font-face {
+  font-family: 'Y_Spotlight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
 }
 
-.wrap {
-  position: relative;
-  padding: 30px;
-  font-size: 18px;
-  line-height: 1.6;
-  background: lightgray;
-}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
 
-.topBtn {
-  position: fixed; 
-  opacity: 0; 
-  bottom: 40px; 
-  right: 40px;
-  z-index: -10; 
-  width: 50px; 
-  height: 50px;
-  border-radius: 100%;
-  border: 0 none;
-  background: lightpink;
-  color: blueviolet;
-  border: 2px solid blueviolet;
-  font-size: 18px;
-  font-weight: bold;
-  letter-spacing: -0.06em;
-  box-shadow: 1px 1px 6px 3px rgba(0,0,0,0.3);
-  cursor: pointer;
-  transition: opacity 0.3s ease-in;
 }
+/* @font-face {
+    font-family: "Comfortaa";
+    src: url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500;600;700&display=swap');
 
-.topBtn.active {
-  z-index: 10; 
-  opacity: 1; 
-}
-
-.topBtn:hover,
-.topBtn:focus,
-.topBtn:active { 
-  outline: 0 none; 
-}
+} */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
