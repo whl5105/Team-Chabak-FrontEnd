@@ -54,6 +54,9 @@ Text.defalutProps = {
   padding: false,
 };
 const P = styled.p`
+  /* font-family: "Y_Spotlight"; */
+  font-family: "GmarketSansMedium";
+
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
   font-weight: ${(props) => props.bold};
@@ -64,6 +67,8 @@ const P = styled.p`
 `;
 
 const Div = styled.div`
+  font-family: "Comfortaa";
+  font-weight: 700;
   color: aliceblue;
   font-size: 2em;
   font-weight: 800;

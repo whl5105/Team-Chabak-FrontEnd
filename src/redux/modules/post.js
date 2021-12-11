@@ -12,6 +12,7 @@ const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
+const LOADING = "LOADING";
 
 // ---- action creators ----
 const getPost = createAction(GET_POST, (post_list) => ({

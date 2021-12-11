@@ -16,7 +16,12 @@ const Post = (props) => {
   }
   return (
     <React.Fragment>
-      <Grid border="5px solid aliceblue" radius="10px" bg="#ffffff">
+      <Grid
+        border="1px solid #eeeeee"
+        radius="10px"
+        bg="#ffffff"
+        margin="8px 0"
+      >
         <Grid is_flex justify="space-between">
           <Text padding="10px 0 0 10px" bold="800">
             {props.location}

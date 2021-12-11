@@ -16,7 +16,6 @@ const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
 // ---- initialState ----
 const initialState = {
-
   nickname: "suin",
   is_login: false, //로그인 확인
   response: null, //닉네임 중복 확인
@@ -85,7 +84,7 @@ const loginCheckDB = () => {
   };
 };
 
-//---- 카카오 로그인 DB ---- 
+//---- 카카오 로그인 DB ----
 const kakaoLogin = (code) => {
   console.log(code);
   return function (dispatch, getState, { history }) {
@@ -100,6 +99,7 @@ const kakaoLogin = (code) => {
         console.log(ACCESS_TOKEN);
         setCookie("token", response.data.token, 5);
         history.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
+        dispatch(setLogin);
       })
       .catch((err) => {
         console.log("소셜로그인 에러", err);
