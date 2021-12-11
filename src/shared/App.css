@@ -1,23 +1,13 @@
-/*아래 폰트*/
-/* @font-face {
-  font-family: "BlackhanSans";
-  font-weight: 50;
-  src: url("./fonts/BlackHanSans-Regular.ttf") format("truetype");
-} */
+/*---- 폰트 ----*/
+
 
 @font-face {
   font-family: 'Y_Spotlight';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/Y_Spotlight.woff') format('woff');
 }
-
 @font-face {
     font-family: 'GmarketSansMedium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
 
 }
-/* @font-face {
-    font-family: "Comfortaa";
-    src: url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500;600;700&display=swap');
-
-} */
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
