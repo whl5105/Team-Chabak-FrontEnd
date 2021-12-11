@@ -61,6 +61,7 @@ const Signup = (props) => {
       setIdMessage("이미 있는 아이디 입니다.");
       setIsId(false);
     } else {
+      console.log(`리덕스-isIdResponse  : ` + isIdResponse);
       setIdMessage("사용할 수 있는 아이디 입니다.");
       setIsId(true);
     }
