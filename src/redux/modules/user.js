@@ -12,7 +12,7 @@ const SIGNUPID = "user/SIGNUPID";
 // ---- action creator ----
 const setLogin = createAction(LOGIN, (user) => ({ user }));
 const logout = createAction(LOGOUT, (user) => ({ user }));
-const signupId = createAction(SIGNUPID, (id) => ({ id }));
+const signupId = createAction(SIGNUPID, (nickname) => ({ nickname }));
 
 // ---- initialState ----
 const initialState = {
@@ -120,6 +120,8 @@ export default handleActions(
       produce(state, (draft) => {
         console.log(action.payload.user);
         draft.nickname = action.payload.user;
+        console.log(draft.nickname);
+        console.log(draft);
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>

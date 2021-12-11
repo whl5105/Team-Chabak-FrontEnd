@@ -9,6 +9,8 @@ import { apis } from "../shared/Api";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 
+import axios from "axios";
+
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.idx;
@@ -31,26 +33,47 @@ const Detail = (props) => {
   };
 
   React.useEffect(() => {
-    const getOnePostDB 
-    = async (id) => {
-      try {
-        const postOne = await apis.board(id);
-        console.log(postOne);
-        setPost(postOne.data);
-      } catch (err) {
-        console.log(`board 조회 오류 발생!${err}`);
-      }
-    };
+    // const getOnePostDB = async (id) => {
+    //   try {
+    //     const postOne = apis.board(id);
+    //     console.log(postOne);
+    //     setPost(postOne.data);
+    //   } catch (err) {
+    //     console.log(`board 조회 오류 발생!${err}`);
+    //   }
+    // };
 
-    if (post) {
-      return;
-    }
-    getOnePostDB(id);
+    const accessToken = document.cookie.split("=")[1];
 
-    dispatch(postActions.getOnePostDB(id));
-    setPost(post);
+    axios({
+      method: "get",
+      url: `http://52.78.31.61:8080/api/board/detail/${id}`,
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "X-AUTH-TOKEN": `${accessToken}`,
+      },
+    })
+    .then((res) => {
+      setPost(res.data);
+      console.log('요청성공', res.data);
+      console.log(post);
+    })
+    .catch((err) => {
+      console.log('tlfvo', err);
+    });
+
+
+    // if (post) {
+    //   return;
+    // }
+    // getOnePostDB(id);
+
+    // dispatch(postActions.getOnePostDB(id));
+    // setPost(post);
   }, []);
 
+  console.log(post.nickname);
+  console.log(user_info.nickname);
 
   return (
     <React.Fragment>
