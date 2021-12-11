@@ -21,8 +21,21 @@ const Detail = (props) => {
 
   const [post, setPost] = React.useState(post_data ? post_data : null);
 
+
+  const getOnePostDB = async (id) => {
+    try {
+      const postOne = await apis.board(id);
+      console.log(postOne);
+      setPost(postOne.data);
+    } catch (err) {
+      console.log(`board 조회 오류 발생!${err}`);
+    }
+  };
+
+
   React.useEffect(() => {
-    const getOnePostDB = async (id) => {
+    const 
+    = async (id) => {
       try {
         const postOne = await apis.board(id);
         console.log(postOne);
@@ -47,7 +60,7 @@ const Detail = (props) => {
         {post && (
           <Post
             {...post}
-            is_me={post.nickname === user_info?.id}
+            is_me={post.nickname === user_info?.id} 
             detail_view={post_data}
           />
         )}
