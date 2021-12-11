@@ -13,7 +13,6 @@ const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
-
 // ---- action creators ----
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
@@ -72,7 +71,7 @@ export const deletePostDB =
           console.log(err);
         });
     } catch (err) {
-      console.error('게시물 삭제 문제 발생', err);
+      console.error("게시물 삭제 문제 발생", err);
     }
   };
 
@@ -106,7 +105,6 @@ export const addPostDB =
         .then((response) => {
           console.log(response.data);
           dispatch(addPost(response.data));
-
           window.alert("게시물 업로드 완료");
           // dispatch(getPost());
           history.replace("/");
@@ -140,7 +138,6 @@ export const editPostDB =
         location: location,
         image: image_url,
       };
-      console.log(post_id);
 
       axios({
         method: "put",
@@ -160,7 +157,6 @@ export const editPostDB =
           );
           dispatch(imageActions.setPreview(null));
           history.replace("/");
-          console.log(post_id, { ...content, ...location, image: image_url });
         })
         .catch((err) => {
           window.alert("게시물 수정 실패");
@@ -190,8 +186,6 @@ export default handleActions(
         let idx = draft.list.findIndex(
           (p) => p.id === Number(action.payload.post_id)
         );
-        console.log(idx);
-        console.log({ ...draft.list[idx], ...action.payload.post });
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
 
@@ -200,7 +194,6 @@ export default handleActions(
         let deleted_list = draft.list.filter(
           (p) => p.id !== Number(action.payload.post_id)
         );
-        console.log(deleted_list);
 
         draft.list = deleted_list;
       }),

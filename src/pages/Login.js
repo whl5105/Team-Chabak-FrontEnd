@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Input, Grid, Button } from "../elements";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userCreators as userActions } from "../redux/modules/user";
 
 const Login = (props) => {

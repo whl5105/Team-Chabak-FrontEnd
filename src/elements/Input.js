@@ -4,16 +4,8 @@ import styled from "styled-components";
 import { Text, Grid } from ".";
 
 const Input = (props) => {
-  const {
-    label,
-    placeholder,
-    _onChange,
-    type,
-    multiLine,
-    value,
-    bginput,
-    className,
-  } = props;
+  const { label, placeholder, _onChange, type, multiLine, value, bginput } =
+    props;
 
   // ---- 게시물 작성 내용 영역  ----
   if (multiLine) {
