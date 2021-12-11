@@ -18,7 +18,6 @@ const Detail = (props) => {
   const post_list = useSelector((store) => store.post.list);
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
-
   const [post, setPost] = React.useState(post_data ? post_data : null);
 
   const getOnePostDB = async (id) => {
@@ -32,7 +31,8 @@ const Detail = (props) => {
   };
 
   React.useEffect(() => {
-    const getOnePostDB = async (id) => {
+    const getOnePostDB 
+    = async (id) => {
       try {
         const postOne = await apis.board(id);
         console.log(postOne);
