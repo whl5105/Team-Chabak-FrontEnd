@@ -11,23 +11,16 @@ import axios from "axios";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
-const DELETE_POST = 'DELETE_POST'
-const LOADING = "LOADING";
+const DELETE_POST = "DELETE_POST";
+
 
 // ---- action creators ----
-const getPost = createAction(GET_POST, (post_list) => ({
-  post_list,
-}));
-
-const addPost = createAction(ADD_POST, (post) => ({
-  post,
-}));
-
+const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
+const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
   post,
 }));
-
 const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
 // ---- initialState ----
@@ -43,6 +36,7 @@ const initialPost = {
   nickname: "",
 };
 
+// ---- middleware actions ----
 //-- getPostDB(DB 데이터 가져오기) --
 export const getPostDB =
   () =>
@@ -63,7 +57,7 @@ export const deletePostDB =
     try {
       const accessToken = document.cookie.split(";")[0].split("=")[1];
       axios
-        .delete(`http://52.78.31.61:8080/api/board/detail/${post_id}`, {
+        .delete(`http://52.78.31.61/api/board/detail/${post_id}`, {
           headers: {
             "X-AUTH-TOKEN": accessToken,
           },
@@ -102,7 +96,7 @@ export const addPostDB =
 
       axios({
         method: "post",
-        url: "http://52.78.31.61:8080/api/board",
+        url: "http://52.78.31.61/api/board",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -110,8 +104,10 @@ export const addPostDB =
         },
       })
         .then((response) => {
-          dispatch(addPost(_post));
+          let post = { ..._post, nickname: response.user_id, image: image_url };
+          dispatch(addPost(post));
           window.alert("게시물 업로드 완료");
+          // dispatch(getPost());
           history.replace("/");
           dispatch(imageActions.setPreview(null));
         })
@@ -147,7 +143,7 @@ export const editPostDB =
 
       axios({
         method: "put",
-        url: `http://52.78.31.61:8080/api/board/detail/${post_id}`,
+        url: `http://52.78.31.61/api/board/detail/${post_id}`,
         data: formData,
         _post,
         headers: {
@@ -219,7 +215,6 @@ const actionCreators = {
   editPostDB,
   deletePostDB,
   deletePost,
-  // fatchPosts,
 };
 
 export { actionCreators };

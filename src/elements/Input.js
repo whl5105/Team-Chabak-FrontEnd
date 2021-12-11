@@ -15,7 +15,7 @@ const Input = (props) => {
     className,
   } = props;
 
-  // ---- 글쓰기 페이지 내용 영역 ----
+  // ---- 게시물 작성 내용 영역  ----
   if (multiLine) {
     return (
       <Grid>
@@ -30,7 +30,6 @@ const Input = (props) => {
     );
   }
 
-  // ---- 로그인 회원가입  ----
   if (bginput) {
     return (
       <Grid>
@@ -62,9 +61,8 @@ Input.defaultProps = {
   value: "",
   _onChange: () => {},
   checked: "",
-  // input label에 size 추가
 };
-
+//---- 게시물 작성 내용 영역 ----
 const ElTextarea = styled.textarea`
   border: 1px solid #212121;
   width: 100%;
@@ -79,7 +77,6 @@ const ElInput = styled.input`
   padding: 12px 4px;
   box-sizing: border-box;
 `;
-//---- 로그인 회원가입 언더라인 ----
 const Underline = styled.input`
   border: none;
   width: 100%;

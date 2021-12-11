@@ -54,9 +54,7 @@ Text.defalutProps = {
   padding: false,
 };
 const P = styled.p`
-  /* font-family: "Y_Spotlight"; */
   font-family: "GmarketSansMedium";
-
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
   font-weight: ${(props) => props.bold};

@@ -1,6 +1,4 @@
-import { height } from "@mui/system";
 import React from "react";
-
 import styled from "styled-components";
 
 const Grid = (props) => {
@@ -31,8 +29,6 @@ const Grid = (props) => {
     center: center,
     position: position,
     justify: justify,
-    height: height,
-    position: position,
     overflow: overflow,
     border: border,
     radius: radius,
@@ -56,12 +52,12 @@ Grid.defaultProps = {
   margin: false,
   bg: false,
   center: false,
-  _onClick: () => {},
   position: false,
   justify: false,
   overflow: false,
   border: false,
   radius: false,
+  _onClick: () => {},
 };
 
 const GridBox = styled.div`
@@ -79,7 +75,8 @@ const GridBox = styled.div`
   ${(props) => (props.radius ? `border-radius: ${props.radius};` : "")}
   ${(props) => (props.overflow ? `overflow: ${props.overflow};` : "")}
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    //Chrome, Safari, Opera
+    display: none;
   }
 `;
 export default Grid;

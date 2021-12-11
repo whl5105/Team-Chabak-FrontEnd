@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://52.78.31.61:8080",
+  baseURL: "http://52.78.31.61",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json",
@@ -9,24 +9,15 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  //토큰정보 확인하고 다시 쪼개기
   const accessToken = document.cookie.split("=")[1];
   config.headers.common["X-AUTH-TOKEN"] = `${accessToken}`;
   return config;
 });
 
 export const apis = {
+  //----post----
   boards: () => api.get(`/api/board/`),
   board: (id) => api.get(`/api/board/detail/${id}`),
-
-  // comment
-  // addComment: (id, content) =>
-  // 	api.post(`/api/articles/${id}/comments`, { content }),
-  // comments: (id) => api.get(`/api/articles/${id}/comments`),
-  // delComment: (id, coId) => api.delete(`/api/articles/${id}/comments/${coId}`),
-  // editComment: (id, coId, content) =>
-  // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
-
   // ---- user ----
   login: (id, pwd) => api.post("/user/login", { nickname: id, password: pwd }),
   signup: (id, pwd, email) =>
