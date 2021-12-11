@@ -21,10 +21,6 @@ const Detail = (props) => {
   const post_data = post_list[post_idx];
 
   const [post, setPost] = React.useState(post_data ? post_data : null);
-  // const is_me = post.nickname === user_info?.id ? true : false;
-  // console.log(is_me);
-  // console.log(post.nickname);
-
 
   const getOnePostDB = async (id) => {
     try {
@@ -53,7 +49,7 @@ const Detail = (props) => {
         {post && (
           <Post
             {...post}
-            is_me={post.nickname === user_info?.id}
+            is_me={post.nickname === user_info?.id} 
             detail_view={post_data}
           />
         )}
