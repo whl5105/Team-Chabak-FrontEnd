@@ -47,7 +47,7 @@ const Detail = (props) => {
         {post && (
           <Post
             {...post}
-            is_me={post.nickname === user_info?.id}
+            is_me={post.nickname === user_info?.nickname}
             detail_view={post_data}
           />
         )}

@@ -20,13 +20,13 @@ const Signup = (props) => {
   const [pwd_check, setPwdCheck] = React.useState("");
   const [email, setEmail] = React.useState("");
   console.log(email);
-  //오류메시지 상태저장
+  //-- 오류메시지 상태저장--
   const [idMessage, setIdMessage] = React.useState("");
   const [pwdMessage, setPwdMessage] = React.useState("");
   const [pwdCheckMessage, setPwdCheckMessage] = React.useState("");
   const [emailMessage, setEmailMessage] = React.useState("");
 
-  // 유효성 검사
+  //-- 유효성 검사 --
   const [isId, setIsId] = React.useState(false);
   const [isPassword, setIsPassword] = React.useState(false);
   const [isPwdCheck, setIsPwdCheck] = React.useState(false);
@@ -56,6 +56,7 @@ const Signup = (props) => {
       dispatch(userActions.signUpIdCheckDB(id));
       // setIsId(true);
     }
+    console.log(isIdResponse)
     if (isIdResponse) {
       console.log(`리덕스-isIdResponse  : ` + isIdResponse);
       setIdMessage("이미 있는 아이디 입니다.");
