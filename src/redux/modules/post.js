@@ -11,23 +11,16 @@ import axios from "axios";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
-const DELETE_POST = 'DELETE_POST'
-const LOADING = "LOADING";
+const DELETE_POST = "DELETE_POST";
+
 
 // ---- action creators ----
-const getPost = createAction(GET_POST, (post_list) => ({
-  post_list,
-}));
-
-const addPost = createAction(ADD_POST, (post) => ({
-  post,
-}));
-
+const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
+const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
   post,
 }));
-
 const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
 // ---- initialState ----
@@ -44,27 +37,6 @@ const initialPost = {
 };
 
 // ---- middleware actions ----
-// const fatchPosts = async (dispatch, getState) => {
-//   try {
-//     const response = await api.get("/list");
-//     // console.log(response);
-//     // console.log(response.data);
-//     const post_list = response.data;
-//     dispatch(getPost(post_list));
-//     // setPosts(response.data);
-//     // console.log(posts);
-//   } catch (err) {
-//     // if (err.response) {
-//     //   //Not in the 200 response range
-//     //   console.log(err.response.data);
-//     //   console.log(err.response.status);
-//     //   console.log(err.response.headers);
-//     // } else {
-//     //   console.log(`Error:${err.response.data}`);
-//     // }
-//   }
-// };
-
 //-- getPostDB(DB 데이터 가져오기) --
 export const getPostDB =
   () =>
@@ -78,20 +50,7 @@ export const getPostDB =
     }
   };
 
-// 목록data 하나만 부르기
-// export const getOnePostDB =
-//   (id) =>
-//   async (dispatch, getState, { history }) => {
-//     try {
-//       console.log("목록 불러오기 성공");
-//       const postlist = await apis.board(id);
 
-//       // console.log(postlist);
-//       dispatch(getPost(postlist.data));
-//     } catch (err) {
-//       console.log(`board 조회 오류 발생!${err}`);
-//     }
-//   };
 
 //-- deletePostDB --
 export const deletePostDB =
@@ -100,7 +59,7 @@ export const deletePostDB =
     try {
       const accessToken = document.cookie.split(";")[0].split("=")[1];
       axios
-        .delete(`http://52.78.31.61:8080/api/board/detail/${post_id}`, {
+        .delete(`http://52.78.31.61/api/board/detail/${post_id}`, {
           headers: {
             "X-AUTH-TOKEN": accessToken,
           },
@@ -139,7 +98,7 @@ export const addPostDB =
 
       axios({
         method: "post",
-        url: "http://52.78.31.61:8080/api/board",
+        url: "http://52.78.31.61/api/board",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -147,8 +106,10 @@ export const addPostDB =
         },
       })
         .then((response) => {
-          dispatch(addPost(_post));
+          let post = { ..._post, nickname: response.user_id, image: image_url };
+          dispatch(addPost(post));
           window.alert("게시물 업로드 완료");
+          // dispatch(getPost());
           history.replace("/");
           dispatch(imageActions.setPreview(null));
         })
@@ -184,7 +145,7 @@ export const editPostDB =
 
       axios({
         method: "put",
-        url: `http://52.78.31.61:8080/api/board/detail/${post_id}`,
+        url: `http://52.78.31.61/api/board/detail/${post_id}`,
         data: formData,
         _post,
         headers: {
@@ -256,7 +217,6 @@ const actionCreators = {
   editPostDB,
   deletePostDB,
   deletePost,
-  // fatchPosts,
 };
 
 export { actionCreators };

@@ -3,7 +3,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { userCreators as userActions } from "../redux/modules/user";
 
-// import { BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { Route } from "react-router-dom";
@@ -19,7 +18,6 @@ import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
 
 import styled from "styled-components";
 import bgimg from "../1.jpg";
-import Text from "../elements/Text";
 
 function App() {
   const dispatch = useDispatch();
@@ -64,7 +62,6 @@ function App() {
                 path="/oauth/callback/kakao"
                 component={OAuth2RedirectHandler}
               ></Route>
-              {/* <Route path="/oauth/kakao/callback" component={OAuth} /> */}
             </ConnectedRouter>
           </Grid>
         </Grid>
@@ -82,10 +79,8 @@ width: 300px;
 text-align : center;
   color: :#c7c7c7;
   position: absolute;
-  /* background: red; */
   top: 29%;
   left: 5%;
-  /* size: 20px; */
   & h3{
     font-size: 60px;
     color: #fff;
