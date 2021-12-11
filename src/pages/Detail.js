@@ -28,6 +28,7 @@ const Detail = (props) => {
         "Content-Type": "application/json;charset=UTF-8",
         "X-AUTH-TOKEN": `${accessToken}`,
       },
+
     }).then((res) => {
       setPost(res.data);
       console.log(res.data);
@@ -47,7 +48,6 @@ const Detail = (props) => {
           <Post
             {...post}
             is_me={post.nickname === user_info?.nickname.id}
-
             detail_view={post_data}
           />
         )}
