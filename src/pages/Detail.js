@@ -26,17 +26,16 @@ const Detail = (props) => {
         "X-AUTH-TOKEN": `${accessToken}`,
       },
     })
-
-    .then((res) => {
-      setPost(res.data);
-      console.log('요청성공', res.data);
-      console.log(post);
-      console.log(post.nickname);
-      console.log(user_info.nickname);
-    })
-    .catch((err) => {
-      console.log('실패', err);
-    });
+      .then((res) => {
+        setPost(res.data);
+        console.log("요청성공", res.data);
+        console.log(post);
+        console.log(post.nickname);
+        console.log(user_info.nickname);
+      })
+      .catch((err) => {
+        console.log("실패", err);
+      });
   }, []);
 
   return (
@@ -45,7 +44,7 @@ const Detail = (props) => {
         {post && (
           <Post
             {...post}
-            is_me={post.nickname === user_info?.nickname}
+            is_me={post.nickname === user_info?.nickname.id}
             detail_view={post_data}
           />
         )}
