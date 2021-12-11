@@ -9,7 +9,6 @@ import { apis } from "../shared/Api";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 
-
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.idx;
@@ -22,6 +21,7 @@ const Detail = (props) => {
 
   const [post, setPost] = React.useState(post_data ? post_data : null);
 
+
   const getOnePostDB = async (id) => {
     try {
       const postOne = await apis.board(id);
@@ -31,9 +31,20 @@ const Detail = (props) => {
       console.log(`board 조회 오류 발생!${err}`);
     }
   };
-  //
+
 
   React.useEffect(() => {
+    const 
+    = async (id) => {
+      try {
+        const postOne = await apis.board(id);
+        console.log(postOne);
+        setPost(postOne.data);
+      } catch (err) {
+        console.log(`board 조회 오류 발생!${err}`);
+      }
+    };
+
     if (post) {
       return;
     }
