@@ -11,7 +11,8 @@ import axios from "axios";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
-const DELETE_POST = "DELETE_POST";
+const DELETE_POST = 'DELETE_POST'
+
 const LOADING = "LOADING";
 
 // ---- action creators ----
@@ -115,7 +116,8 @@ export const deletePostDB =
           console.log(err);
         });
     } catch (err) {
-      console.error("게시물 삭제 문제 발생", err);
+      console.error('게시물 삭제 문제 발생', err);
+
     }
   };
 
@@ -147,8 +149,10 @@ export const addPostDB =
         },
       })
         .then((response) => {
-          dispatch(addPost(_post));
+          let post = { ..._post, nickname: response.user_id, image: image_url };
+          dispatch(addPost(post));
           window.alert("게시물 업로드 완료");
+          // dispatch(getPost());
           history.replace("/");
           dispatch(imageActions.setPreview(null));
         })
@@ -175,11 +179,12 @@ export const editPostDB =
       const accessToken = document.cookie.split("=")[1];
 
       const _post = {
-        ..._post,
+        ...initialPost,
         content: content,
         location: location,
         image: image_url,
       };
+      console.log(post_id);
 
       axios({
         method: "put",
@@ -206,7 +211,7 @@ export const editPostDB =
           console.log(err);
         });
     } catch (err) {
-      window.alert("이미지를 선택해주세요");
+      window.alert("");
       console.log(err);
     }
   };
