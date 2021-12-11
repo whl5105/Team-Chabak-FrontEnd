@@ -4,10 +4,7 @@ import { Grid, Text, Image, Button } from "../elements";
 import { history } from "../redux/configureStore";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  actionCreators as postActions,
-  deletePostDB,
-} from "../redux/modules/post";
+import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
   const dispatch = useDispatch();
@@ -15,9 +12,7 @@ const Post = (props) => {
   const paramIdx = useParams();
 
   function deletePost(idx) {
-    return (
-      dispatch(postActions.deletePostDB(idx)), dispatch(postActions.getPostDB())
-    );
+    return dispatch(postActions.deletePostDB(idx));
   }
   return (
     <React.Fragment>
@@ -83,6 +78,13 @@ const Post = (props) => {
       </Grid>
     </React.Fragment>
   );
+};
+
+Post.defaultProps = {
+  nickname: "jay",
+  location: "korea",
+  content: "Hi",
+  image: "https://src.hidoc.co.kr/image/lib/2021/1/20/1611132055778_0.jpg",
 };
 
 export default Post;

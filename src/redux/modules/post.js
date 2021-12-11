@@ -150,7 +150,6 @@ export const addPostDB =
           dispatch(addPost(_post));
           window.alert("게시물 업로드 완료");
           history.replace("/");
-          // dispatch(actionCreators.getPostDB());
           dispatch(imageActions.setPreview(null));
         })
         .catch((err) => {
@@ -218,17 +217,6 @@ export default handleActions(
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
-        // 중복 처리하기
-        // draft.list = draft.list.reduce((acc, cur) => {
-        //   if (acc.findIndex((a) => a.id === cur.id) === -1) {
-        //     return [...acc, cur];
-        //   }else{
-        //     acc[acc.findIndex((a) => a.id === cur.id)] = cur;
-        //     return acc;
-        //   }
-        // });
-        draft.paging = action.payload.paging;
-        draft.is_loading = false;
       }),
 
     [ADD_POST]: (state, action) =>
@@ -253,20 +241,6 @@ export default handleActions(
         );
         console.log(deleted_list);
 
-        draft.list = deleted_list;
-      }),
-
-    [LOADING]: (state, action) =>
-      produce(state, (draft) => {
-        draft.is_loading = action.payload.is_loading;
-      }),
-
-    [DELETE_POST]: (state, action) =>
-      produce(state, (draft) => {
-        let deleted_list = draft.list.filter(
-          (p) => p.id !== Number(action.payload.post_id)
-        );
-        console.log(deleted_list);
         draft.list = deleted_list;
       }),
   },
