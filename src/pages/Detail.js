@@ -17,7 +17,7 @@ const Detail = (props) => {
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
   const [post, setPost] = React.useState(post_data ? post_data : null);
-
+  console.log(post_list)
   React.useEffect(() => {
     const accessToken = document.cookie.split("=")[1];
 
@@ -34,7 +34,7 @@ const Detail = (props) => {
       console.log('요청성공', res.data);
       console.log(post);
       console.log(post.nickname);
-      console.log(user_info.nickname);
+      // console.log(user_info.nickname);
     })
     .catch((err) => {
       console.log('실패', err);
