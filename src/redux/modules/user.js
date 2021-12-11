@@ -4,7 +4,7 @@ import { deleteCookie, setCookie } from "../../shared/Cookie";
 import { apis } from "../../shared/Api";
 import axios from "axios";
 
-// action
+// ---- action ----
 const LOGIN = "user/LOGIN";
 const LOGOUT = "user/LOGOUT";
 const SIGNUPID = "user/SIGNUPID";
@@ -16,7 +16,6 @@ const signupId = createAction(SIGNUPID, (id) => ({ id }));
 
 // ---- initialState ----
 const initialState = {
-
   nickname: "suin",
   is_login: false, //로그인 확인
   response: null, //닉네임 중복 확인
@@ -55,6 +54,7 @@ export const loginDB =
     try {
       const response = await apis.login(id, pwd);
       let username = response.data[0].username;
+      console.log(username);
       setCookie("token", response.data[1].token, 7);
       localStorage.setItem("username", response.data[0].username);
       dispatch(setLogin(username));
@@ -97,18 +97,19 @@ const kakaoLogin = (code) => {
       url: `http://52.78.31.61/oauth/callback/kakao?code=${code}`,
     })
       .then((response) => {
-        console.log(response); // 토큰이 넘어올 것임
-        console.log(response.data.token); // 토큰이 넘어올 것임
+        console.log(response);
+        console.log(response.data.token);
         const ACCESS_TOKEN = response.data.token;
         console.log(ACCESS_TOKEN);
-        setCookie("token", response.data.token, 5);
-        history.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
-        dispatch(setLogin);
+        localStorage.setItem("username", ACCESS_TOKEN);
+        // setCookie("token", response.data.token, 5);
+        history.replace("/");
+        dispatch(setLogin());
       })
       .catch((err) => {
         console.log("소셜로그인 에러", err);
         window.alert("로그인에 실패하였습니다.");
-        history.replace("/login"); // 로그인 실패하면 로그인화면으로 돌려보냄
+        history.replace("/login");
       });
   };
 };
@@ -120,7 +121,6 @@ export default handleActions(
       produce(state, (draft) => {
         draft.nickname = action.payload.user;
         console.log(action.payload.user);
-        console.log(draft.user);
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>
