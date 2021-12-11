@@ -9,7 +9,7 @@ const Image = (props) => {
     src: src,
     size: size,
   };
-
+  //---- 게시글 이미지 hover ----
   if (state === "hover") {
     return (
       <AspectOutter>
@@ -23,6 +23,7 @@ const Image = (props) => {
     </AspectOutter>
   );
 };
+
 Image.defaultProps = {
   shape: "",
   src: "https://dimg.donga.com/wps/NEWS/IMAGE/2021/09/13/109219735.1.jpg",
@@ -35,20 +36,18 @@ const AspectOutter = styled.div`
 `;
 const AspectInner = styled.div`
   position: relative;
-  padding-top: 75%; // 이미지가 가로넓이의 4:3비율을 맞추기위해 75% 적용
+  padding-top: 75%;
   overflow: hidden;
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  /* border-radius: 5px; */
 `;
 
 const AspectInnerHover = styled.div`
   position: relative;
-  padding-top: 75%; // 이미지가 가로넓이의 4:3비율을 맞추기위해 75% 적용
+  padding-top: 75%;
   overflow: hidden;
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  /* border-radius: 5px; */
   &:hover {
     opacity: 0.8;
     cursor: pointer;
