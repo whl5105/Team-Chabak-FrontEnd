@@ -43,7 +43,7 @@ export const signUpIdCheckDB =
     try {
       const response = await apis.signupId(id);
       console.log(response.data);
-      dispatch(signupId(response));
+      dispatch(signupId(response.data));
     } catch (err) {
       console.log(`조회 오류 발생!${err}`);
     }
@@ -54,18 +54,18 @@ export const loginDB =
   async (dispatch, getState, { history }) => {
     try {
       const response = await apis.login(id, pwd);
-      console.log(response);
-      console.log(response.data);
+      let username = response.data[0].username;
       setCookie("token", response.data[1].token, 7);
       localStorage.setItem("username", response.data[0].username);
-      dispatch(setLogin({ nickaname: response.data[0].username }));
-      window.alert(`${response.data[0].username님} 환영합니다`);
+      dispatch(setLogin(username));
+      window.alert(`${username}님 환영합니다`);
       history.replace("/");
     } catch (err) {
       window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
       console.log(`오류 발생!${err}`);
     }
   };
+
 // ---- 로그아웃 DB ----
 const logoutDB = () => {
   return function (dispatch, getState, { history }) {
@@ -118,18 +118,20 @@ export default handleActions(
   {
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
+        draft.nickname = action.payload.user;
         console.log(action.payload.user);
-        draft.user = action.payload.user;
+        console.log(draft.user);
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>
       produce(state, (draft) => {
         deleteCookie("token");
-        draft.user = null;
+        draft.nickname = null;
         draft.is_login = false;
       }),
     [SIGNUPID]: (state, action) =>
       produce(state, (draft) => {
+        console.log(action.payload.id);
         draft.response = action.payload.id;
       }),
   },
