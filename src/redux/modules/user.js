@@ -27,7 +27,6 @@ export const signUpDB =
   async (dispatch, getState, { history }) => {
     try {
       const response = await apis.signup(id, pwd, email);
-      console.log(response.data);
       window.alert("회원가입이 완료되었습니다. 로그인 해주세요");
       history.replace("/user/login");
     } catch (err) {
@@ -41,7 +40,6 @@ export const signUpIdCheckDB =
   async (dispatch, getState, { history }) => {
     try {
       const response = await apis.signupId(id);
-      console.log(response.data);
       dispatch(signupId(response.data));
     } catch (err) {
       console.log(`조회 오류 발생!${err}`);
@@ -54,7 +52,6 @@ export const loginDB =
     try {
       const response = await apis.login(id, pwd);
       let username = response.data[0].username;
-      console.log(username);
       setCookie("token", response.data[1].token, 7);
       localStorage.setItem("username", response.data[0].username);
       dispatch(setLogin(username));
@@ -91,19 +88,14 @@ const loginCheckDB = () => {
 
 //---- 카카오 로그인 DB ----
 const kakaoLogin = (code) => {
-  console.log(code);
   return function (dispatch, getState, { history }) {
     axios({
       method: "GET",
       url: `http://52.78.31.61/oauth/callback/kakao?code=${code}`,
     })
       .then((response) => {
-        console.log(response);
-        console.log(response.data.token);
         const ACCESS_TOKEN = response.data.token;
-        console.log(ACCESS_TOKEN);
         localStorage.setItem("username", ACCESS_TOKEN);
-        // setCookie("token", response.data.token, 5);
         history.replace("/");
         dispatch(setLogin());
       })
@@ -131,7 +123,6 @@ export default handleActions(
       }),
     [SIGNUPID]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.id);
         draft.response = action.payload.id;
       }),
   },

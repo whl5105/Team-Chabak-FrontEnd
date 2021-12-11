@@ -3,13 +3,11 @@ import { Grid } from "../elements";
 import { useSelector, useDispatch } from "react-redux";
 import { history } from "../redux/configureStore";
 import { actionCreators as postActions } from "../redux/modules/post";
-import { userCreators as userActions } from "../redux/modules/user";
 import Post from "../components/Post";
 
 const Main = (props) => {
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
-  // console.log(post_list);
   const user_info = useSelector((state) => state.user.user);
 
   React.useEffect(() => {

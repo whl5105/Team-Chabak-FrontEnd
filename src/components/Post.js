@@ -3,11 +3,12 @@ import { Grid, Text, Image, Button } from "../elements";
 
 import { history } from "../redux/configureStore";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
   const dispatch = useDispatch();
+
   const paramIdx = useParams();
 
   function deletePost(idx) {
