@@ -14,6 +14,7 @@ const Post = (props) => {
   function deletePost(idx) {
     return dispatch(postActions.deletePostDB(idx));
   }
+
   return (
     <React.Fragment>
       <Grid

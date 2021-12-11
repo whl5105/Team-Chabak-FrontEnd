@@ -113,7 +113,6 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.nickname = action.payload.user;
-
         draft.is_login = true;
       }),
     [LOGOUT]: (state, action) =>

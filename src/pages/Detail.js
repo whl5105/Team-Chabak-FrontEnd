@@ -6,12 +6,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { apis } from "../shared/Api";
 
+
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.idx;
-
   const user_info = useSelector((state) => state.user);
-
+  console.log(user_info);
   const post_list = useSelector((store) => store.post.list);
   const post_idx = post_list.findIndex((p) => p.id == id);
   console.log(post_idx);
@@ -23,7 +23,6 @@ const Detail = (props) => {
 
   React.useEffect(() => {
     const accessToken = document.cookie.split("=")[1];
-
     axios({
       method: "get",
       url: `http://52.78.31.61/api/board/detail/${id}`,
@@ -32,6 +31,7 @@ const Detail = (props) => {
         "X-AUTH-TOKEN": `${accessToken}`,
       },
     })
+
       .then((res) => {
         setPost(res.data);
         console.log(res.data);
@@ -42,6 +42,7 @@ const Detail = (props) => {
       .catch((err) => {
         console.log("실패", err);
       });
+
   }, []);
 
   return (
@@ -51,6 +52,7 @@ const Detail = (props) => {
           <Post
             {...post}
             is_me={post.nickname === user_info?.nickname.id}
+
             detail_view={post_data}
           />
         )}
