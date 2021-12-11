@@ -55,10 +55,13 @@ export const loginDB =
       const response = await apis.login(id, pwd);
       console.log(response);
       console.log(response.data);
+      console.log(response.data[0]);
+      let username = response.data[0].username;
+      console.log(username);
       setCookie("token", response.data[1].token, 7);
       localStorage.setItem("username", response.data[0].username);
       dispatch(setLogin({ nickaname: response.data[0].username }));
-      window.alert(`${response.data[0].username님} 환영합니다`);
+      window.alert(`${username}님 환영합니다`);
       history.replace("/");
     } catch (err) {
       window.alert("없는 회원정보 입니다! 회원가입을 해주세요!");
