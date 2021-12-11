@@ -13,7 +13,6 @@ const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
-
 // ---- action creators ----
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
@@ -72,7 +71,7 @@ export const deletePostDB =
           console.log(err);
         });
     } catch (err) {
-      console.error('게시물 삭제 문제 발생', err);
+      console.error("게시물 삭제 문제 발생", err);
     }
   };
 

@@ -6,13 +6,11 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import { apis } from "../shared/Api";
 
 import axios from "axios";
-
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.idx;
-
   const user_info = useSelector((state) => state.user);
-
+  console.log(user_info);
   const post_list = useSelector((store) => store.post.list);
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
@@ -20,7 +18,6 @@ const Detail = (props) => {
 
   React.useEffect(() => {
     const accessToken = document.cookie.split("=")[1];
-
     axios({
       method: "get",
       url: `http://52.78.31.61:8080/api/board/detail/${id}`,
@@ -29,6 +26,7 @@ const Detail = (props) => {
         "X-AUTH-TOKEN": `${accessToken}`,
       },
     })
+
     .then((res) => {
       setPost(res.data);
       console.log('요청성공', res.data);
@@ -41,16 +39,13 @@ const Detail = (props) => {
     });
   }, []);
 
-
   return (
     <React.Fragment>
       <Grid>
         {post && (
           <Post
             {...post}
-
-            is_me={post.nickname === user_info?.nickname.id}
-
+            is_me={post.nickname === user_info?.nickname}
             detail_view={post_data}
           />
         )}
