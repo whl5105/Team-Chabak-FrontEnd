@@ -14,6 +14,7 @@ const Post = (props) => {
   function deletePost(idx) {
     return dispatch(postActions.deletePostDB(idx));
   }
+
   return (
     <React.Fragment>
       <Grid
@@ -66,7 +67,6 @@ const Post = (props) => {
           <Text padding="0 0 0 10px" bold="800">
             {props.nickname}
           </Text>
-          {/* <Text>댓글 10개</Text> */}
         </Grid>
         {props.detail_view ? (
           <Text padding="0 0 0 10px" justify="flex-end">

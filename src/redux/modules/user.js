@@ -12,11 +12,10 @@ const SIGNUPID = "user/SIGNUPID";
 // ---- action creator ----
 const setLogin = createAction(LOGIN, (user) => ({ user }));
 const logout = createAction(LOGOUT, (user) => ({ user }));
-const signupId = createAction(SIGNUPID, (id) => ({ id }));
+const signupId = createAction(SIGNUPID, (nickname) => ({ nickname }));
 
 // ---- initialState ----
 const initialState = {
-
   nickname: "suin",
   is_login: false, //로그인 확인
   response: null, //닉네임 중복 확인
@@ -119,7 +118,7 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         draft.nickname = action.payload.user;
-        console.log(action.payload.user);
+        console.log(action.payload.user.id);
         console.log(draft.user);
         draft.is_login = true;
       }),

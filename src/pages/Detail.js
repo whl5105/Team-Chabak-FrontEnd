@@ -13,14 +13,12 @@ const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.idx;
 
-  const user_info = useSelector((state) => state.user.user);
-
+  const user_info = useSelector((state) => state.user);
   const post_list = useSelector((store) => store.post.list);
   const post_idx = post_list.findIndex((p) => p.id == id);
   const post_data = post_list[post_idx];
 
   const [post, setPost] = React.useState(post_data ? post_data : null);
-
 
   const getOnePostDB = async (id) => {
     try {
@@ -32,19 +30,7 @@ const Detail = (props) => {
     }
   };
 
-
   React.useEffect(() => {
-    const 
-    = async (id) => {
-      try {
-        const postOne = await apis.board(id);
-        console.log(postOne);
-        setPost(postOne.data);
-      } catch (err) {
-        console.log(`board 조회 오류 발생!${err}`);
-      }
-    };
-
     if (post) {
       return;
     }
@@ -60,8 +46,7 @@ const Detail = (props) => {
         {post && (
           <Post
             {...post}
-            is_me={post.nickname === user_info?.nickname}
-
+            is_me={post.nickname === user_info?.nickname.id}
             detail_view={post_data}
           />
         )}

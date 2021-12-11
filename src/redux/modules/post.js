@@ -11,7 +11,7 @@ import axios from "axios";
 const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
-const DELETE_POST = 'DELETE_POST'
+const DELETE_POST = "DELETE_POST";
 
 const LOADING = "LOADING";
 
@@ -116,8 +116,7 @@ export const deletePostDB =
           console.log(err);
         });
     } catch (err) {
-      console.error('게시물 삭제 문제 발생', err);
-
+      console.error("게시물 삭제 문제 발생", err);
     }
   };
 
