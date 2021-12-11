@@ -147,8 +147,10 @@ export const addPostDB =
         },
       })
         .then((response) => {
-          dispatch(addPost(_post));
+          let post = { ..._post, nickname: response.user_id, image: image_url };
+          dispatch(addPost(post));
           window.alert("게시물 업로드 완료");
+          // dispatch(getPost());
           history.replace("/");
           dispatch(imageActions.setPreview(null));
         })
